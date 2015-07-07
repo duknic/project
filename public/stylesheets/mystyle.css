@@ -1,0 +1,28 @@
+body {
+    padding-top: 50px;
+}
+
+.starter-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+div.main {
+    margin: auto 200px;
+}
+
+div.question-container {
+    margin: 120px auto;
+}
+
+div.question-box {
+    //border: 1px solid blue;
+    min-height: 280px;
+}
+
+div.answer-box .btn{
+    min-height: 100px;
+    //border: 1px solid red;
+    width:100%;
+    margin-bottom: 20px;
+}

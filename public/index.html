@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" href="favicon.ico">
+
+    <title>Regex Detective - home</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+
+        .starter-template {
+            padding: 40px 15px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Regex Detective</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="multipleChoiceTemplate.html">Play</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>The fun way to learn about regular expressions!</h1>
+
+        <p class="lead">This is a javascript game to help teach undergraduate students about regular expresisons<br> Nic
+            Duke - Summer project 2015</p>
+        <button type="button" class="btn btn-primary">Play</button>
+    </div>
+
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="testString">Test String</label>
+                    <input type="text" class="form-control" id="testString" placeholder="input your string to test...">
+                </div>
+                <div class="form-group">
+                    <label for="testRegex">Test regex</label>
+                    <input type="text" class="form-control" id="testRegex" placeholder="input your regex...">
+                </div>
+                <button type="button" class="btn btn-default" onclick="sample()">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+
+</div>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function sample() {
+        var str = $('#testString').val();
+        var regex = new RegExp($('#testRegex').val());
+        var res = regex.test(str);
+        alert(res);
+    }
+//    $(document).ready(function () {
+//
+//    });
+
+
+</script>
+
+</body>
+</html>
