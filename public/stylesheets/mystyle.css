@@ -8,21 +8,149 @@ body {
 }
 
 div.main {
-    margin: auto 200px;
+    /*margin: auto 200px;*/
+}
+
+div.row.top-space {
+    margin-top: 20px;
+}
+
+div.row.bottom-space {
+    margin-bottom: 20px;
 }
 
 div.question-container {
-    margin: 120px auto;
+    margin: 0 auto;
 }
 
 div.question-box {
-    //border: 1px solid blue;
+/ / border : 1 px solid blue;
     min-height: 280px;
 }
 
-div.answer-box .btn{
+.vertical-center {
+    min-height: 100%; /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh; /* These two lines are counted as one :-)       */
+
+    /*display: flex;*/
+    align-items: center;
+}
+
+div.answer-box .btn {
     min-height: 100px;
-    //border: 1px solid red;
-    width:100%;
+/ / border : 1 px solid red;
+    width: 100%;
     margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    ul.navbar-nav.homepage {
+        float: right;
+    }
+}
+
+span.glyphicon {
+    margin-right: 8px;
+}
+
+/*Level progress bar*/
+.progress {
+    background: rgba(245, 245, 245, 1);
+    border: 2px solid rgba(245, 245, 245, 1);
+    border-radius: 25px;
+    height: 10px;
+}
+
+.level-progress-bar {
+    background: rgba(66, 139, 202, 1);
+}
+
+/* ########   COLOURS      ######### */
+
+/* Main Primary color */
+
+.primary-0 {
+    color: rgba(255, 141, 86, 1)
+}
+
+.primary-1 {
+    color: rgba(255, 255, 255, 1)
+}
+
+.primary-2 {
+    color: rgba(255, 199, 172, 1)
+}
+
+.primary-3 {
+    color: rgba(255, 100, 26, 1)
+}
+
+.primary-4 {
+    color: rgba(2, 1, 1, 1)
+}
+
+/* Main Secondary color (1) */
+
+.secondary-1-0 {
+    color: rgba(124, 102, 242, 1)
+}
+
+.secondary-1-1 {
+    color: rgba(255, 255, 255, 1)
+}
+
+.secondary-1-2 {
+    color: rgba(192, 181, 253, 1)
+}
+
+.secondary-1-3 {
+    color: rgba(68, 44, 202, 1)
+}
+
+.secondary-1-4 {
+    color: rgba(1, 1, 1, 1)
+}
+
+/* Main Secondary color (2) */
+
+.secondary-2-0 {
+    color: rgba(230, 254, 85, 1)
+}
+
+.secondary-2-1 {
+    color: rgba(255, 255, 255, 1)
+}
+
+.secondary-2-2 {
+    color: rgba(243, 255, 172, 1)
+}
+
+.secondary-2-3 {
+    color: rgba(219, 250, 26, 1)
+}
+
+.secondary-2-4 {
+    color: rgba(1, 1, 1, 1)
+}
+
+/* Main Complement color */
+
+.complement-0 {
+    color: rgba(81, 242, 185, 1)
+}
+
+.complement-1 {
+    color: rgba(255, 255, 255, 1)
+}
+
+.complement-2 {
+    color: rgba(171, 253, 224, 1)
+}
+
+.complement-3 {
+    color: rgba(20, 198, 135, 1)
+}
+
+.complement-4 {
+    color: rgba(0, 1, 1, 1)
 }

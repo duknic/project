@@ -1,0 +1,110 @@
+<div class="container">
+    <h3>{{title}}</h3>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-2">
+                    <h4 id="questionNum">Question 1</h4>
+                </div>
+                <div class="col-md-8">
+                    <div id="msg-box" class="center-block text-center">
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="progress">
+                        <div id="level-progress-bar" class="progress-bar" role="progressbar" aria-valuenow="0"
+                             aria-valuemin="0" aria-valuemax="100" style="width: 0em;">
+                            <span class="sr-only">0% Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container question-container vertical-center">
+                <div class="row">
+                    <div class="col-md-12 question-box well well-lg">
+
+                        <div class="row">
+                            <h5>Story</h5>
+
+                            <div id="storyText" class="col-lg-12"></div>
+                        </div>
+                        <div class="row">
+                            <h5>Notes</h5>
+
+                            <div id="questionText" class="col-lg-12"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row bottom-space">
+
+                            <div class="input-group">
+                                <div class="input-group-addon">RegEx</div>
+                                <input type="text" id="answerBox" class="form-control"
+                                       placeholder="enter answer..."/>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary center-block" type="button" id="submitBtn">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <button type="button" id="prevButton" class="btn btn-info btn-lg left"
+                                style="display: none;">Prev
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" id="nextButton"
+                                class="btn btn-primary btn-lg pull-right" style="display: none;">Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script src="/javascripts/freeQuiz.js"></script>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        var qs = {{{json questions}}};
+        initQuiz(qs);
+        $('#submitBtn').on('click', function () {
+            var answer = $('#answerBox').val().trim();
+            console.log("this is answer " + answer);
+            checkAnswer(answer);
+        });
+        $('#nextButton').on('click', function () {
+            nextQuestion();
+        });
+        $('#prevButton').on('click', function () {
+            prevQuestion();
+        });
+    });
+</script>

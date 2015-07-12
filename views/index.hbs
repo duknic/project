@@ -1,2 +1,45 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="container">
+
+    <div class="starter-template">
+        <h1>The fun way to learn about regular expressions!</h1>
+
+        <div id="testPara">{{paraTest}}</div>
+
+        <button id="testBtn" class="btn btn-primary" rel='1.0'>CLICK ME</button>
+
+        <p class="lead">This is a javascript game to help teach undergraduate students about regular expresisons<br> Nic
+            Duke - Summer project 2015</p>
+        <button type="button" class="btn btn-primary">Play</button>
+    </div>
+
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="testString">Test String</label>
+                    <input type="text" class="form-control" id="testString" placeholder="input your string to test...">
+                </div>
+                <div class="form-group">
+                    <label for="testRegex">Test regex</label>
+                    <input type="text" class="form-control" id="testRegex" placeholder="input your regex...">
+                </div>
+                <button type="button" class="btn btn-default" onclick="sample()">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    function sample() {
+        var str = $('#testString').val();
+        var regex = new RegExp($('#testRegex').val());
+        var res = regex.test(str);
+        alert(res);
+    }
+</script>

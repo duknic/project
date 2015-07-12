@@ -3,26 +3,26 @@
  */
 var questions = [
     {
-        "question": "<p>Write regular expression, as concise as possible, to match the following String exactly</p><p><strong>aaaazahiijj</strong></p>",
-        "testStr" : "aaaazahiijj",
+        "question": "<p>Write regular expression, as concise as possible, to match the following String exactly</p><p><strong>dogfoot</strong></p>",
+        "testStr": "dogfoot",
+        "feedbackPos": "Well done! A good model answer might be [a-z]{7}",
+        "feedbackNeg": ""
+    },
+    {
+        "question": "<p>Write regular expression, as concise as possible, to match the following String</p><p><strong>mega:caterpillar</strong></p>",
+        "testStr": "mega:caterpillar",
         "feedbackPos": "Well done! A good model answer might be a*zahi*j*",
         "feedbackNeg": ""
     },
     {
-        "question": "<p>Write regular expression, as concise as possible, to match the following String</p><p><strong>aaaazahiijj</strong></p>",
-        "testStr" : "aaaazahiijj",
+        "question": "<p>Write regular expression, as concise as possible, to match the following String</p><p><strong>..X8991</strong></p>",
+        "testStr": "..X8991",
         "feedbackPos": "Well done! A good model answer might be a*zahi*j*",
         "feedbackNeg": ""
     },
     {
-        "question": "<p>Write regular expression, as concise as possible, to match the following String</p><p><strong>aaaazahiijj</strong></p>",
-        "testStr" : "aaaazahiijj",
-        "feedbackPos": "Well done! A good model answer might be a*zahi*j*",
-        "feedbackNeg": ""
-    },
-    {
-        "question": "<p>Write regular expression, as concise as possible, to match the following String</p><p><strong>aaaazahiijj</strong></p>",
-        "testStr" : "aaaazahiijj",
+        "question": "<p>Write regular expression, as concise as possible, to match the following String</p><p><strong>transformerzzzzzzz</strong></p>",
+        "testStr": "transformerzzzzzzz",
         "feedbackPos": "Well done! A good model answer might be a*zahi*j*",
         "feedbackNeg": ""
     }
