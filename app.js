@@ -17,6 +17,35 @@ var levels = require('./routes/levels');
 
 var app = express();
 
+// authentication
+var stormpath = require('express-stormpath');
+
+var userData;
+// this is a href, need to do GET to pull JSON from here
+var userCustomData;
+
+app.use(stormpath.init(app, {
+    postLoginHandler: function (account, req, res, next) {
+        userData = account;
+        console.log(account.givenName);
+        userCustomData = account.customData;
+        next();
+    },
+    apiKeyId: '5AL8GJ47LK6CH9DMXKZYYSLIY',
+    apiKeySecret: 'hlizmFCKK1kg+F6aWK9orkV5xlHX7zCHfmwnoiLRhts',
+    application: 'https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo',
+    secretKey: 'mysecretkey',
+    expandCustomData: true,
+}));
+
+// make db accessible to router
+app.use(function (req, res, next) {
+    req.userData = userData;
+    req.userCustomData = userCustomData;
+    req.stormpath = stormpath;
+    next();
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -27,6 +56,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // make db accessible to router
@@ -74,26 +104,5 @@ hbs.registerHelper('json', function (context) {
     return JSON.stringify(context);
 });
 
-
-// START
-
-//var findDocuments = function (db, callback) {
-//    // Get the documents collection
-//    var collection = db.get('questions');
-//
-//    // Find some documents
-//    collection.find({}, function (err, docs) {
-//        console.log("Found the following records");
-//        console.dir(docs);
-//        callback(docs);
-//    });
-//};
-//
-//var db = require('monk')('localhost:27017/gamedb');
-//findDocuments(db, function () {
-//    db.close();
-//});
-
-//END
 
 module.exports = app;

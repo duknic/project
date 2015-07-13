@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <button class="btn btn-default" type="button" value="1">Level 1</button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-default" type="button" value="2">Level 2</button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-default" type="button" value="3">Level 3</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <button class="btn btn-default" type="button" value="4">Level 4</button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-default" type="button" value="5">Level 5</button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-default" type="button" value="6">Level 6</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <button class="btn btn-default" type="button" value="7">Level 7</button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-default" type="button" value="8">Level 8</button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-default" type="button" value="9">Level 9</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('button').on('click', function () {
+            window.location.href = '/levels/' + $(this).val();
+        });
+    });
+</script>

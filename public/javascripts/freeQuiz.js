@@ -4,13 +4,18 @@
 
 var questionSet = [];
 var currentQ = 0;
+var currentQscore = 0;
+
+function nextLevel() {
+
+}
 
 function nextQuestion() {
 
     if (currentQ < questionSet.length - 1) {
         currentQ++;
         if (currentQ == questionSet.length - 1) {
-            $('#nextButton').hide();
+            $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
         }
         $('#storyText').html(questionSet[currentQ].storText);
         $('#questionText').html(questionSet[currentQ].qText);
@@ -18,9 +23,13 @@ function nextQuestion() {
         $('#questionNum').html("Question " + (currentQ + 1));
         $('#prevButton').show();
         $('#nextButton').hide();
-
+        $('#answerBox').val('');
         var $bar = $('.progress-bar');
         $bar.css("width", ($bar.width() + 33) + "%");
+    } else {
+        $('#badgeModal').modal('show');
+        $('.modal-footer button').on('click', nextLevel());
+
     }
 
 }
@@ -39,6 +48,7 @@ function prevQuestion() {
         }
         var $bar = $('.progress-bar');
         $bar.css("width", (($bar.width() % 133) - 33) + "%");
+        $('#answerBox').val('');
     }
     else {
         alert("no more questions");
@@ -68,10 +78,17 @@ function checkAnswer(answer) {
 
     if (answer == q.correctRes0.regex) {
         writeFeedback(q.correctRes0.feedback, true);
+        if (currentQ == questionSet.length - 1) {
+            $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
+        }
         $('#nextButton').show();
     }
     else if (q.correctRes1 != null && answer == q.correctRes1.regex) {
+        // TODO evaluate user's regex to find if it is correct then give 'not ideal' feedback
         writeFeedback(q.correctRes1.feedback, true);
+        if (currentQ == questionSet.length - 1) {
+            $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
+        }
         $('#nextButton').show();
     } else {
         var feedback = q.incorrectRes0.feedback;
@@ -84,7 +101,6 @@ function checkAnswer(answer) {
         }
         writeFeedback(feedback, false);
     }
-
 }
 
 /*
@@ -113,5 +129,8 @@ function writeFeedback(text, isCorrect) {
 $('#answerBox').focus(function () {
     $(this).val('');
     $('#msg-box').empty();
-    //$('#submitBtn').focus();
 });
+
+function recordUserProgress() {
+
+}
