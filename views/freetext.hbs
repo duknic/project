@@ -121,6 +121,15 @@
 
 
         var qs = {{{json questions}}};
+
+        var levelData = {{{json levelData}}};
+
+        // TODO remember to escape numbers in JSON by using box notation!!!
+        var score = levelData.progress.level1['1'].score;
+
+        $('#answerBox').val(score);
+
+
         initQuiz(qs);
         $('#submitBtn').on('click', function () {
             var answer = $('#answerBox').val().trim();

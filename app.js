@@ -20,15 +20,9 @@ var app = express();
 // authentication
 var stormpath = require('express-stormpath');
 
-var userData;
-// this is a href, need to do GET to pull JSON from here
-var userCustomData;
-
 app.use(stormpath.init(app, {
     postLoginHandler: function (account, req, res, next) {
-        userData = account;
-        console.log(account.givenName);
-        userCustomData = account.customData;
+        console.log('Hey! ' + account.email + 'just logged in!');
         next();
     },
     apiKeyId: '5AL8GJ47LK6CH9DMXKZYYSLIY',
@@ -39,12 +33,10 @@ app.use(stormpath.init(app, {
 }));
 
 // make db accessible to router
-app.use(function (req, res, next) {
-    req.userData = userData;
-    req.userCustomData = userCustomData;
-    req.stormpath = stormpath;
-    next();
-});
+//app.use(function (req, res, next) {
+//    req.stormpath = stormpath;
+//    next();
+//});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

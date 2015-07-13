@@ -4,7 +4,9 @@ var stormpath = require('express-stormpath');
 
 /* GET home page. */
 router.get('/', stormpath.loginRequired, function (req, res, next) {
-    res.render('index', {title: 'Home', givenName: req.userData.givenName});
+
+    res.render('index', {title: 'Home', givenName: req.user.givenName});
+
 });
 
 router.get('/secret', stormpath.loginRequired, function (req, res) {
