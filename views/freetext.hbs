@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container freetext">
     <h3>{{title}}</h3>
 
     <div class="row">
@@ -101,7 +101,7 @@
                 <p>You won a badge!!!</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">ok</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Level 2</button>
             </div>
         </div>
 
@@ -110,8 +110,16 @@
 <script src="/javascripts/freeQuiz.js"></script>
 <script type="text/javascript">
 
+    var levelData;
 
     $(document).ready(function () {
+        $.getJSON('http://localhost:3000/getCustomData', function (data) {
+            levelData = data;
+//            console.log(data);
+            displayUserProgress(data);
+        });
+
+
         $('#answerBox').on('click keypress focus', function (event) {
             $('#msg-box').empty();
             if (event.keyCode == 13) {
@@ -119,21 +127,15 @@
             }
         });
 
-
         var qs = {{{json questions}}};
 
-        var levelData = {{{json levelData}}};
+        //TODO remember to escape numbers in JSON by using box notation!!!
 
-        // TODO remember to escape numbers in JSON by using box notation!!!
-        var score = levelData.progress.level1['1'].score;
-
-        $('#answerBox').val(score);
+        initQuiz(qs, {{level}});
 
 
-        initQuiz(qs);
         $('#submitBtn').on('click', function () {
             var answer = $('#answerBox').val().trim();
-            console.log("this is answer " + answer);
             checkAnswer(answer);
         });
         $('#nextButton').on('click', function () {

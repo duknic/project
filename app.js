@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hbs = require('hbs');
+var customDataBlank = require('./public/customDataBlank.json');
+var lessMiddleware = require('less-middleware');
 
 // Database
 var mongo = require('mongodb');
@@ -21,26 +23,31 @@ var app = express();
 var stormpath = require('express-stormpath');
 
 app.use(stormpath.init(app, {
+    expandCustomData: true,
     postLoginHandler: function (account, req, res, next) {
         console.log('Hey! ' + account.email + 'just logged in!');
+        next();
+    },
+    postRegistrationHandler: function (account, req, res, next) {
+        console.log('User:', account.email, 'just registered!');
+        writeCustomDataToAccount(account, customDataBlank);
         next();
     },
     apiKeyId: '5AL8GJ47LK6CH9DMXKZYYSLIY',
     apiKeySecret: 'hlizmFCKK1kg+F6aWK9orkV5xlHX7zCHfmwnoiLRhts',
     application: 'https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo',
     secretKey: 'mysecretkey',
-    expandCustomData: true,
+    sessionDuration: 1000 * 60 * 15, // 15 minutes of no activity
+    enableForgotPassword: true,
 }));
-
-// make db accessible to router
-//app.use(function (req, res, next) {
-//    req.stormpath = stormpath;
-//    next();
-//});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+
+app.use(lessMiddleware(__dirname + '/public'));
+//app.use(express.static(__dirname + '/public'));
 
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -96,5 +103,30 @@ hbs.registerHelper('json', function (context) {
     return JSON.stringify(context);
 });
 
+//var writeCustomDataToAccount = function (account, customData) {
+//    account.getCustomData(function (err, data) {
+//        for (var field in customData) {
+//            data[field] = customData[field];
+//        }
+//        data.save();
+//    });
+//}
+
+var writeCustomDataToAccount = function (account, dataToWrite) {
+    account.getCustomData(function (err, customData) {
+        for (var i in dataToWrite) {
+            customData[i] = dataToWrite[i];
+            for (var j in dataToWrite[i]) {
+                customData[i][j] = dataToWrite[i][j]
+                for (var k in dataToWrite[i][j]) {
+                    customData[i][j][k] = dataToWrite[i][j][k];
+                }
+            }
+        }
+        customData.save();
+    });
+};
+
+exports.writeCustomDataToAccount = writeCustomDataToAccount;
 
 module.exports = app;

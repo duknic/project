@@ -3,52 +3,73 @@
  */
 
 var questionSet = [];
-var currentQ = 0;
+var currentQinSet = 0;
+var currentQid = '';
+var currentLevel = 1;
 var currentQscore = 0;
+var currentAnswer = '';
 
-function nextLevel() {
 
+function initLevel(levelNum) {
+    recordUserProgress(true, currentQscore, currentAnswer, levelNum);
+    window.location.href = 'http://localhost:3000/levels/' + levelNum;
 }
 
 function nextQuestion() {
 
-    if (currentQ < questionSet.length - 1) {
-        currentQ++;
-        if (currentQ == questionSet.length - 1) {
+    if (currentQinSet < questionSet.length - 1) {
+        // record users score for current question
+        recordUserProgress(true, currentQscore, currentAnswer, currentLevel);
+        currentQinSet++;
+        currentQid = questionSet[currentQinSet]._id;
+        if (currentQinSet == questionSet.length - 1) {
             $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
         }
-        $('#storyText').html(questionSet[currentQ].storText);
-        $('#questionText').html(questionSet[currentQ].qText);
+        $('#storyText').html(questionSet[currentQinSet].storText);
+        $('#questionText').html(questionSet[currentQinSet].qText);
         $("#msg-box").empty();
-        $('#questionNum').html("Question " + (currentQ + 1));
+        $('#questionNum').html("Question " + (currentQinSet + 1));
         $('#prevButton').show();
         $('#nextButton').hide();
         $('#answerBox').val('');
-        var $bar = $('.progress-bar');
-        $bar.css("width", ($bar.width() + 33) + "%");
-    } else {
-        $('#badgeModal').modal('show');
-        $('.modal-footer button').on('click', nextLevel());
+        var increment = (($('div.progress').outerWidth() / 100) * 33);
+        var currentWidth = $('#level-progress-bar').width();
+        $('#level-progress-bar').css("width", currentWidth + increment);
 
+
+        // reset score to 10pts for next question
+        currentQscore = 10;
+
+    } else {
+        $('.modal-footer button').on('click', function () {
+            initLevel(currentLevel + 1);
+        });
+        $('#badgeModal .modal-footer button').html('Level ' + (currentLevel + 1));
+        $('#badgeModal').modal('show');
+        $('#level-progress-bar').css("width", $('div.progress').outerWidth());
     }
 
 }
 
 function prevQuestion() {
 
-    if (currentQ > 0) {
+    if (currentQinSet > 0) {
         $('#nextButton').show();
-        currentQ--;
-        $('#storyText').html(questionSet[currentQ].storText);
-        $('#questionText').html(questionSet[currentQ].qText);
+        currentQinSet--;
+        currentQid = questionSet[currentQinSet]._id;
+        $('#storyText').html(questionSet[currentQinSet].storText);
+        $('#questionText').html(questionSet[currentQinSet].qText);
         $("#msg-box").empty();
-        $('#questionNum').html("Question " + (currentQ + 1));
-        if (currentQ == 0) {
+        $('#questionNum').html("Question " + (currentQinSet + 1));
+        if (currentQinSet == 0) {
             $('#prevButton').hide();
         }
         var $bar = $('.progress-bar');
         $bar.css("width", (($bar.width() % 133) - 33) + "%");
         $('#answerBox').val('');
+
+        // reset score to 0pts for prev question because it has been completed
+        currentQscore = 0;
     }
     else {
         alert("no more questions");
@@ -56,9 +77,12 @@ function prevQuestion() {
     }
 }
 
-function initQuiz(questions) {
+function initQuiz(questions, levelNum) {
 
+    currentQid = questions[0]._id;
+    currentLevel = levelNum;
     questionSet = questions;
+    currentQscore = 10;
     if (questionSet != null) {
         $('#storyText').html(questionSet[0].storText);
         $('#questionText').html(questionSet[0].qText);
@@ -74,23 +98,31 @@ function initQuiz(questions) {
  */
 function checkAnswer(answer) {
 
-    var q = questionSet[currentQ];
+    //TODO maybe question object coudl have field to indicate if badge should be awarded upon correct/incorrect
+
+    currentAnswer = answer;
+
+
+    var q = questionSet[currentQinSet];
 
     if (answer == q.correctRes0.regex) {
         writeFeedback(q.correctRes0.feedback, true);
-        if (currentQ == questionSet.length - 1) {
+        if (currentQinSet == questionSet.length - 1) {
             $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
         }
         $('#nextButton').show();
     }
     else if (q.correctRes1 != null && answer == q.correctRes1.regex) {
+
         // TODO evaluate user's regex to find if it is correct then give 'not ideal' feedback
+
         writeFeedback(q.correctRes1.feedback, true);
-        if (currentQ == questionSet.length - 1) {
+        if (currentQinSet == questionSet.length - 1) {
             $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
         }
         $('#nextButton').show();
     } else {
+        currentQscore -= 2;
         var feedback = q.incorrectRes0.feedback;
         if (q.misconceptions != null) {
             q.misconceptions.forEach(function (data) {
@@ -131,6 +163,45 @@ $('#answerBox').focus(function () {
     $('#msg-box').empty();
 });
 
-function recordUserProgress() {
+function recordUserProgress(completed, currentQscore, currentAnswer, currentLevel) {
 
+    console.log('HEY THIS FUNCTION HAS BEEN ENTERED');
+    console.log('level data says: ' + levelData.progress.currentLevel +
+        '\nlocal currentLevel says: ' + currentLevel +
+        '\nqNum is : ' + currentQinSet);
+
+    if (currentLevel > levelData.progress.currentLevel) {
+        levelData.progress.currentLevel = currentLevel;
+        currentLevel--;
+    }
+
+    levelData.total_score += currentQscore;
+
+    var level = "level" + currentLevel.toString();
+    var question = currentQid + "";
+    levelData.progress[level][question].completed = completed;
+    levelData.progress[level][question].score = currentQscore;
+    levelData.progress[level][question].answer = currentAnswer.toString();
+
+    console.log(levelData);
+
+
+    //$.post("/updateUserProgress", JSON.stringify(levelData), function (response) {
+    //    contentType: 'application/json; charset=UTF-8',
+    //    console.log("levelData" + levelData);
+    //    console.log("posting updateUserData to server...");
+    //    console.log(response);
+    //});
+
+    $.ajax({
+        url: "/updateUserProgress",
+        type: "POST",
+        data: JSON.stringify(levelData),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data, res) {
+            console.log('posted levelData to server and got...' +
+                '\nresponse: ' + res + '\ndata: ' + data);
+        }
+    });
 }

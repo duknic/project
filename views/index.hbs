@@ -7,7 +7,7 @@
 
         <p class="lead">This is a javascript game to help teach undergraduate students about regular expresisons<br> Nic
             Duke - Summer project 2015</p>
-        <button id="launchGame" type="button" class="btn btn-primary">Play</button>
+        <button id="launchGame" type="button" class="btn btn-primary btn-lg">Play</button>
     </div>
 
 </div>
@@ -17,7 +17,7 @@
         </div>
         <div class="col-md-4">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3>Test your regex</h3></div>
+                <div class="panel-heading">Test your regex</div>
                 <div class="panel-body">
                     <form>
                         <div class="form-group">
@@ -29,9 +29,20 @@
                             <label for="testRegex">Test regex</label>
                             <input type="text" class="form-control" id="testRegex" placeholder="input your regex...">
                         </div>
-                        <button type="button" class="btn btn-default" onclick="sample()">Submit</button>
+                        <button type="button" class="btn btn-default" id="sampleTestSubmit">Submit</button>
                     </form>
                 </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <div class="row top-space" id="sampleRegexAlert">
+
             </div>
         </div>
         <div class="col-md-4">
@@ -46,11 +57,15 @@
             window.location.href = "levels";
         });
 
-        function sample() {
+        $('#sampleTestSubmit').on('click', function () {
             var str = $('#testString').val();
             var regex = new RegExp($('#testRegex').val());
             var res = regex.test(str);
-            alert(res);
-        }
+            if (res) {
+                $('#sampleRegexAlert').load('alertSuccess.html');
+            } else {
+                $('#sampleRegexAlert').load('alertFail.html');
+            }
+        });
     });
 </script>
