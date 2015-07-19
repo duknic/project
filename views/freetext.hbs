@@ -1,16 +1,21 @@
 <div class="container freetext">
-    <h3>{{title}}</h3>
-
     <div class="row">
         <div class="col-md-12">
-            <div class="row">
+            <div class="row main-content">
                 <div class="col-md-2">
-                    <h4 id="questionNum">Question 1</h4>
+                    <h2 class="no-margin">{{title}}</h2>
+                    <h4><span id="questionNum">Question 1</span>&nbsp;&nbsp;<span id="questionPts"
+                                                                                  class="label label-default">10 pts</span>
+                    </h4>
                 </div>
                 <div class="col-md-8">
                     <div id="msg-box" class="center-block text-center">
                     </div>
-                    <div class="col-md-2"></div>
+                </div>
+                <div class="col-md-2">
+                    <h4 class="text-right no-margin">TOTAL SCORE</h4>
+
+                    <div id="totalScore">0</div>
                 </div>
             </div>
             <div class="row">
@@ -49,7 +54,7 @@
 
                             <div class="input-group">
                                 <div class="input-group-addon">RegEx</div>
-                                <input type="text" id="answerBox" class="form-control"
+                                <input autocomplete="on" type="text" id="answerBox" class="form-control"
                                        placeholder="enter answer..."/>
                             </div>
 
@@ -113,12 +118,15 @@
     var levelData;
 
     $(document).ready(function () {
-        $.getJSON('http://localhost:3000/getCustomData', function (data) {
+
+        $.getJSON('http://localhost:3000/customData', function (data) {
             levelData = data;
 //            console.log(data);
             displayUserProgress(data);
+            initQuiz(qs, {{level}});
         });
 
+        $("[data-toggle=popover]").popover();
 
         $('#answerBox').on('click keypress focus', function (event) {
             $('#msg-box').empty();
@@ -130,9 +138,6 @@
         var qs = {{{json questions}}};
 
         //TODO remember to escape numbers in JSON by using box notation!!!
-
-        initQuiz(qs, {{level}});
-
 
         $('#submitBtn').on('click', function () {
             var answer = $('#answerBox').val().trim();

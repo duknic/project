@@ -9,10 +9,10 @@ var currentLevel = 1;
 var currentQscore = 0;
 var currentAnswer = '';
 
-
 function initLevel(levelNum) {
-    recordUserProgress(true, currentQscore, currentAnswer, levelNum);
-    window.location.href = 'http://localhost:3000/levels/' + levelNum;
+    recordUserProgress(true, currentQscore, currentAnswer, currentLevel, true).done(function () {
+        window.location.href = 'http://localhost:3000/levels/' + levelNum;
+    });
 }
 
 function nextQuestion() {
@@ -39,6 +39,15 @@ function nextQuestion() {
 
         // reset score to 10pts for next question
         currentQscore = 10;
+
+        // populate pts avaiable for this question
+        $('#questionPts').text(currentQscore + ' pts');
+
+        // initialise popovers on page
+        $("[data-toggle=popover]").popover();
+
+        // display total score data
+        displayTotalScore(levelData.total_score);
 
     } else {
         $('.modal-footer button').on('click', function () {
@@ -70,6 +79,12 @@ function prevQuestion() {
 
         // reset score to 0pts for prev question because it has been completed
         currentQscore = 0;
+
+        // initialise popovers on page
+        $("[data-toggle=popover]").popover();
+
+        // display total score data
+        displayTotalScore(levelData.total_score);
     }
     else {
         alert("no more questions");
@@ -88,7 +103,11 @@ function initQuiz(questions, levelNum) {
         $('#questionText').html(questionSet[0].qText);
     }
 
-    //$('#prev').hide();
+    // display total score data
+    displayTotalScore(levelData.total_score);
+
+    // initialise popovers on page
+    $("[data-toggle=popover]").popover();
 }
 
 /*
@@ -98,10 +117,9 @@ function initQuiz(questions, levelNum) {
  */
 function checkAnswer(answer) {
 
-    //TODO maybe question object coudl have field to indicate if badge should be awarded upon correct/incorrect
+    //TODO maybe question object could have field to indicate if badge should be awarded upon correct/incorrect
 
     currentAnswer = answer;
-
 
     var q = questionSet[currentQinSet];
 
@@ -111,18 +129,17 @@ function checkAnswer(answer) {
             $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
         }
         $('#nextButton').show();
-    }
-    else if (q.correctRes1 != null && answer == q.correctRes1.regex) {
-
-        // TODO evaluate user's regex to find if it is correct then give 'not ideal' feedback
-
-        writeFeedback(q.correctRes1.feedback, true);
-        if (currentQinSet == questionSet.length - 1) {
-            $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
-        }
-        $('#nextButton').show();
     } else {
-        currentQscore -= 2;
+        currentQscore = currentQscore - 2;
+
+        // populate pts avaiable for this question
+        $('#questionPts').text(currentQscore + ' pts');
+
+        // TODO should this be storing score against user profile maybe instead of localStorage?
+        recordQuestionScore(currentQscore);
+        //localStorage.setItem(currentQid, getValidScore(currentQid, currentQscore));
+        //console.log('INCORRECT - storing score = ' + getValidScore(currentQid, currentQscore));
+
         var feedback = q.incorrectRes0.feedback;
         if (q.misconceptions != null) {
             q.misconceptions.forEach(function (data) {
@@ -163,45 +180,62 @@ $('#answerBox').focus(function () {
     $('#msg-box').empty();
 });
 
-function recordUserProgress(completed, currentQscore, currentAnswer, currentLevel) {
+//function recordQuestionScore(Qscore) {
+//    var validScore = getValidScore(currentQid, currentLevel, Qscore);
+//    recordUserProgress(false, validScore, '', currentLevel, false);
+//}
 
-    console.log('HEY THIS FUNCTION HAS BEEN ENTERED');
-    console.log('level data says: ' + levelData.progress.currentLevel +
-        '\nlocal currentLevel says: ' + currentLevel +
-        '\nqNum is : ' + currentQinSet);
-
-    if (currentLevel > levelData.progress.currentLevel) {
-        levelData.progress.currentLevel = currentLevel;
-        currentLevel--;
-    }
-
-    levelData.total_score += currentQscore;
+function recordUserProgress(completed, currentQscore, currentAnswer, currentLevel, isEndLevel) {
 
     var level = "level" + currentLevel.toString();
     var question = currentQid + "";
-    levelData.progress[level][question].completed = completed;
-    levelData.progress[level][question].score = currentQscore;
-    levelData.progress[level][question].answer = currentAnswer.toString();
 
-    console.log(levelData);
+    // if player has not already completed level
+    // player can only record data for their maxLevel
+    if (currentLevel == levelData.progress.maxLevel) {
+        console.log('inside first conditional');
+        // if question is not marked as completed
+        if (!levelData.progress[level][question].completed) {
+
+            currentQscore = Math.min(currentQscore, minQscore);
+
+            console.log('currentQscore before write is: ' + currentQscore);
+
+            levelData.total_score += currentQscore;
+            levelData.progress[level][question].completed = completed;
+            levelData.progress[level][question].score = currentQscore;
+            levelData.progress[level][question].answer = currentAnswer.toString();
+
+            if (isEndLevel) {
+                // user maxLevel is incremented
+                levelData.progress.maxLevel = currentLevel + 1;
+            }
+
+            console.log('ATTEMPTING - recording for Qid ' + question + ': \n     total score: ' + levelData.total_score +
+                '\n     completed: ' + levelData.progress[level][question].completed +
+                '\n     score: ' + levelData.progress[level][question].score +
+                '\n     answer: ' + levelData.progress[level][question].answer);
+
+            // post AJAX to server
+            $.ajax({
+                url: "/updateUserProgress",
+                type: "POST",
+                data: JSON.stringify(levelData),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data, res) {
+                    console.log('posted levelData to server and got...' +
+                        '\n      response: ' + res + '\n      data: ' + data);
+                }
+            });
 
 
-    //$.post("/updateUserProgress", JSON.stringify(levelData), function (response) {
-    //    contentType: 'application/json; charset=UTF-8',
-    //    console.log("levelData" + levelData);
-    //    console.log("posting updateUserData to server...");
-    //    console.log(response);
-    //});
-
-    $.ajax({
-        url: "/updateUserProgress",
-        type: "POST",
-        data: JSON.stringify(levelData),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data, res) {
-            console.log('posted levelData to server and got...' +
-                '\nresponse: ' + res + '\ndata: ' + data);
         }
-    });
+
+        // else question is already marked as completed
+        else {
+            alert('Yo! Looks like you already recorded your score for this question.' + '\nPlay on you little minx...');
+        }
+    }
+    return $.Deferred().resolve();
 }

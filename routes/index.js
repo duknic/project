@@ -14,10 +14,10 @@ router.get('/secret', stormpath.loginRequired, function (req, res) {
     res.send('your email address is: ');
 });
 
-router.get('/getCustomData', stormpath.loginRequired, function (req, res) {
-    // TODO return this users customData json
-    res.json(req.user.customData);
-})
+//router.get('/getCustomData', stormpath.loginRequired, function (req, res) {
+//    // TODO return this users customData json
+//    res.json(req.user.customData);
+//})
 
 // get userdata from client and update database
 router.post('/updateUserProgress', stormpath.loginRequired, function (req, res) {

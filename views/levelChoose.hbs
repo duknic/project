@@ -1,13 +1,12 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-1">
-        </div>
+
         <div class="col-lg-11">
             <div class="row">
                 <div class="col-lg-1 center-block text-center">
-                    <h3 class="text-center">LEVEL<br/>PROGRESS</h3>
+                    <h3 class="text-left">LEVEL<br/>PROGRESS</h3>
                 </div>
-                <div class="col-lg-11">
+                <div class="col-lg-10">
                     <div class="row bs-wizard" style="border-bottom:0;">
 
                         <!--PROGRESS BAR LEVEL ONE-->
@@ -89,40 +88,47 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-1">
+                    <h4 class="text-right">TOTAL SCORE</h4>
+
+                    <div id="totalScore">0</div>
+                </div>
             </div>
             <div class="row levelsGrid">
                 <div class="col-md-4">
-                    <button class="btn btn-default" type="button" value="1">Level 1</button>
+                    <button class="btn btn-level-choose" type="button" value="1">Level 1</button>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-default" type="button" value="2">Level 2</button>
+                    <button class="btn btn-level-choose" type="button" value="2">Level 2</button>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-default" type="button" value="3">Level 3</button>
+                    <button class="btn btn-level-choose" type="button" value="3">Level 3</button>
                 </div>
             </div>
             <div class="row  levelsGrid">
                 <div class="col-md-4">
-                    <button class="btn btn-default" type="button" value="4">Level 4</button>
+                    <button class="btn btn-level-choose" type="button" value="4">Level 4</button>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-default" type="button" value="5">Level 5</button>
+                    <button class="btn btn-level-choose" type="button" value="5">Level 5</button>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-default" type="button" value="6">Level 6</button>
+                    <button class="btn btn-level-choose" type="button" value="6">Level 6</button>
                 </div>
             </div>
             <div class="row  levelsGrid">
                 <div class="col-md-4">
-                    <button class="btn btn-default" type="button" value="7">Level 7</button>
+                    <button class="btn btn-level-choose" type="button" value="7">Level 7</button>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-default" type="button" value="8">Level 8</button>
+                    <button class="btn btn-level-choose" type="button" value="8">Level 8</button>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-default" type="button" value="9">Level 9</button>
+                    <button class="btn btn-level-choose" type="button" value="9">Level 9</button>
                 </div>
             </div>
+        </div>
+        <div class="col-lg-1">
         </div>
     </div>
 </div>
@@ -131,7 +137,7 @@
     $(document).ready(function () {
 
 
-        $.getJSON('http://localhost:3000/getCustomData', function (data) {
+        $.getJSON('http://localhost:3000/customData', function (data) {
 //            levelData = data;
             displayUserProgress(data);
         });

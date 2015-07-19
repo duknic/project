@@ -19,6 +19,7 @@ router.get('/:num', stormpath.loginRequired, function (req, res, next) {
     col.find({level_num: parseInt(num)}, {}, function (e, docs) {
         console.log(docs);
         res.render('freetext', {
+            pageClass: 'freetext',
             title: 'Level ' + num,
             level: num,
             questions: docs,
