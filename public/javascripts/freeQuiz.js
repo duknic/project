@@ -138,14 +138,8 @@ function checkAnswer(answer) {
 
     // if answer works as a regular expression
     if (testRegex(q, answer)) {
-        if (answer == q.correctRes0) {
-            // answer is the one we are looking for
-            recordUserProgress(true, currentQscore, currentAnswer, currentLevel, isEndLevel);
-            writeFeedback(q.correctRes0.feedback, true);
-            if (currentQinSet == questionSet.length - 1) {
-                $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
-            }
-            $('#nextButton').show();
+        if (answer == q.correctRes0.regex) {
+            handleCorrectAnswer(q.correctRes0.feedback);
         }
 
         // else answer is correct but not the one we are looking for
@@ -162,10 +156,14 @@ function checkAnswer(answer) {
                     console.log('logged uncaught correct misconception to database')
                 });
                 // print special message to user and mark answer as correct
+                var feedback = "<p>Oh, sorry about this, you appear to have found a way of doing this that we hadn't considered. " +
+                    "You're suggestion has been logged and may go towards improving the game, thanks!</p>" +
+                    "<p>In the meantime, our suggested answer was: " + q.correctRes0.regex + "</p><hr/>" +
+                    p.correctRes0.feedback;
+                handleCorrectAnswer(feedback);
             }
         }
     }
-
     // ELSE ANSWER DOES NOT WORK AS REGULAR EXPRESSION
     else {
         // if the incorrect answer is in our list of misconceptions
@@ -181,6 +179,15 @@ function checkAnswer(answer) {
             handleIncorrectAnswer(q.incorrectRes0.feedback);
         }
     }
+}
+
+function handleCorrectAnswer(feedback) {
+    recordUserProgress(true, currentQscore, currentAnswer, currentLevel, isEndLevel);
+    writeFeedback(feedback, true);
+    if (currentQinSet == questionSet.length - 1) {
+        $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
+    }
+    $('#nextButton').show();
 }
 
 function handleIncorrectAnswer(feedback) {
