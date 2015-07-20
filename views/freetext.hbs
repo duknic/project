@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row main-content">
-                <div class="col-md-2">
+                <div class="col-md-2 no-padding-right">
                     <h2 class="no-margin">{{title}}</h2>
                     <h4><span id="questionNum">Question 1</span>&nbsp;&nbsp;<span id="questionPts"
                                                                                   class="label label-default">10 pts</span>
@@ -83,7 +83,8 @@
                     </div>
                     <div class="col-md-3">
                         <button type="button" id="nextButton"
-                                class="btn btn-primary btn-lg pull-right" style="display: none;">Next
+                                class="btn btn-primary btn-lg pull-right" style="display: none;"
+                                data-loading-text="loading...">Next
                         </button>
                     </div>
                 </div>
@@ -119,11 +120,12 @@
 
     $(document).ready(function () {
 
+        var qs = {{{json questions}}};
+
         $.getJSON('http://localhost:3000/customData', function (data) {
             levelData = data;
-//            console.log(data);
-            displayUserProgress(data);
             initQuiz(qs, {{level}});
+            displayUserProgress(data);
         });
 
         $("[data-toggle=popover]").popover();
@@ -135,8 +137,6 @@
             }
         });
 
-        var qs = {{{json questions}}};
-
         //TODO remember to escape numbers in JSON by using box notation!!!
 
         $('#submitBtn').on('click', function () {
@@ -144,6 +144,7 @@
             checkAnswer(answer);
         });
         $('#nextButton').on('click', function () {
+            $(this).button('loading');
             nextQuestion();
         });
         $('#prevButton').on('click', function () {

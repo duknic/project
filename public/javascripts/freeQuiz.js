@@ -8,22 +8,19 @@ var currentQid = '';
 var currentLevel = 1;
 var currentQscore = 0;
 var currentAnswer = '';
+var isEndLevel = false;
 
-function initLevel(levelNum) {
-    recordUserProgress(true, currentQscore, currentAnswer, currentLevel, true).done(function () {
-        window.location.href = 'http://localhost:3000/levels/' + levelNum;
-    });
-}
+$.ajaxComplete(function () {
+    displayTotalScore(levelData.total_score);
+});
 
 function nextQuestion() {
-
     if (currentQinSet < questionSet.length - 1) {
-        // record users score for current question
-        recordUserProgress(true, currentQscore, currentAnswer, currentLevel);
         currentQinSet++;
         currentQid = questionSet[currentQinSet]._id;
         if (currentQinSet == questionSet.length - 1) {
             $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
+            isEndLevel = true;
         }
         $('#storyText').html(questionSet[currentQinSet].storText);
         $('#questionText').html(questionSet[currentQinSet].qText);
@@ -32,30 +29,36 @@ function nextQuestion() {
         $('#prevButton').show();
         $('#nextButton').hide();
         $('#answerBox').val('');
-        var increment = (($('div.progress').outerWidth() / 100) * 33);
-        var currentWidth = $('#level-progress-bar').width();
-        $('#level-progress-bar').css("width", currentWidth + increment);
-
+        $('#nextButton').button('reset');
 
         // reset score to 10pts for next question
         currentQscore = 10;
 
-        // populate pts avaiable for this question
-        $('#questionPts').text(currentQscore + ' pts');
+        // populate pts avaiable for this question, accounting for previous attempts
+        getValidScore(currentQid, currentLevel, currentQscore, function (score) {
+            $('#questionPts').text(score + ' pts');
+        });
 
         // initialise popovers on page
         $("[data-toggle=popover]").popover();
 
-        // display total score data
         displayTotalScore(levelData.total_score);
+        var increment = (($('div.progress').outerWidth() / 100) * 33);
+        var currentWidth = $('#level-progress-bar').width();
+        $('#level-progress-bar').css("width", currentWidth + increment);
 
     } else {
-        $('.modal-footer button').on('click', function () {
-            initLevel(currentLevel + 1);
+        $(document).ajaxComplete(function () {
+            $('#nextButton').button('reset');
+            $('.modal-footer button').on('click', function () {
+                // send endofLevel boolean to record function
+                window.location.href = 'http://localhost:3000/levels/' + (currentLevel + 1);
+            });
+            $('#badgeModal .modal-footer button').html('Level ' + (currentLevel + 1));
+            $('#badgeModal').modal('show');
         });
-        $('#badgeModal .modal-footer button').html('Level ' + (currentLevel + 1));
-        $('#badgeModal').modal('show');
         $('#level-progress-bar').css("width", $('div.progress').outerWidth());
+        displayTotalScore(levelData.total_score);
     }
 
 }
@@ -73,9 +76,13 @@ function prevQuestion() {
         if (currentQinSet == 0) {
             $('#prevButton').hide();
         }
-        var $bar = $('.progress-bar');
-        $bar.css("width", (($bar.width() % 133) - 33) + "%");
-        $('#answerBox').val('');
+        var decrement = (($('div.progress').outerWidth() / 100) * 33);
+        var currentWidth = $('#level-progress-bar').width();
+        if (currentWidth >= decrement) {
+            $('#level-progress-bar').css("width", currentWidth - decrement);
+        } else {
+            $('#level-progress-bar').css("width", 0);
+        }
 
         // reset score to 0pts for prev question because it has been completed
         currentQscore = 0;
@@ -85,6 +92,9 @@ function prevQuestion() {
 
         // display total score data
         displayTotalScore(levelData.total_score);
+
+        // any click of previous button means this is not end level
+        isEndLevel = false;
     }
     else {
         alert("no more questions");
@@ -103,11 +113,10 @@ function initQuiz(questions, levelNum) {
         $('#questionText').html(questionSet[0].qText);
     }
 
-    // display total score data
-    displayTotalScore(levelData.total_score);
-
     // initialise popovers on page
     $("[data-toggle=popover]").popover();
+
+    displayTotalScore(levelData.total_score);
 }
 
 /*
@@ -124,22 +133,26 @@ function checkAnswer(answer) {
     var q = questionSet[currentQinSet];
 
     if (answer == q.correctRes0.regex) {
+        // correct answer mark question as complete and record progress
+        recordUserProgress(true, currentQscore, currentAnswer, currentLevel, isEndLevel);
         writeFeedback(q.correctRes0.feedback, true);
         if (currentQinSet == questionSet.length - 1) {
             $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
         }
         $('#nextButton').show();
     } else {
-        currentQscore = currentQscore - 2;
+        // don't decrement if score is already at 0
+        if (currentQscore > 0) {
+            currentQscore = currentQscore - 2;
 
-        // populate pts avaiable for this question
-        $('#questionPts').text(currentQscore + ' pts');
+            // populate pts avaiable for this question
+            $('#questionPts').text(currentQscore + ' pts');
 
-        // TODO should this be storing score against user profile maybe instead of localStorage?
-        recordQuestionScore(currentQscore);
-        //localStorage.setItem(currentQid, getValidScore(currentQid, currentQscore));
-        //console.log('INCORRECT - storing score = ' + getValidScore(currentQid, currentQscore));
-
+            // TODO should this be storing score against user profile maybe instead of localStorage?
+            // record the reduced score, completed is set to false as is isEndLevel. It will
+            // never be the end of a level if you have got it wrong
+            recordUserProgress(false, currentQscore, currentAnswer, currentLevel, false);
+        }
         var feedback = q.incorrectRes0.feedback;
         if (q.misconceptions != null) {
             q.misconceptions.forEach(function (data) {
@@ -180,38 +193,31 @@ $('#answerBox').focus(function () {
     $('#msg-box').empty();
 });
 
-//function recordQuestionScore(Qscore) {
-//    var validScore = getValidScore(currentQid, currentLevel, Qscore);
-//    recordUserProgress(false, validScore, '', currentLevel, false);
-//}
-
 function recordUserProgress(completed, currentQscore, currentAnswer, currentLevel, isEndLevel) {
 
     var level = "level" + currentLevel.toString();
     var question = currentQid + "";
 
-    // if player has not already completed level
-    // player can only record data for their maxLevel
-    if (currentLevel == levelData.progress.maxLevel) {
-        console.log('inside first conditional');
-        // if question is not marked as completed
-        if (!levelData.progress[level][question].completed) {
+    // if this question has not already been marked as completed
+    if (!levelData.progress[level][question].completed) {
 
-            currentQscore = Math.min(currentQscore, minQscore);
+        getValidScore(currentQid, currentLevel, currentQscore, function (score) {
+            currentQscore = score;
 
-            console.log('currentQscore before write is: ' + currentQscore);
+            // completed is true if answer is correct, update total score
+            if (completed) {
+                levelData.total_score = (currentQscore + levelData.total_score);
+                levelData.progress[level][question].completed = completed;
+            }
 
-            levelData.total_score += currentQscore;
-            levelData.progress[level][question].completed = completed;
             levelData.progress[level][question].score = currentQscore;
             levelData.progress[level][question].answer = currentAnswer.toString();
 
             if (isEndLevel) {
-                // user maxLevel is incremented
                 levelData.progress.maxLevel = currentLevel + 1;
             }
 
-            console.log('ATTEMPTING - recording for Qid ' + question + ': \n     total score: ' + levelData.total_score +
+            console.log('Recording for Qid: ' + question + ': \n     total score: ' + levelData.total_score +
                 '\n     completed: ' + levelData.progress[level][question].completed +
                 '\n     score: ' + levelData.progress[level][question].score +
                 '\n     answer: ' + levelData.progress[level][question].answer);
@@ -226,16 +232,13 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
                 success: function (data, res) {
                     console.log('posted levelData to server and got...' +
                         '\n      response: ' + res + '\n      data: ' + data);
+
                 }
             });
-
-
-        }
-
-        // else question is already marked as completed
-        else {
-            alert('Yo! Looks like you already recorded your score for this question.' + '\nPlay on you little minx...');
-        }
+        });
     }
-    return $.Deferred().resolve();
+    // else question is already marked as completed
+    else {
+        alert('Yo! Looks like you already recorded your score for this question.' + '\nPlay on you little minx...');
+    }
 }

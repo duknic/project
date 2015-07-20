@@ -133,12 +133,9 @@
     </div>
 </div>
 <script type="text/javascript">
-    //    var levelData;
     $(document).ready(function () {
 
-
         $.getJSON('http://localhost:3000/customData', function (data) {
-//            levelData = data;
             displayUserProgress(data);
         });
 

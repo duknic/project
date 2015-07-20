@@ -15,6 +15,7 @@ body {
   padding-top: 50px;
   font-family: 14px/1.5 "Lucida Grande", Helvetica, Arial, sans-serif;
   margin-bottom: 60px;
+  background: url('/images/crossword-bkgd.png') repeat top left;
 }
 
 // question page
@@ -22,8 +23,8 @@ body {
   margin-top: 26px;
 }
 
-body.freetext {
-  background: url('/images/crossword-bkgd.png') repeat top left;
+.row div.no-padding-right {
+  padding-right: 0px;
 }
 
 samp {
@@ -98,9 +99,11 @@ div.paper-note:after {
 }
 
 h1.navbar-brand {
+  font-size: 2em;
   color: @rgba-secondary-1-1;
   small {
     color: @rgba-secondary-1-1;
+    font-size: 45%;
   }
   a {
     color: @rgba-secondary-1-1;
@@ -335,10 +338,6 @@ div.levelsGrid button {
 }
 
 //LEVEL CHOOSE BUTTONS
-.btn-level-choose.active {
-  color: rgba(255, 255, 255, 0.75);
-}
-
 .btn-level-choose {
   width: 100%;
   height: 100%;
@@ -347,7 +346,8 @@ div.levelsGrid button {
   margin: 16px 24px;
   font-size: 3em;
   color: #ffffff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  text-shadow: 0px 0px 3px #4d4d4d;
+  line-height: 40px;
   background-color: #009e6e;
   background-image: -moz-linear-gradient(top, #008a60, #00bd83);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#008a60), to(#00bd83));
@@ -360,24 +360,28 @@ div.levelsGrid button {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #00bd83;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-}
 
-.btn-level-choose:hover,
-.btn-level-choose:focus,
-.btn-level-choose:active,
-.btn-level-choose.active,
-.btn-level-choose.disabled,
-.btn-level-choose[disabled] {
-  color: #ffffff;
-  background-color: #00bd83;
-  *background-color: #00a472;
-}
+  &.active, &:active {
+    color: rgba(255, 255, 255, 0.75);
+    background-color: #008a60;
+  }
 
-.btn-level-choose:active,
-.btn-level-choose.active {
-  background-color: #008a60;
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  &.disabled,
+  &[disabled] {
+    color: #ffffff;
+    background-color: #00bd83;
+    *background-color: #00a472;
+  }
+
+  &.level-complete {
+    color: #006143;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, .3), 0px -1px 0px rgba(0, 0, 0, .7);
+  }
 }
 
 /*######    END LEVELS CHOOSE    ######*/

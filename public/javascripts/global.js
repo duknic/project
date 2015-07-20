@@ -5,33 +5,30 @@ function awardBadge(badgeId) {
 function displayUserProgress(levelData) {
     // populate level progress bar
     var currentLevel = levelData.progress['maxLevel'];
+    var totalScore = levelData.total_score;
     for (var i = 1; i < currentLevel; i++) {
         $('.bs-wizard-step:nth-child(' + i + ')').removeClass('disabled').addClass('complete');
+        // grab all completed levels and give them a tick
+        $('.btn-level-choose\[value=' + i + '\]').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>' + '<br/>Level ' + i).addClass('level-complete');
+
     }
     $('.bs-wizard-step:nth-child(' + currentLevel + ')').removeClass('disabled').addClass('active');
-
     displayTotalScore(totalScore);
 }
 
 function displayTotalScore(totalScore) {
     // populate total score
-    $({countNum: $('#totalScore').text()}).animate({countNum: totalScore + 1}, {
-        duration: (totalScore / 10) * 1000,
+    $({countNum: $('#totalScore').text()}).animate({countNum: totalScore}, {
+        duration: 2000,
         easing: 'linear',
         step: function () {
-            $('#totalScore').text(Math.floor(this.countNum));
+            $('#totalScore').text(Math.ceil(this.countNum));
         },
         complete: function () {
             $('#counter').text(this.countNum);
         }
     });
 }
-
-//function getTotalScore() {
-//    $.getJSON('http://localhost:3000/getCustomData', function (data) {
-//        return data.total_score;
-//    });
-//}
 
 //CHECK IF BROWSER SUPPORTS LOCAL STORAGE
 function supports_html5_storage() {
@@ -42,19 +39,32 @@ function supports_html5_storage() {
     }
 }
 
+function getValidScore(questionId, levelNum, questionScore, callback) {
+    var level = "level" + levelNum.toString();
+    var question = questionId + "";
 
-function getValidScore(questionID, levelNum, questionScore) {
-    var url = 'http://localhost:3000/customData/progress/level' + levelNum + '/' + questionID + '/score';
-    $.getJSON(url, function (recordedScore) {
-        var returnedScore = recordedScore ? Math.min(recordedScore, questionScore) : questionScore;
-        console.log('getValidScore returning: ' + returnedScore);
-        return $.Deferred().resolve(returnedScore);
+    $.getJSON('http://localhost:3000/customData', function (data) {
+        var recordedScore = data.progress[level][question].score;
+        var score = recordedScore ? Math.min(recordedScore, questionScore) : questionScore;
+        if (typeof callback == 'function') {
+            if (score > 0) {
+                callback(score);
+            } else {
+                callback(0);
+            }
+        }
     });
 }
 
-//function getValidScore(questionID, questionScore) {
-//    // TODO need to store this against user profile not local storage
-//    var recordedScore = localStorage.getItem(questionID);
-//    console.log('recordedscore = ' + recordedScore);
-//    return recordedScore ? Math.min(recordedScore, questionScore) : questionScore;
+
+//function getValidScore(questionID, levelNum, questionScore, callback) {
+//    var url = 'http://localhost:3000/customData/progress/level' + levelNum + '/' + questionID + '/score';
+//    $.getJSON(url, function (recordedScore) {
+//        var score = recordedScore ? Math.min(recordedScore, questionScore) : questionScore;
+//        if (typeof callback == 'function') {
+//            callback(score);
+//        }
+//    });
 //}
+
+
