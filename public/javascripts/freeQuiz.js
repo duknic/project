@@ -127,41 +127,72 @@ function initQuiz(questions, levelNum) {
 function checkAnswer(answer) {
 
     //TODO maybe question object could have field to indicate if badge should be awarded upon correct/incorrect
-
     currentAnswer = answer;
-
     var q = questionSet[currentQinSet];
-
-    if (answer == q.correctRes0.regex) {
-        // correct answer mark question as complete and record progress
-        recordUserProgress(true, currentQscore, currentAnswer, currentLevel, isEndLevel);
-        writeFeedback(q.correctRes0.feedback, true);
-        if (currentQinSet == questionSet.length - 1) {
-            $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
+    var found = -1;
+    for (var i = 0; i < q.misconceptions.length; i++) {
+        if (q.misconceptions[i].regex == answer) {
+            found = i;
         }
-        $('#nextButton').show();
-    } else {
-        // don't decrement if score is already at 0
-        if (currentQscore > 0) {
-            currentQscore = currentQscore - 2;
+    }
 
-            // populate pts avaiable for this question
-            $('#questionPts').text(currentQscore + ' pts');
-
-            // TODO should this be storing score against user profile maybe instead of localStorage?
-            // record the reduced score, completed is set to false as is isEndLevel. It will
-            // never be the end of a level if you have got it wrong
-            recordUserProgress(false, currentQscore, currentAnswer, currentLevel, false);
+    // if answer works as a regular expression
+    if (testRegex(q, answer)) {
+        if (answer == q.correctRes0) {
+            // answer is the one we are looking for
+            recordUserProgress(true, currentQscore, currentAnswer, currentLevel, isEndLevel);
+            writeFeedback(q.correctRes0.feedback, true);
+            if (currentQinSet == questionSet.length - 1) {
+                $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
+            }
+            $('#nextButton').show();
         }
-        var feedback = q.incorrectRes0.feedback;
-        if (q.misconceptions != null) {
-            q.misconceptions.forEach(function (data) {
-                if (answer == data.regex) {
-                    feedback = data.feedback;
-                }
+
+        // else answer is correct but not the one we are looking for
+        else {
+            // if the answer in our list of misconceptions
+            if (found > -1) {
+                handleIncorrectAnswer(q.misconceptions[found].feedback);
+            }
+            // else answer is correct but not in our misconceptions
+            else {
+                // LOG UNCAUGHT CORRECT MISCONCEPTION IN DATABASE
+                $.post("http://localhost:3000/recordMisconception/" +
+                    currentQid + "/true/" + currentAnswer, function () {
+                    console.log('logged uncaught correct misconception to database')
+                });
+                // print special message to user and mark answer as correct
+            }
+        }
+    }
+
+    // ELSE ANSWER DOES NOT WORK AS REGULAR EXPRESSION
+    else {
+        // if the incorrect answer is in our list of misconceptions
+        if (found > -1) {
+            handleIncorrectAnswer(q.misconceptions[found].feedback);
+        }
+        else {
+            // LOG UNCAUGHT INCORRECT MISCONCEPTION IN DATABASE
+            $.post("http://localhost:3000/recordMisconception/" +
+                currentQid + "/false/" + currentAnswer, function () {
+                console.log('logged uncaught incorrect misconception to database')
             });
+            handleIncorrectAnswer(q.incorrectRes0.feedback);
         }
-        writeFeedback(feedback, false);
+    }
+}
+
+function handleIncorrectAnswer(feedback) {
+    // print fail message with custom feedback
+    writeFeedback(feedback, false);
+    // if there are points available to deduct
+    if (currentQscore > 0) {
+        currentQscore = currentQscore - 2;
+        // populate pts avaiable for this question
+        $('#questionPts').text(currentQscore + ' pts');
+        // record decremented score; it will never never be endLevel if incorrect answer
+        recordUserProgress(false, currentQscore, currentAnswer, currentLevel, false);
     }
 }
 
@@ -232,7 +263,6 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
                 success: function (data, res) {
                     console.log('posted levelData to server and got...' +
                         '\n      response: ' + res + '\n      data: ' + data);
-
                 }
             });
         });
@@ -241,4 +271,16 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
     else {
         alert('Yo! Looks like you already recorded your score for this question.' + '\nPlay on you little minx...');
     }
+}
+
+function testRegex(question, answer) {
+    var regex = new RegExp(answer);
+    var passed = true;
+    question.match.forEach(function (str) {
+        passed += regex.test(str);
+    });
+    question.notMatch.forEach(function (str) {
+        passed += !(regex.test(str));
+    });
+    return passed;
 }
