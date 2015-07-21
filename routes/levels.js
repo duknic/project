@@ -7,7 +7,12 @@ var stormpath = require('express-stormpath');
 
 router.get('/', stormpath.loginRequired, function (req, res, next) {
     var levelData = req.user.customData;
-    res.render('levelChoose', {givenName: req.user.givenName, levelData: levelData}, null);
+    res.render('levelChoose', {
+        givenName: req.user.givenName,
+        levelData: levelData,
+        pageClass: 'levels',
+        isLevels: true
+    }, null);
     //TODO load user data, what levels have they completed. Pass this as argument to HTML template
 });
 

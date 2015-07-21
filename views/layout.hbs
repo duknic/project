@@ -34,9 +34,11 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav homepage">
-                <li style="margin-right: 8px;font-weight: bold;"><a href="#">Hi&nbsp;{{givenName}}!</a></li>
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="/levels">Play</a></li>
+                <li class="userId">Hi&nbsp;{{givenName}}!&nbsp;&nbsp;<span
+                        class="glyphicon glyphicon-user"></span></li>
+                <li {{#if isHome}}class="active"{{/if}}><a href="/">Home</a></li>
+                <li {{#if isLevels}}class="active"{{/if}}><a href="/levels">Levels</a></li>
+                <li {{#if isStats}}class="active"{{/if}}><a href="/stats">Stats</a></li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
         </div>
@@ -46,10 +48,13 @@
 {{{body}}}
 <footer class="footer">
     <div class="container">
-        <p class="text-muted">Regex Detective 2015 - University of Birmingham Summer project</p>
+        <p class="text-muted">Regex Detective 2015 - University of Birmingham MSc Summer project</p>
     </div>
 </footer>
 </body>
+<script type="text/javascript">
+
+</script>
 </html>
 
 

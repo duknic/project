@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h1>My badges</h1>
+        </div>
+        <div class="col-lg-6">
+            <h1>Leaderboard&nbsp;
+                <small class="btn"><span class="glyphicon glyphicon-refresh"></span></small>
+            </h1>
+            <table class="table table-hover leaderboard">
+                <thead>
+                <tr>
+                    <th>name</th>
+                    <th>total score</th>
+                    <th>badges</th>
+                    <th>playing since</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="/javascripts/bs-tablesort.js"></script>
+<script type="text/javascript">
+
+    var leaderboardData = {{{json leaderboardData}}};
+    $(document).ready(function () {
+        $leaderboard = $('table.leaderboard');
+        $tbody = $leaderboard.find('tbody');
+        leaderboardData.forEach(function (player) {
+            console.log(player);
+            $tbody.append(
+                    '<tr><td>' + player.fullname + '</td> <td>' + player.total_score + '</td>' +
+                    '<td>' + player.badges + '</td> <td>' + player.createdAt + '</td></tr>'
+            );
+        });
+
+        $leaderboard.sort_table({
+            "action": "init"
+        });
+    });
+
+</script>

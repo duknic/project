@@ -5,7 +5,12 @@ var app = require('../app');
 
 /* GET home page. */
 router.get('/', stormpath.loginRequired, function (req, res) {
-    res.render('index', {title: 'Home', pageClass: 'index', givenName: req.user.givenName});
+    res.render('index', {
+        title: 'Home',
+        pageClass: 'home',
+        isHome: true,
+        givenName: req.user.givenName
+    });
 });
 
 // get userdata from client and update database
@@ -15,20 +20,25 @@ router.post('/updateUserProgress', stormpath.loginRequired, function (req, res) 
     res.status(200).send('user data updated');
 });
 
-router.post('/recordMisconception/:qId/:isCorrect/:answer', stormpath.loginRequired, function (req, res) {
+router.post('/recordMisconception/:qId/:isCorrect', stormpath.loginRequired, function (req, res) {
     var db = req.db;
     var misconceptions = db.get('misconceptions');
-    users.insert(
-        {_id: getNextSequence("misconceptions")},
-        {"userEmail": req.user.email},
-        {"questionId": req.params.qId},
-        {"isCorrect": req.params.isCorrect},
-        {"answer": req.params.answer},
-        {"dateTime": new Date().toISOString()},
-
+    var qId = decodeURIComponent(req.params.qId);
+    var isCorrect = decodeURIComponent(req.params.isCorrect);
+    var answer = req.body;
+    misconceptions.insert(
+        {
+            "userEmail": req.user.email,
+            "questionId": qId,
+            "isCorrect": isCorrect,
+            "answer": answer,
+            "dateTime": new Date().toISOString()
+        },
         function (err, doc) {
             if (err) throw err;
+            res.status(200).send('logged misconception');
         });
+
 });
 
 module.exports = router;

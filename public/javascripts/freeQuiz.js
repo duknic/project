@@ -10,7 +10,7 @@ var currentQscore = 0;
 var currentAnswer = '';
 var isEndLevel = false;
 
-$.ajaxComplete(function () {
+$(document).ajaxComplete(function () {
     displayTotalScore(levelData.total_score);
 });
 
@@ -42,10 +42,12 @@ function nextQuestion() {
         // initialise popovers on page
         $("[data-toggle=popover]").popover();
 
+
         displayTotalScore(levelData.total_score);
         var increment = (($('div.progress').outerWidth() / 100) * 33);
         var currentWidth = $('#level-progress-bar').width();
         $('#level-progress-bar').css("width", currentWidth + increment);
+
 
     } else {
         $(document).ajaxComplete(function () {
@@ -151,15 +153,17 @@ function checkAnswer(answer) {
             // else answer is correct but not in our misconceptions
             else {
                 // LOG UNCAUGHT CORRECT MISCONCEPTION IN DATABASE
-                $.post("http://localhost:3000/recordMisconception/" +
-                    currentQid + "/true/" + currentAnswer, function () {
+                var url = "http://localhost:3000/recordMisconception/" +
+                    currentQid + "/true/";
+                url = encodeURI(url);
+                $.post(url, {answer: currentAnswer}, function () {
                     console.log('logged uncaught correct misconception to database')
                 });
                 // print special message to user and mark answer as correct
                 var feedback = "<p>Oh, sorry about this, you appear to have found a way of doing this that we hadn't considered. " +
                     "You're suggestion has been logged and may go towards improving the game, thanks!</p>" +
                     "<p>In the meantime, our suggested answer was: " + q.correctRes0.regex + "</p><hr/>" +
-                    p.correctRes0.feedback;
+                    q.correctRes0.feedback;
                 handleCorrectAnswer(feedback);
             }
         }
@@ -172,8 +176,10 @@ function checkAnswer(answer) {
         }
         else {
             // LOG UNCAUGHT INCORRECT MISCONCEPTION IN DATABASE
-            $.post("http://localhost:3000/recordMisconception/" +
-                currentQid + "/false/" + currentAnswer, function () {
+            var url = "http://localhost:3000/recordMisconception/" +
+                currentQid + "/false/";
+            url = encodeURI(url);
+            $.post(url, {answer: currentAnswer}, function () {
                 console.log('logged uncaught incorrect misconception to database')
             });
             handleIncorrectAnswer(q.incorrectRes0.feedback);
