@@ -4,6 +4,7 @@
 var express = require('express');
 var router = express.Router();
 var stormpath = require('express-stormpath');
+var randexp = require('randexp');
 
 router.get('/', stormpath.loginRequired, function (req, res, next) {
     var levelData = req.user.customData;
@@ -14,6 +15,14 @@ router.get('/', stormpath.loginRequired, function (req, res, next) {
         isLevels: true
     }, null);
     //TODO load user data, what levels have they completed. Pass this as argument to HTML template
+});
+
+router.get('/progen', function (req, res) {
+    res.render('progen', {
+        title: 'PG Demo',
+        pageClass: 'progen',
+        isProgen: true
+    }, null);
 });
 
 router.get('/:num', stormpath.loginRequired, function (req, res, next) {
@@ -33,4 +42,5 @@ router.get('/:num', stormpath.loginRequired, function (req, res, next) {
         }, null);
     });
 });
+
 module.exports = router;

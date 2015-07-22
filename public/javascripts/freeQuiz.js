@@ -11,6 +11,7 @@ var currentAnswer = '';
 var isEndLevel = false;
 
 $(document).ajaxComplete(function () {
+
     displayTotalScore(levelData.total_score);
 });
 
@@ -109,7 +110,13 @@ function initQuiz(questions, levelNum) {
     currentQid = questions[0]._id;
     currentLevel = levelNum;
     questionSet = questions;
-    currentQscore = 10;
+
+    var level = "level" + currentLevel.toString();
+    var question = currentQid + "";
+    var recordedScore = levelData.progress[level][question].score;
+    currentQscore = recordedScore ? recordedScore : 10;
+    $('#questionPts').text(currentQscore + ' pts');
+
     if (questionSet != null) {
         $('#storyText').html(questionSet[0].storText);
         $('#questionText').html(questionSet[0].qText);
@@ -117,6 +124,7 @@ function initQuiz(questions, levelNum) {
 
     // initialise popovers on page
     $("[data-toggle=popover]").popover();
+
 
     displayTotalScore(levelData.total_score);
 }
@@ -160,11 +168,11 @@ function checkAnswer(answer) {
                     console.log('logged uncaught correct misconception to database')
                 });
                 // print special message to user and mark answer as correct
-                var feedback = "<p>Oh, sorry about this, you appear to have found a way of doing this that we hadn't considered. " +
+                var uncaughtCorrectFb = "<p>Oh, sorry about this, you appear to have found a way of doing this that we hadn't considered. " +
                     "You're suggestion has been logged and may go towards improving the game, thanks!</p>" +
                     "<p>In the meantime, our suggested answer was: " + q.correctRes0.regex + "</p><hr/>" +
                     q.correctRes0.feedback;
-                handleCorrectAnswer(feedback);
+                handleCorrectAnswer(uncaughtCorrectFb);
             }
         }
     }
@@ -288,7 +296,7 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
 
 function testRegex(question, answer) {
     var regex = new RegExp(answer);
-    var passed = true;
+    var passed = false;
     question.match.forEach(function (str) {
         passed += regex.test(str);
     });
