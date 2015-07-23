@@ -5,8 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hbs = require('hbs');
-//var customDataBlank = require('./public/customDataBlank.json');
-var customDataBlank = require('/public/customDataBlank.json');
+var customDataBlank = require('./public/customDataBlank.json');
 var lessMiddleware = require('less-middleware');
 
 // Database
@@ -26,25 +25,6 @@ var app = express();
 var stormpath = require('express-stormpath');
 var clientTest = require('./node_modules/express-stormpath/node_modules/stormpath/lib/stormpath.js');
 
-app.use(stormpath.init(app, {
-    expandCustomData: true,
-    postLoginHandler: function (account, req, res, next) {
-        console.log('Hey! ' + account.email + ' just logged in!');
-        next();
-    },
-    postRegistrationHandler: function (account, req, res, next) {
-        console.log('User:', account.email, 'just registered!');
-        writeCustomDataToAccount(account, customDataBlank);
-        next();
-    },
-    apiKeyId: '5AL8GJ47LK6CH9DMXKZYYSLIY',
-    apiKeySecret: 'hlizmFCKK1kg+F6aWK9orkV5xlHX7zCHfmwnoiLRhts',
-    application: 'https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo',
-    secretKey: 'mysecretkey',
-    sessionDuration: 1000 * 60 * 15, // 15 minutes of no activity
-    enableForgotPassword: true,
-}));
-
 // CREATING STORMPATH CLIENT TO TALK TO REST API
 var apiKeyFilePath = './apiKey.properties';
 // Available after the properties file is asynchronously loaded from disk.
@@ -58,12 +38,31 @@ var cacheOptions = {
 clientTest.loadApiKey(apiKeyFilePath, function (err, apiKey) {
     client = new clientTest.Client({apiKey: apiKey, cacheOptions: cacheOptions});
 });
+
 // ### END STORMPATH CLIENT CREATION
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
+app.use(stormpath.init(app, {
+    expandCustomData: true,
+    postLoginHandler: function (account, req, res, next) {
+        console.log('Hey! ' + account.email + ' just logged in!');
+        next();
+    },
+    postRegistrationHandler: function (account, req, res, next) {
+        console.log('User:', account.email, 'just registered!');
+        writeCustomDataToAccount(account, customDataBlank);
+        next();
+    },
+    //apiKeyId: '5AL8GJ47LK6CH9DMXKZYYSLIY',
+    //apiKeySecret: 'hlizmFCKK1kg+F6aWK9orkV5xlHX7zCHfmwnoiLRhts',
+    apiKeyFile: apiKeyFilePath,
+    application: 'https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo',
+    //secretKey: 'mysecretkey',
+    sessionDuration: 1000 * 60 * 15, // 15 minutes of no activity
+    enableForgotPassword: true,
+}));
 
 app.use(lessMiddleware(__dirname + '/public'));
 //app.use(express.static(__dirname + '/public'));
