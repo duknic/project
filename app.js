@@ -137,6 +137,7 @@ var writeCustomDataToAccount = function (account, dataToWrite) {
     account.getCustomData(function (err, customData) {
         for (var i in dataToWrite) {
             customData[i] = dataToWrite[i];
+            console.log('writing ' + dataToWrite[i] + ' to ' + customData[i]);
             for (var j in dataToWrite[i]) {
                 customData[i][j] = dataToWrite[i][j]
                 for (var k in dataToWrite[i][j]) {

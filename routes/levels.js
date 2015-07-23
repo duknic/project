@@ -17,10 +17,11 @@ router.get('/', stormpath.loginRequired, function (req, res, next) {
     //TODO load user data, what levels have they completed. Pass this as argument to HTML template
 });
 
-router.get('/progen', function (req, res) {
+router.get('/progen', stormpath.loginRequired, function (req, res) {
     res.render('progen', {
-        title: 'PG Demo',
+        title: 'Arcade mode',
         pageClass: 'progen',
+        givenName: req.user.givenName,
         isProgen: true
     }, null);
 });

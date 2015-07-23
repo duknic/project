@@ -17,5 +17,25 @@
     "monk": "~1.0.1",
     "express-stormpath": "1.0.5",
     "less-middleware": "~2.0"
-  }
+  },
+  "description": "MSc Summer Project",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/duknic/project.git"
+  },
+  "keywords": [
+    "game",
+    "regular",
+    "expressions",
+    "teaching",
+    "learning"
+  ],
+  "author": "Nic Duke <njd455@bham.ac.uk> (https://github.com/duknic)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/duknic/project/issues"
+  },
+  "homepage": "https://github.com/duknic/project"
 }

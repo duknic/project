@@ -237,13 +237,13 @@ function writeFeedback(text, isCorrect) {
     $('#msg-box').append(out);
 }
 
-/*
- * clear answer box on focus and remove feedback panels
- */
-$('#answerBox').focus(function () {
-    $(this).val('');
-    $('#msg-box').empty();
-});
+///*
+// * clear answer box on focus and remove feedback panels
+// */
+//$('#answerBox').focus(function () {
+//    $(this).val('');
+//    $('#msg-box').empty();
+//});
 
 function recordUserProgress(completed, currentQscore, currentAnswer, currentLevel, isEndLevel) {
 
@@ -274,7 +274,7 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
                 '\n     score: ' + levelData.progress[level][question].score +
                 '\n     answer: ' + levelData.progress[level][question].answer);
 
-            // post AJAX to server
+            // send data to server
             $.ajax({
                 url: "/updateUserProgress",
                 type: "POST",

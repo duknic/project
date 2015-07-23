@@ -2,13 +2,17 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row main-content">
-                <div class="col-md-2 no-padding-right">
+                <div class="col-md-4 no-padding-right">
                     <h2 class="no-margin">{{title}}</h2>
-                    <h4><span id="questionNum">Question 1</span>&nbsp;&nbsp;<span id="questionPts"
-                                                                                  class="label label-default">10 pts</span>
-                    </h4>
+
+                    <h3><span id="questionPts" class="label label-default label-lg">10 pts</span>&nbsp;
+                        <span style="color: #d14900;" tabindex="0" data-toggle="popover" data-trigger="focus"
+                              title="How to score points"
+                              data-content="<p><strong>Points available: </strong> (5 x difficulty)</p><p><strong>Incorrect attempt: </strong> -5</p>
+                              <p><strong>Bonus points: </strong> +1 for every character less than length of our answer!</p>"
+                              class="glyphicon glyphicon-question-sign"></span></h3>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div id="msg-box" class="center-block text-center">
                     </div>
                 </div>
@@ -18,18 +22,8 @@
                     <div id="totalScore">0</div>
                 </div>
             </div>
-            <!--<div class="row">-->
-            <!--<div class="col-lg-12">-->
-            <!--<div class="progress">-->
-            <!--<div id="level-progress-bar" class="progress-bar" role="progressbar" aria-valuenow="0"-->
-            <!--aria-valuemin="0" aria-valuemax="100" style="width: 0em;">-->
-            <!--<span class="sr-only">0% Complete</span>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
             <div class="container question-container vertical-center">
-                <div class="row">
+                <div class="row top-space">
                     <div class="col-md-12 question-box well well-lg">
                         <div class="row">
                             <h3 class="no-top-margin">Question</h3>
@@ -113,20 +107,31 @@
 <script src="/javascripts/pg-engine.js"></script>
 <script src="/javascripts/randexp.min.js"></script>
 <script src="/javascripts/bootstrap-slider.js"></script>
-<script src="/javascripts/freeQuiz.js"></script>
+<script src="/javascripts/global.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $slider = $('#slider');
         $slider.slider({
             min: 2,
             max: 10,
-            value: 2
+            value: 4
         });
+
+        $.getJSON("http://localhost:3000/customData/total_score", function (res) {
+            displayTotalScore(res);
+        })
+
+
+        $('[data-toggle="popover"]').popover({
+            html: true
+        });
+
 
         $('#nextButton').on('click', function () {
             $('#testCases').empty();
             $('#msg-box').empty();
             $('#answerBox').val('');
+            $(this).removeClass('shake');
             generateProgen($slider.data('slider').getValue());
         })
 
@@ -137,17 +142,10 @@
             }
         });
 
-        $('#submitBtn').on('click', function () {
-            var answer = $('#answerBox').val().trim();
-            var regex = new RegExp(answer);
-            var passed = false;
-            curMatch.forEach(function (str) {
-                passed += regex.test(str);
-            });
-            curNotMatch.forEach(function (str) {
-                passed += !(regex.test(str));
-            });
-            passed ? writeFeedback('SMASHED IT', true) : writeFeedback('try again bro', false);
+        $('#submitBtn').on('click', function (e) {
+            e.preventDefault();
+            checkProgenAnswer();
         });
-    });
+    })
+
 </script>

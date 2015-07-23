@@ -147,6 +147,26 @@ h1.navbar-brand {
   }
 }
 
+@-webkit-keyframes shake {
+  0% {
+    -webkit-transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(0.9);
+  }
+  100% {
+    -webkit-transform: scale(1);
+  }
+}
+
+#nextButton.shake {
+  -webkit-animation-name: shake;
+  -webkit-animation-duration: 1000ms;
+  -webkit-transform-origin: 50% 50%;
+  -webkit-animation-iteration-count: 99;
+  -webkit-animation-timing-function: linear;
+}
+
 #navbar ul li a {
   color: @rgba-secondary-1-1;
 }

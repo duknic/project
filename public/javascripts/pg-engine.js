@@ -1,7 +1,8 @@
 /**
  * Created by nic on 22/07/2015.
  *
- * ### Component 1 contains . AND \. AND (whitespace) AND *
+ * ### Component 1 contains  AND \. AND (whitespace) AND *
+ *              EDIT: taking . (dot) out
  *
  * ### Component 2 contains (a|b) AND (a|b|c)
  *
@@ -21,13 +22,15 @@
 var curMatch = [];
 var curNotMatch = [];
 var curRegex = '';
+var curProgenScore = 0;
+var curDifficulty = 0;
 //var componentCode = [[]];
 //var curAntiRegex = '';
 
 // we could mess around with these arrays and put them into easy and advanced groups
 // also, number of components is easy way of making questions more difficult
 // every array has a space character so this is more commonly included in regex (this may or may not work)
-var comp1 = ['.', '\\.', ' '];
+var comp1 = ['\\.', ' '];
 var comp2 = ['(a|b)', '(aa|bb)', '(aaa|bbb)', '(a|b|c)', '(aa|bb|cc)', '(aaa|bbb|ccc)', ' '];
 var comp3 = ['[ab]', '[abc]', '[abcd]', '[a-z]', ' '];
 var comp4 = ['{2}', '{3}', '{4}', ' '];
@@ -131,6 +134,7 @@ function getNotMatchList(numStr, regex) {
         notMatch.push(str);
         str = randomStr(numStr);
     }
+    curNotMatch = notMatch;
     return notMatch;
 }
 
@@ -143,10 +147,12 @@ function randomStr(length) {
 }
 
 function generateProgen(difficulty) {
+    curDifficulty = difficulty;
+    curProgenScore = 5 * difficulty;
+    $('#questionPts').text(curProgenScore + ' pts');
     var regex = generateRegex(difficulty);
     var match = getMatchList(difficulty, regex);
     var notMatch = getNotMatchList(difficulty, regex);
-    console.log(notMatch);
     $tbody = $('#testCases');
 
     for (var i = 0; i < match.length; i++) {
@@ -155,3 +161,72 @@ function generateProgen(difficulty) {
         )
     }
 }
+
+function checkProgenAnswer() {
+    var answer = $('#answerBox').val().trim();
+    var regex = new RegExp(answer);
+    var passed = true;
+    curMatch.forEach(function (str) {
+        passed = passed && regex.test(str);
+    });
+    curNotMatch.forEach(function (str) {
+        passed = passed && !(regex.test(str));
+    });
+    if (passed) {
+        writeFeedback('SMASHED IT', true);
+        recordProgen(curProgenScore);
+        $('#nextButton').addClass('shake');
+    } else {
+        writeFeedback('try again bro', false);
+        curProgenScore -= 5;
+        $('#questionPts').text(curProgenScore + ' pts');
+    }
+}
+
+function recordProgen(score) {
+    var newData = new Object();
+    $.getJSON('http://localhost:3000/customData/total_score', function (data) {
+        newData.total_score = data + score;
+        console.log('total_score = ' + newData.total_score)
+        displayTotalScore(newData.total_score);
+    });
+    $.getJSON('http://localhost:3000/customData/progenAnswered', function (data) {
+        newData.progenAnswered = data + 1;
+
+        console.log(newData);
+
+        // send data to server
+        $.ajax({
+            url: "/updateUserProgress",
+            type: "POST",
+            data: JSON.stringify(newData),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data, res) {
+                console.log('posted levelData to server and got...' +
+                    '\n      response: ' + res);
+            }
+        });
+    });
+}
+
+/*
+ * writeFeedback:
+ * displays a panel on the question page. Takes text to add to the body of the panel
+ * and also a boolean to say where answer is right or wrong.
+ */
+function writeFeedback(text, isCorrect) {
+    var out = "";
+    if (isCorrect) {
+        out = "<div class=\"panel panel-success\" id=\"thisPanel\"><div class=\"panel-heading\"><span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"><\/span>CORRECT" +
+            "<button type=\"button\" class=\"close\" data-target=\"#thisPanel\" data-dismiss=\"alert\"><span aria-hidden=\"true\">&times;<\/span><\/button><\/div>" +
+            "<div class=\"panel-body\" aria-hidden=\"true\">" + text + "</div><\/div>";
+
+    } else {
+        out = "<div class=\"panel panel-danger\" id=\"thisPanel\"><div class=\"panel-heading\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"><\/span>WRONG" +
+            "<button type=\"button\" class=\"close\" data-target=\"#thisPanel\" data-dismiss=\"alert\"><span aria-hidden=\"true\">&times;<\/span><span class=\"sr-only\">Close<\/span><\/button><\/div>" +
+            "<div class=\"panel-body\" aria-hidden=\"true\">" + text + "</div><\/div>";
+    }
+    $('#msg-box').append(out);
+}
+

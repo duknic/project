@@ -17,7 +17,7 @@ router.get('/', stormpath.loginRequired, function (req, res) {
 router.post('/updateUserProgress', stormpath.loginRequired, function (req, res) {
     app.writeCustomDataToAccount(req.user, req.body);
     console.log("server received updated user data");
-    res.status(200).send('user data updated');
+    res.sendStatus(200);
 });
 
 router.post('/recordMisconception/:qId/:isCorrect', stormpath.loginRequired, function (req, res) {
