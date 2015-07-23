@@ -5,7 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hbs = require('hbs');
-var customDataBlank = require('./public/customDataBlank.json');
+//var customDataBlank = require('./public/customDataBlank.json');
+var customDataBlank = require('/public/customDataBlank.json');
 var lessMiddleware = require('less-middleware');
 
 // Database

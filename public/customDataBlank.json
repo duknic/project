@@ -1,0 +1,134 @@
+{
+  "progress": {
+    "maxLevel": 1,
+    "level1": {
+      "1": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "2": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "3": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      }
+    },
+    "level2": {
+      "4": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "5": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "6": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      }
+    },
+    "level3": {
+      "7": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "8": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "9": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "10": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      }
+    },
+    "level4": {
+      "11": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "12": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "13": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      }
+    },
+    "level5": {
+      "14": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "15": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "16": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      }
+    },
+    "level6": {
+      "17": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "18": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "19": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      }
+    },
+    "level7": {
+      "20": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "21": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      },
+      "22": {
+        "completed": false,
+        "score": null,
+        "answer": null
+      }
+    }
+  },
+  "total_score": 0,
+  "progenAnswered": 0,
+  "badges": [
+  ]
+}
+
