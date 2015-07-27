@@ -43,7 +43,6 @@ var chars = 'aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789';
 
 function generateRegex(numComps) {
     var regex = '';
-    //var spanner = Math.floor(Math.random() * 6);
 
     for (var i = 0; i <= numComps; i++) {
         var x = Math.floor(Math.random() * components.length);
@@ -147,6 +146,7 @@ function randomStr(length) {
 }
 
 function generateProgen(difficulty) {
+    $('#submitBtn').removeClass('disabled').prop('disabled', false);
     curDifficulty = difficulty;
     curProgenScore = 5 * difficulty;
     $('#questionPts').text(curProgenScore + ' pts');
@@ -173,6 +173,7 @@ function checkProgenAnswer() {
         passed = passed && !(regex.test(str));
     });
     if (passed) {
+        $('#submitBtn').addClass('disabled').prop('disabled', true);
         writeFeedback('SMASHED IT', true);
         recordProgen(curProgenScore);
         $('#nextButton').addClass('shake');

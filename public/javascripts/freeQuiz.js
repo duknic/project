@@ -290,18 +290,18 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
     }
     // else question is already marked as completed
     else {
-        alert('Yo! Looks like you already recorded your score for this question.' + '\nPlay on you little minx...');
+        alert('It looks like you already recorded your score for this question.' + '\nPlay on by clicking Next...');
     }
 }
 
 function testRegex(question, answer) {
     var regex = new RegExp(answer);
-    var passed = false;
+    var passed = true;
     question.match.forEach(function (str) {
-        passed += regex.test(str);
+        passed = passed && regex.test(str);
     });
     question.notMatch.forEach(function (str) {
-        passed += !(regex.test(str));
+        passed = passed && !(regex.test(str));
     });
     return passed;
 }

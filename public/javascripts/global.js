@@ -57,14 +57,11 @@ function getValidScore(questionId, levelNum, questionScore, callback) {
 }
 
 
-//function getValidScore(questionID, levelNum, questionScore, callback) {
-//    var url = '/customData/progress/level' + levelNum + '/' + questionID + '/score';
-//    $.getJSON(url, function (recordedScore) {
-//        var score = recordedScore ? Math.min(recordedScore, questionScore) : questionScore;
-//        if (typeof callback == 'function') {
-//            callback(score);
-//        }
-//    });
-//}
+function awardBadge(badgeId) {
+    $.get('/modal.html', function (data) {
+        $(data).appendTo('body');
+        $('#badgeModal').modal('show')
+    });
+}
 
 

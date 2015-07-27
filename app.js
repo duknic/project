@@ -60,7 +60,7 @@ app.use(stormpath.init(app, {
     apiKeyFile: apiKeyFilePath,
     application: 'https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo',
     //secretKey: 'mysecretkey',
-    sessionDuration: 1000 * 60 * 15, // 15 minutes of no activity
+    sessionDuration: 1000 * 60 * 30, // 15 minutes of no activity
     enableForgotPassword: true,
 }));
 
