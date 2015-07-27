@@ -122,7 +122,7 @@
 
         var qs = {{{json questions}}};
 
-        $.getJSON('http://localhost:3000/customData', function (data) {
+        $.getJSON('/customData', function (data) {
             levelData = data;
             initQuiz(qs, {{level}});
             displayUserProgress(data);

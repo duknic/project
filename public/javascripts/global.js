@@ -43,7 +43,7 @@ function getValidScore(questionId, levelNum, questionScore, callback) {
     var level = "level" + levelNum.toString();
     var question = questionId + "";
 
-    $.getJSON('http://localhost:3000/customData', function (data) {
+    $.getJSON('/customData', function (data) {
         var recordedScore = data.progress[level][question].score;
         var score = recordedScore ? Math.min(recordedScore, questionScore) : questionScore;
         if (typeof callback == 'function') {
@@ -58,7 +58,7 @@ function getValidScore(questionId, levelNum, questionScore, callback) {
 
 
 //function getValidScore(questionID, levelNum, questionScore, callback) {
-//    var url = 'http://localhost:3000/customData/progress/level' + levelNum + '/' + questionID + '/score';
+//    var url = '/customData/progress/level' + levelNum + '/' + questionID + '/score';
 //    $.getJSON(url, function (recordedScore) {
 //        var score = recordedScore ? Math.min(recordedScore, questionScore) : questionScore;
 //        if (typeof callback == 'function') {

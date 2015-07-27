@@ -55,7 +55,7 @@ function nextQuestion() {
             $('#nextButton').button('reset');
             $('.modal-footer button').on('click', function () {
                 // send endofLevel boolean to record function
-                window.location.href = 'http://localhost:3000/levels/' + (currentLevel + 1);
+                window.location.href = '/levels/' + (currentLevel + 1);
             });
             $('#badgeModal .modal-footer button').html('Level ' + (currentLevel + 1));
             $('#badgeModal').modal('show');
@@ -161,7 +161,7 @@ function checkAnswer(answer) {
             // else answer is correct but not in our misconceptions
             else {
                 // LOG UNCAUGHT CORRECT MISCONCEPTION IN DATABASE
-                var url = "http://localhost:3000/recordMisconception/" +
+                var url = "/recordMisconception/" +
                     currentQid + "/true/";
                 url = encodeURI(url);
                 $.post(url, {answer: currentAnswer}, function () {
@@ -184,7 +184,7 @@ function checkAnswer(answer) {
         }
         else {
             // LOG UNCAUGHT INCORRECT MISCONCEPTION IN DATABASE
-            var url = "http://localhost:3000/recordMisconception/" +
+            var url = "/recordMisconception/" +
                 currentQid + "/false/";
             url = encodeURI(url);
             $.post(url, {answer: currentAnswer}, function () {

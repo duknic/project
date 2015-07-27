@@ -185,12 +185,12 @@ function checkProgenAnswer() {
 
 function recordProgen(score) {
     var newData = new Object();
-    $.getJSON('http://localhost:3000/customData/total_score', function (data) {
+    $.getJSON('/customData/total_score', function (data) {
         newData.total_score = data + score;
         console.log('total_score = ' + newData.total_score)
         displayTotalScore(newData.total_score);
     });
-    $.getJSON('http://localhost:3000/customData/progenAnswered', function (data) {
+    $.getJSON('/customData/progenAnswered', function (data) {
         newData.progenAnswered = data + 1;
 
         console.log(newData);
