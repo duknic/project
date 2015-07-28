@@ -52,7 +52,7 @@ app.use(stormpath.init(app, {
     },
     postRegistrationHandler: function (account, req, res, next) {
         console.log('User:', account.email, 'just registered!');
-        writeCustomDataToAccount(account, customDataBlank);
+        writeCustomDataToAccount(account, customDataBlank, null);
         next();
     },
     //apiKeyId: '5AL8GJ47LK6CH9DMXKZYYSLIY',
@@ -60,7 +60,7 @@ app.use(stormpath.init(app, {
     apiKeyFile: apiKeyFilePath,
     application: 'https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo',
     //secretKey: 'mysecretkey',
-    sessionDuration: 1000 * 60 * 30, // 15 minutes of no activity
+    //sessionDuration: 1000 * 60 * 30, // 15 minutes of no activity
     enableForgotPassword: true,
 }));
 
@@ -133,11 +133,11 @@ hbs.registerHelper('isEquals', function (e1, e2) {
     return (e1 == e2);
 });
 
-var writeCustomDataToAccount = function (account, dataToWrite) {
+var writeCustomDataToAccount = function (account, dataToWrite, callback) {
     account.getCustomData(function (err, customData) {
         for (var i in dataToWrite) {
             customData[i] = dataToWrite[i];
-            console.log('writing ' + dataToWrite[i] + ' to ' + customData[i]);
+            //console.log('writing ' + dataToWrite[i] + ' to ' + customData[i]);
             for (var j in dataToWrite[i]) {
                 customData[i][j] = dataToWrite[i][j]
                 for (var k in dataToWrite[i][j]) {
@@ -145,10 +145,80 @@ var writeCustomDataToAccount = function (account, dataToWrite) {
                 }
             }
         }
-        customData.save();
+        customData.save(function (err) {
+            account.getCustomData(function (err, customData) {
+                if (typeof callback == 'function') {
+                    callback(customData);
+                }
+            })
+        });
     });
+
 };
 
+function arrayDifference(a, b) {
+    return a.filter(function (i) {
+        return b.indexOf(i) < 0;
+    });
+}
+var checkForBadges = function (customData, callback) {
+    //var badgesRewarded = [{"id": "1", "btnLink": "http://google.com"}, {"id" : 2}];
+    var badgesRewarded = [];
+    badgesForTotalScore(customData, function (data) {
+        badgesRewarded = badgesRewarded.concat(data);
+        //check that returned badges don't already exist for user
+        if (typeof callback == 'function') {
+            console.log('string JSON is: ' + JSON.stringify(badgesRewarded));
+
+            //var toCallback = intersect(badgesRewarded, customData.badges);
+            //console.log('diff test: ' + intersect([{"id": 1}, {"id": 2}], [{"id": 1}]));
+            //console.log('rewarded: ' + JSON.stringify(badgesRewarded) + '\nexisting: ' + JSON.stringify(customData.badges) + '\ndiff: ' + JSON.stringify(toCallback));
+
+            callback(JSON.stringify(badgesRewarded));
+            customData.badges = customData.badges.concat(badgesRewarded);
+            customData.save();
+        }
+    });
+}
+
+var badgesForTotalScore = function (customData, callback) {
+    var badgesRewarded = [];
+    var ts = customData.total_score;
+    console.log('ts = ' + ts);
+
+    if (ts > 14) {
+        badgesRewarded.push(1);
+    }
+    if (ts > 24) {
+        badgesRewarded.push(2);
+    }
+    if (ts > 49) {
+        badgesRewarded.push(3);
+    }
+    if (ts > 99) {
+        badgesRewarded.push(4);
+    }
+    if (ts > 199) {
+        badgesRewarded.push(5);
+    }
+    if (ts > 399) {
+        badgesRewarded.push(6);
+    }
+    if (ts > 699) {
+        badgesRewarded.push(7);
+    }
+    if (ts > 999) {
+        badgesRewarded.push(8);
+    }
+
+    if (typeof callback == 'function') {
+        console.log('rewarded: ' + JSON.stringify(badgesRewarded) + '\nexisting: ' + JSON.stringify(customData.badges) + '\ndiff: ' + JSON.stringify(arrayDifference(badgesRewarded, customData.badges)));
+        callback(arrayDifference(badgesRewarded, customData.badges));
+    }
+    //console.log('badges rewarded are: ' + badgesRewarded)
+}
+
+exports.checkForBadges = checkForBadges;
 exports.writeCustomDataToAccount = writeCustomDataToAccount;
 
 module.exports = app;

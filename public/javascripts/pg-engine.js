@@ -58,7 +58,7 @@ function generateRegex(numComps) {
     }
     regex = replaceCharacters(regex);
     curRegex = regex;
-    return regex;
+    return regex.trim();
 }
 
 function replaceCharacters(regex) {
@@ -147,6 +147,7 @@ function randomStr(length) {
 
 function generateProgen(difficulty) {
     $('#submitBtn').removeClass('disabled').prop('disabled', false);
+    $('.modal').remove();
     curDifficulty = difficulty;
     curProgenScore = 5 * difficulty;
     $('#questionPts').text(curProgenScore + ' pts');
@@ -194,16 +195,16 @@ function recordProgen(score) {
     $.getJSON('/customData/progenAnswered', function (data) {
         newData.progenAnswered = data + 1;
 
-        console.log(newData);
-
         // send data to server
         $.ajax({
             url: "/updateUserProgress",
             type: "POST",
             data: JSON.stringify(newData),
             contentType: "application/json; charset=utf-8",
-            dataType: "html",
-            success: function (data, res) {
+            dataType: "json",
+            success: function (data, res, jqXHR) {
+                console.log('data is: ' + data);
+                rewardBadges(data);
                 console.log('posted levelData to server and got...' +
                     '\n      response: ' + res);
             }

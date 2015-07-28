@@ -1,7 +1,3 @@
-function awardBadge(badgeId) {
-    //TODO generic badge modal display for anywhere in quiz
-}
-
 function displayUserProgress(levelData) {
     // populate level progress bar
     var currentLevel = levelData.progress['maxLevel'];
@@ -30,15 +26,6 @@ function displayTotalScore(totalScore) {
     });
 }
 
-//CHECK IF BROWSER SUPPORTS LOCAL STORAGE
-function supports_html5_storage() {
-    try {
-        return 'localStorage' in window && window['localStorage'] !== null;
-    } catch (e) {
-        return false;
-    }
-}
-
 function getValidScore(questionId, levelNum, questionScore, callback) {
     var level = "level" + levelNum.toString();
     var question = questionId + "";
@@ -56,11 +43,39 @@ function getValidScore(questionId, levelNum, questionScore, callback) {
     });
 }
 
+function rewardBadges(badgeArray) {
+    badgeArray = JSON.parse(badgeArray);
+    var last = (badgeArray.length - 1);
 
-function awardBadge(badgeId) {
+    $.each(badgeArray, function (index, value) {
+        if (index == last) {
+            makeBadgeModal(value, badgeArray[0]);
+        } else {
+            makeBadgeModal(value, null);
+        }
+    })
+}
+
+function makeBadgeModal(badge, lastElem) {
     $.get('/modal.html', function (data) {
-        $(data).appendTo('body');
-        $('#badgeModal').modal('show')
+        var badgeId = badge;
+
+        $(data).appendTo('body').attr("id", ("badge" + badgeId));
+        $modal = $("#badge" + badgeId);
+        $modal.find('.modal-body').append("<img src=\"/images/badges/" + badgeId + ".png\" alt=\"badge icon\"/>");
+
+        //if (typeof badge.btnLink != 'undefined') {
+        //    $modal.find('a.modal-link').attr("href", badge.btnLink);
+        //} else {
+        var href = "#badge" + (badgeId + 1);
+        console.log('adding link: ' + href);
+        $modal.find('a.modal-link').attr("href", href);
+        //}
+
+        // TODO remember that this only works for badge id = 1!
+        if (lastElem != null) {
+            $('#badge' + lastElem).modal('show');
+        }
     });
 }
 

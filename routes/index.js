@@ -15,9 +15,12 @@ router.get('/', stormpath.loginRequired, function (req, res) {
 
 // get userdata from client and update database
 router.post('/updateUserProgress', stormpath.loginRequired, function (req, res) {
-    app.writeCustomDataToAccount(req.user, req.body);
-    console.log("server received updated user data");
-    res.sendStatus(200);
+    app.writeCustomDataToAccount(req.user, req.body, function (customData) {
+        app.checkForBadges(customData, function (badges) {
+            res.status(200).json(badges);
+        });
+        console.log("server received updated user data");
+    });
 });
 
 router.post('/recordMisconception/:qId/:isCorrect', stormpath.loginRequired, function (req, res) {

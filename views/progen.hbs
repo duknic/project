@@ -79,6 +79,9 @@
                                 <button class="btn btn-primary center-block" type="button" id="submitBtn">
                                     Submit
                                 </button>
+                                <button class="btn btn-primary center-block" type="button" id="cheat">
+                                    CHEAT
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -146,6 +149,12 @@
             e.preventDefault();
             checkProgenAnswer();
         });
+
+        $('#cheat').on('click', function (e) {
+            e.preventDefault();
+            $('#answerBox').val(curRegex);
+            checkProgenAnswer();
+        })
     })
 
 </script>

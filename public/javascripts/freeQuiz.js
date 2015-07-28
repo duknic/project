@@ -11,7 +11,6 @@ var currentAnswer = '';
 var isEndLevel = false;
 
 $(document).ajaxComplete(function () {
-
     displayTotalScore(levelData.total_score);
 });
 
@@ -53,12 +52,11 @@ function nextQuestion() {
     } else {
         $(document).ajaxComplete(function () {
             $('#nextButton').button('reset');
-            $('.modal-footer button').on('click', function () {
-                // send endofLevel boolean to record function
-                window.location.href = '/levels/' + (currentLevel + 1);
-            });
-            $('#badgeModal .modal-footer button').html('Level ' + (currentLevel + 1));
-            $('#badgeModal').modal('show');
+            //$('.modal-footer button').on('click', function () {
+            //    window.location.href = '/levels/' + (currentLevel + 1);
+            //});
+            //$('#badgeModal .modal-footer button').html('Level ' + (currentLevel + 1));
+            //$('#badgeModal').modal('show');
         });
         $('#level-progress-bar').css("width", $('div.progress').outerWidth());
         displayTotalScore(levelData.total_score);
@@ -168,7 +166,7 @@ function checkAnswer(answer) {
                     console.log('logged uncaught correct misconception to database')
                 });
                 // print special message to user and mark answer as correct
-                var uncaughtCorrectFb = "<p>Oh, sorry about this, you appear to have found a way of doing this that we hadn't considered. " +
+                var uncaughtCorrectFb = "<p>You may have found an expression we hadn't considered. " +
                     "You're suggestion has been logged and may go towards improving the game, thanks!</p>" +
                     "<p>In the meantime, our suggested answer was: " + q.correctRes0.regex + "</p><hr/>" +
                     q.correctRes0.feedback;
@@ -237,14 +235,6 @@ function writeFeedback(text, isCorrect) {
     $('#msg-box').append(out);
 }
 
-///*
-// * clear answer box on focus and remove feedback panels
-// */
-//$('#answerBox').focus(function () {
-//    $(this).val('');
-//    $('#msg-box').empty();
-//});
-
 function recordUserProgress(completed, currentQscore, currentAnswer, currentLevel, isEndLevel) {
 
     var level = "level" + currentLevel.toString();
@@ -280,8 +270,10 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
                 type: "POST",
                 data: JSON.stringify(levelData),
                 contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                success: function (data, res) {
+                //dataType: "html",
+                dataType: "json",
+                success: function (data, res, jqXHR) {
+                    rewardBadges(data);
                     console.log('posted levelData to server and got...' +
                         '\n      response: ' + res + '\n      data: ' + data);
                 }
