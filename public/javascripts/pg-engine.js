@@ -201,10 +201,10 @@ function recordProgen(score) {
             type: "POST",
             data: JSON.stringify(newData),
             contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            //dataType: "json",
             success: function (data, res, jqXHR) {
-                console.log('data is: ' + data);
-                rewardBadges(data);
+                //console.log('data is: ' + data);
+                rewardBadges(data, false);
                 console.log('posted levelData to server and got...' +
                     '\n      response: ' + res);
             }

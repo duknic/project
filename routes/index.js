@@ -15,8 +15,8 @@ router.get('/', stormpath.loginRequired, function (req, res) {
 
 // get userdata from client and update database
 router.post('/updateUserProgress', stormpath.loginRequired, function (req, res) {
-    app.writeCustomDataToAccount(req.user, req.body, function (customData) {
-        app.checkForBadges(customData, function (badges) {
+    app.writeCustomDataToAccount(req.user, req.body, function (newData) {
+        app.checkForBadges(newData, function (badges) {
             res.status(200).json(badges);
         });
         console.log("server received updated user data");

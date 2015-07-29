@@ -32,7 +32,7 @@ router.get('/:num', stormpath.loginRequired, function (req, res, next) {
     var db = req.db;
     var col = db.get('questions');
     col.find({level_num: parseInt(num)}, {}, function (e, docs) {
-        console.log(docs);
+
         res.render('freetext', {
             pageClass: 'freetext',
             title: 'Level ' + num,

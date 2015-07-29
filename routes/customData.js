@@ -12,4 +12,8 @@ router.get('/:field', stormpath.loginRequired, function (req, res) {
     res.json(req.user.customData[req.params.field]);
 });
 
+router.get('/:field/:subfield', stormpath.loginRequired, function (req, res) {
+    res.json(req.user.customData[req.params.field][req.params.subfield]);
+});
+
 module.exports = router;

@@ -156,30 +156,60 @@ var writeCustomDataToAccount = function (account, dataToWrite, callback) {
 
 };
 
+//var writeCustomDataToAccount = function (account, dataToWrite, callback) {
+//    account.getCustomData(function (err, customData) {
+//        for (var i in dataToWrite) {
+//            customData[i] = dataToWrite[i];
+//            //console.log('writing ' + dataToWrite[i] + ' to ' + customData[i]);
+//            for (var j in dataToWrite[i]) {
+//                customData[i][j] = dataToWrite[i][j]
+//                for (var k in dataToWrite[i][j]) {
+//                    customData[i][j][k] = dataToWrite[i][j][k];
+//                }
+//            }
+//        }
+//
+//        if (typeof callback == 'function') {
+//            console.log('calling writecustom callback');
+//            callback(customData);
+//        } else {
+//            customData.save();
+//        }
+//
+//    });
+//};
+
+// TODO cite usage
 function arrayDifference(a, b) {
     return a.filter(function (i) {
         return b.indexOf(i) < 0;
     });
 }
+
 var checkForBadges = function (customData, callback) {
-    //var badgesRewarded = [{"id": "1", "btnLink": "http://google.com"}, {"id" : 2}];
-    var badgesRewarded = [];
     badgesForTotalScore(customData, function (data) {
-        badgesRewarded = badgesRewarded.concat(data);
-        //check that returned badges don't already exist for user
+        customData.badges = customData.badges.concat(data);
         if (typeof callback == 'function') {
-            console.log('string JSON is: ' + JSON.stringify(badgesRewarded));
-
-            //var toCallback = intersect(badgesRewarded, customData.badges);
-            //console.log('diff test: ' + intersect([{"id": 1}, {"id": 2}], [{"id": 1}]));
-            //console.log('rewarded: ' + JSON.stringify(badgesRewarded) + '\nexisting: ' + JSON.stringify(customData.badges) + '\ndiff: ' + JSON.stringify(toCallback));
-
-            callback(JSON.stringify(badgesRewarded));
-            customData.badges = customData.badges.concat(badgesRewarded);
-            customData.save();
+            customData.save(function (err, data) {
+                console.log('saving badges: ' + data.badges);
+            });
+            callback(JSON.stringify(data));
         }
     });
 }
+//var checkForBadges = function (customData, callback) {
+//    var badgesRewarded = [];
+//    badgesForTotalScore(customData, function (newBadges) {
+//        if (typeof callback == 'function') {
+//            //callback(JSON.stringify(badgesRewarded.concat(newBadges)));
+//            callback(JSON.stringify(badgesRewarded.concat(newBadges)));
+//            joinBadgeArrays(customData.badges, newBadges, function () {
+//                customData.save();
+//            });
+//
+//        }
+//    });
+//}
 
 var badgesForTotalScore = function (customData, callback) {
     var badgesRewarded = [];
@@ -212,7 +242,8 @@ var badgesForTotalScore = function (customData, callback) {
     }
 
     if (typeof callback == 'function') {
-        console.log('rewarded: ' + JSON.stringify(badgesRewarded) + '\nexisting: ' + JSON.stringify(customData.badges) + '\ndiff: ' + JSON.stringify(arrayDifference(badgesRewarded, customData.badges)));
+        console.log('rewarded: ' + JSON.stringify(badgesRewarded) + '\nexisting: ' +
+            JSON.stringify(customData.badges) + '\ndiff: ' + JSON.stringify(arrayDifference(badgesRewarded, customData.badges)));
         callback(arrayDifference(badgesRewarded, customData.badges));
     }
     //console.log('badges rewarded are: ' + badgesRewarded)

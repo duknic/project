@@ -2,6 +2,10 @@
     <div class="row">
         <div class="col-lg-6">
             <h1>My badges</h1>
+
+            <div id="badgeContainer">
+
+            </div>
         </div>
         <div class="col-lg-6">
             <h1>Leaderboard&nbsp;
@@ -33,12 +37,24 @@
             console.log(player);
             $tbody.append(
                     '<tr><td>' + player.fullname + '</td> <td>' + player.total_score + '</td>' +
-                    '<td>' + player.badges + '</td> <td>' + player.createdAt + '</td></tr>'
+                    '<td>' + player.badges.length + '</td> <td>' + player.createdAt + '</td></tr>'
             );
         });
 
         $leaderboard.sort_table({
             "action": "init"
+        });
+
+        $.getJSON('/customData/badges', function (badges) {
+            $.getJSON('/customData/progress/maxLevel', function (maxLevel) {
+                console.log('badges = ' + badges + '\nmaxLevel = ' + maxLevel);
+                for (var badge in badges) {
+                    $('#badgeContainer').append("<img src=\"/images/badges/" + badges[badge] + ".png\" alt=\"badge icon\"/>");
+                }
+                for (var i = 1; i <= maxLevel; i++) {
+                    $('#badgeContainer').append("<img src=\"/images/badges/lev" + i + ".png\" alt=\"badge icon\"/>");
+                }
+            });
         });
     });
 

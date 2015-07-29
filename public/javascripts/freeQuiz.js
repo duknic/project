@@ -8,6 +8,7 @@ var currentQid = '';
 var currentLevel = 1;
 var currentQscore = 0;
 var currentAnswer = '';
+var currentBadges = [];
 var isEndLevel = false;
 
 $(document).ajaxComplete(function () {
@@ -15,6 +16,7 @@ $(document).ajaxComplete(function () {
 });
 
 function nextQuestion() {
+    $('.modal').remove();
     if (currentQinSet < questionSet.length - 1) {
         currentQinSet++;
         currentQid = questionSet[currentQinSet]._id;
@@ -65,7 +67,7 @@ function nextQuestion() {
 }
 
 function prevQuestion() {
-
+    $('.modal').remove();
     if (currentQinSet > 0) {
         $('#nextButton').show();
         currentQinSet--;
@@ -249,33 +251,35 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
             // completed is true if answer is correct, update total score
             if (completed) {
                 levelData.total_score = (currentQscore + levelData.total_score);
+                levelData.badges = currentBadges;
                 levelData.progress[level][question].completed = completed;
             }
 
             levelData.progress[level][question].score = currentQscore;
-            levelData.progress[level][question].answer = currentAnswer.toString();
+            levelData.progress[level][question].ansbadgeswer = currentAnswer.toString();
 
             if (isEndLevel) {
                 levelData.progress.maxLevel = currentLevel + 1;
             }
 
-            console.log('Recording for Qid: ' + question + ': \n     total score: ' + levelData.total_score +
-                '\n     completed: ' + levelData.progress[level][question].completed +
-                '\n     score: ' + levelData.progress[level][question].score +
-                '\n     answer: ' + levelData.progress[level][question].answer);
+            //
+            //console.log('Recording for Qid: ' + question + ': \n     total score: ' + levelData.total_score +
+            //    '\n     completed: ' + levelData.progress[level][question].completed +
+            //    '\n     score: ' + levelData.progress[level][question].score +
+            //    '\n     answer: ' + levelData.progress[level][question].answer);
+
 
             // send data to server
             $.ajax({
                 url: "/updateUserProgress",
-                type: "POST",
+                method: "POST",
                 data: JSON.stringify(levelData),
                 contentType: "application/json; charset=utf-8",
-                //dataType: "html",
-                dataType: "json",
-                success: function (data, res, jqXHR) {
-                    rewardBadges(data);
+                //dataType: "json",
+                success: function (data, res) {
+                    rewardBadges(data, isEndLevel);
                     console.log('posted levelData to server and got...' +
-                        '\n      response: ' + res + '\n      data: ' + data);
+                        '\n      response: ' + res);
                 }
             });
         });
