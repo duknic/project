@@ -18,6 +18,7 @@ var users = require('./routes/users');
 var levels = require('./routes/levels');
 var customData = require('./routes/customData');
 var stats = require('./routes/stats');
+var admin = require('./routes/admin');
 
 var app = express();
 
@@ -71,7 +72,8 @@ app.use(lessMiddleware(__dirname + '/public'));
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+ app.use(bodyParser.urlencoded({extended: false}));
+
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -93,6 +95,7 @@ app.use('/users', users);
 app.use('/levels', levels);
 app.use('/customData', customData);
 app.use('/stats', stats);
+app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -137,13 +140,14 @@ var writeCustomDataToAccount = function (account, dataToWrite, callback) {
     account.getCustomData(function (err, customData) {
         for (var i in dataToWrite) {
             customData[i] = dataToWrite[i];
-            //console.log('writing ' + dataToWrite[i] + ' to ' + customData[i]);
-            for (var j in dataToWrite[i]) {
-                customData[i][j] = dataToWrite[i][j]
-                for (var k in dataToWrite[i][j]) {
-                    customData[i][j][k] = dataToWrite[i][j][k];
-                }
-            }
+            //for (var j in dataToWrite[i]) {
+            //    console.log('inside loop 2');
+            //    customData[i][j] = dataToWrite[i][j]
+            //    for (var k in dataToWrite[i][j]) {
+            //        console.log('inside loop 3');
+            //        customData[i][j][k] = dataToWrite[i][j][k];
+            //    }
+            //}
         }
         customData.save(function (err) {
             account.getCustomData(function (err, customData) {

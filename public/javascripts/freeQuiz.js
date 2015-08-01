@@ -113,6 +113,7 @@ function initQuiz(questions, levelNum) {
 
     var level = "level" + currentLevel.toString();
     var question = currentQid + "";
+    currentBadges = levelData.badges;
     var recordedScore = levelData.progress[level][question].score;
     currentQscore = recordedScore ? recordedScore : 10;
     $('#questionPts').text(currentQscore + ' pts');
@@ -276,6 +277,7 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
                 data: JSON.stringify(levelData),
                 contentType: "application/json; charset=utf-8",
                 //dataType: "json",
+                crossDomain: true,
                 success: function (data, res) {
                     rewardBadges(data, isEndLevel);
                     console.log('posted levelData to server and got...' +

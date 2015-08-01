@@ -1,3 +1,6 @@
+/*
+ * https://github.com/laiconglin/bootstrap3_jquery_table_sortable
+ */
 (function ($) {
     "use strict";
     $.fn.sort_table = function (options) {
@@ -164,11 +167,11 @@
                 span.remove();
             }
             if (type == 'sortable') {
-                head_th.append('&nbsp;&nbsp;<span class="glyphicon glyphicon-sort"></span>');
+                head_th.append('<span class="glyphicon glyphicon-sort"></span>');
             } else if (type == 'up') {
-                head_th.append('&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-up"></span>');
+                head_th.append('<span class="glyphicon glyphicon-arrow-up"></span>');
             } else if (type == 'down') {
-                head_th.append('&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-down"></span>');
+                head_th.append('<span class="glyphicon glyphicon-arrow-down"></span>');
             }
         }
 

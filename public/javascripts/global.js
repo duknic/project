@@ -5,7 +5,8 @@ function displayUserProgress(levelData) {
     for (var i = 1; i < currentLevel; i++) {
         $('.bs-wizard-step:nth-child(' + i + ')').removeClass('disabled').addClass('complete');
         // grab all completed levels and give them a tick
-        $('.btn-level-choose\[value=' + i + '\]').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>' + '<br/>Level ' + i).addClass('level-complete');
+        //$('.panel-default\[value=' + i + '\]').children(".panel-heading").html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>' + '<br/>Level ' + i).addClass('level-complete');
+        $('.panel-default\[value=' + i + '\]').children(".panel-heading").append('&nbsp;<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>').addClass('level-complete');
 
     }
     $('.bs-wizard-step:nth-child(' + currentLevel + ')').removeClass('disabled').addClass('active');
@@ -62,7 +63,7 @@ function rewardBadges(badgeArray, isEndLevel) {
             $modal.attr("id", ("badge" + nextId));
             $modal.find('.modal-body').append("<img src=\"/images/badges/lev" + (currentLevel) + ".png\" alt=\"badge icon\"/>");
             var href = '/levels/' + (currentLevel + 1);
-            $modal.find('a.modal-link').attr({"href": href, "data-toggle": "", "data-dismiss": ""});
+            $modal.find('a.modal-link').attr({"href": href, "data-toggle": "", "data-dismiss": ""}).text("Go to level "+ (currentLevel + 1));
             if (badgeArray.length === 0) {
                 $modal.modal('show');
             }

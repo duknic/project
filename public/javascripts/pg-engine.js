@@ -24,8 +24,7 @@ var curNotMatch = [];
 var curRegex = '';
 var curProgenScore = 0;
 var curDifficulty = 0;
-//var componentCode = [[]];
-//var curAntiRegex = '';
+var currentBadges = [];
 
 // we could mess around with these arrays and put them into easy and advanced groups
 // also, number of components is easy way of making questions more difficult
@@ -48,13 +47,7 @@ function generateRegex(numComps) {
         var x = Math.floor(Math.random() * components.length);
         var xLength = components[x].length;
         var y = Math.floor(Math.random() * xLength);
-        //componentCode.push([x, y]);
         regex += components[x][y];
-        //curAntiRegex += components[x][y];
-        //
-        //if (i == spanner) {
-        //
-        //}
     }
     regex = replaceCharacters(regex);
     curRegex = regex;

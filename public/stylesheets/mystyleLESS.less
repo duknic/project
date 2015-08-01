@@ -18,9 +18,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 body {
+  #main-content {
+    font: 14px/1.5 "Roboto Slab", Arial, serif;
+  }
   padding-top: 50px;
-  //font-family: 14px/1.5 "Lucida Grande", Helvetica, Arial, sans-serif;
-  font-family: 14px/1.5 "Roboto Slab", serif;
   margin-bottom: 60px;
   background: url('/images/crossword-bkgd.png') repeat top left;
 }
@@ -82,6 +83,7 @@ div.paper-note:before, .box:after {
 #badgeContainer img {
   max-width: 30%;
   margin-right: 1em;
+  margin-bottom: 1em;
   float: left;
 }
 
@@ -184,6 +186,10 @@ div.main {
 
 div.row.top-space {
   margin-top: 20px;
+}
+
+div.row.top-space-big {
+  margin-top: 40px;
 }
 
 div.row.bottom-space {
@@ -396,15 +402,6 @@ span.glyphicon {
 
 /*END Form Wizard*/
 
-div.levelsGrid button {
-  //width: 100%;
-  //height: 100%;
-  //align-items: center;
-  ///*min-width: 280px;*/
-  //min-height: 220px;
-  //margin: 24px;
-}
-
 /*Level progress bar*/
 .freetext .progress {
   background: rgba(245, 245, 245, 1);
@@ -414,49 +411,64 @@ div.levelsGrid button {
 }
 
 //LEVEL CHOOSE BUTTONS
-.btn-level-choose {
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  min-height: 140px;
-  margin: 16px 24px;
-  font-size: 3em;
-  color: #ffffff;
-  text-shadow: 0px 0px 3px #4d4d4d;
-  line-height: 40px;
-  background-color: #009e6e;
-  background-image: -moz-linear-gradient(top, #008a60, #00bd83);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#008a60), to(#00bd83));
-  background-image: -webkit-linear-gradient(top, #008a60, #00bd83);
-  background-image: -o-linear-gradient(top, #008a60, #00bd83);
-  background-image: linear-gradient(to bottom, #008a60, #00bd83);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff008a60', endColorstr='#ff00bd83', GradientType=0);
-  border-color: #00bd83 #00bd83 #00714e;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #00bd83;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+.levelsGrid {
 
-  &.active, &:active {
-    color: rgba(255, 255, 255, 0.75);
-    background-color: #008a60;
+  .panel-default {
+    border-color: #00bd83 #00bd83 #00714e;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
-  &:hover,
-  &:focus,
-  &:active,
-  &.active,
-  &.disabled,
-  &[disabled] {
+  .panel-heading {
+
+    .glyphicon-ok-sign {
+      float: right;
+      margin-top: 8px;
+    }
+    width: 100%;
+    height: 100%;
+    //align-items: center;
+    //min-height: 140px;
+    //margin: 16px 24px;
+    font-size: 2.2em;
     color: #ffffff;
-    background-color: #00bd83;
-    *background-color: #00a472;
-  }
+    text-shadow: 0px 0px 3px #4d4d4d;
+    //line-height: 40px;
+    background-color: #009e6e;
+    background-image: -moz-linear-gradient(top, #008a60, #00bd83);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#008a60), to(#00bd83));
+    background-image: -webkit-linear-gradient(top, #008a60, #00bd83);
+    background-image: -o-linear-gradient(top, #008a60, #00bd83);
+    background-image: linear-gradient(to bottom, #008a60, #00bd83);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff008a60', endColorstr='#ff00bd83', GradientType=0);
+    *background-color: #00bd83;
+    /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    border-bottom-color: #d4d4d4;
+    &.active, &:active {
+      color: rgba(255, 255, 255, 0.75);
+      background-color: #008a60;
+    }
 
-  &.level-complete {
-    color: #006143;
-    text-shadow: 0px 1px 0px rgba(255, 255, 255, .3), 0px -1px 0px rgba(0, 0, 0, .7);
+    &:hover,
+    &:focus,
+    &:active,
+    &.active,
+    &.disabled,
+    &[disabled] {
+      color: #ffffff;
+      background-color: #00bd83;
+      *background-color: #00a472;
+    }
+
+    &.level-complete {
+      color: #006143;
+      text-shadow: 0px 1px 0px rgba(255, 255, 255, .3), 0px -1px 0px rgba(0, 0, 0, .7);
+    }
   }
 }
 

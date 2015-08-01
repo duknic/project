@@ -89,43 +89,93 @@
                     </div>
                 </div>
                 <div class="col-lg-1">
-                    <h4 class="text-right">TOTAL SCORE</h4>
+                    <h4 class="text-right no-btm-margin">TOTAL SCORE</h4>
 
                     <div id="totalScore">0</div>
                 </div>
             </div>
-            <div class="row levelsGrid">
+            <div class="row levelsGrid top-space">
                 <div class="col-md-4">
-                    <button class="btn btn-level-choose" type="button" value="1">Level 1</button>
+                    <!--<button class="btn btn-level-choose" type="button" value="1">-->
+                    <div class="panel panel-default" value="1">
+                        <div class="panel-heading">Level 1</div>
+                        <div class="panel-body">
+                            <ul>
+                                <li>learn about stuff</li>
+                                <li>learn about OTHER stuff!</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--</button>-->
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-level-choose" type="button" value="2">Level 2</button>
+                    <div class="panel panel-default" value="2">
+                        <div class="panel-heading">Level 2</div>
+                        <div class="panel-body">
+                            <ul>
+                                <li>learn about stuff</li>
+                                <li>learn about OTHER stuff!</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-level-choose" type="button" value="3">Level 3</button>
+                    <div class="panel panel-default" value="3">
+                        <div class="panel-heading">Level 3</div>
+                        <div class="panel-body">
+                            <ul>
+                                <li>learn about stuff</li>
+                                <li>learn about OTHER stuff!</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row  levelsGrid">
                 <div class="col-md-4">
-                    <button class="btn btn-level-choose" type="button" value="4">Level 4</button>
+                    <div class="panel panel-default" value="4">
+                        <div class="panel-heading">Level 4</div>
+                        <div class="panel-body">
+                            <ul>
+                                <li>learn about stuff</li>
+                                <li>learn about OTHER stuff!</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-level-choose" type="button" value="5">Level 5</button>
+                    <div class="panel panel-default" value="5">
+                        <div class="panel-heading">Level 5</div>
+                        <div class="panel-body">
+                            <ul>
+                                <li>learn about stuff</li>
+                                <li>learn about OTHER stuff!</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-level-choose" type="button" value="6">Level 6</button>
+                    <div class="panel panel-default" value="6">
+                        <div class="panel-heading">Level 6</div>
+                        <div class="panel-body">
+                            <ul>
+                                <li>learn about stuff</li>
+                                <li>learn about OTHER stuff!</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--<div class="row  levelsGrid">-->
-                <!--<div class="col-md-4">-->
-                    <!--<button class="btn btn-level-choose" type="button" value="7">Level 7</button>-->
-                <!--</div>-->
-                <!--<div class="col-md-4">-->
-                    <!--<button class="btn btn-level-choose" type="button" value="8">Level 8</button>-->
-                <!--</div>-->
-                <!--<div class="col-md-4">-->
-                    <!--<button class="btn btn-level-choose" type="button" value="9">Level 9</button>-->
-                <!--</div>-->
+            <!--<div class="col-md-4">-->
+            <!--<button class="btn btn-level-choose" type="button" value="7">Level 7</button>-->
+            <!--</div>-->
+            <!--<div class="col-md-4">-->
+            <!--<button class="btn btn-level-choose" type="button" value="8">Level 8</button>-->
+            <!--</div>-->
+            <!--<div class="col-md-4">-->
+            <!--<button class="btn btn-level-choose" type="button" value="9">Level 9</button>-->
+            <!--</div>-->
             <!--</div>-->
         </div>
         <div class="col-lg-1">
@@ -139,8 +189,8 @@
             displayUserProgress(data);
         });
 
-        $('button').on('click', function () {
-            window.location.href = '/levels/' + $(this).val();
+        $('.panel-default').on('click', function () {
+            window.location.href = '/levels/' + $(this).attr("value");
         });
     });
 </script>

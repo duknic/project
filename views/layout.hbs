@@ -52,13 +52,16 @@
                 <li {{#if isLevels}}class="active"{{/if}}><a href="/levels">Levels</a></li>
                 <li {{#if isProgen}}class="active"{{/if}}><a href="/levels/progen">Arcade</a></li>
                 <li {{#if isStats}}class="active"{{/if}}><a href="/stats">Stats</a></li>
+                <li {{#if isAdmin}}class="active"{{/if}}><a href="/stats">Admin</a></li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
         </div>
         <!--/.nav-collapse -->
     </div>
 </nav>
+<div id="main-content">
 {{{body}}}
+</div>
 <footer class="footer">
     <div class="container">
         <p class="text-muted">Regex Detective 2015 - University of Birmingham MSc Summer project</p>
