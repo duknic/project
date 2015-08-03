@@ -28,7 +28,7 @@ router.post('/recordMisconception/:qId/:isCorrect', stormpath.loginRequired, fun
     var misconceptions = db.get('misconceptions');
     var qId = decodeURIComponent(req.params.qId);
     var isCorrect = decodeURIComponent(req.params.isCorrect);
-    var answer = req.body;
+    var answer = req.body.answer;
     misconceptions.insert(
         {
             "userEmail": req.user.email,

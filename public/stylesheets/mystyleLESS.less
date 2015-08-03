@@ -17,13 +17,27 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+h3.singleTable {
+  display: inline-block;
+  margin-right: 24px;
+}
+
 body {
+  padding: 50px;
+  &.login {
+    //background-image: url('/images/bkground_mini.jpeg');
+    //background-size: cover;
+  }
   #main-content {
     font: 14px/1.5 "Roboto Slab", Arial, serif;
   }
   padding-top: 50px;
   margin-bottom: 60px;
   background: url('/images/crossword-bkgd.png') repeat top left;
+}
+
+a {
+  color: #00B7FF;
 }
 
 // question page
@@ -85,6 +99,21 @@ div.paper-note:before, .box:after {
   margin-right: 1em;
   margin-bottom: 1em;
   float: left;
+}
+
+body.admin {
+  tr.row-link {
+    cursor: pointer;
+  }
+
+  .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
+    background: @rgba-primary-0;
+  }
+
+  .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default {
+    background: @rgba-secondary-2-0;
+    color: white;
+  }
 }
 
 div.paper-note:after {
