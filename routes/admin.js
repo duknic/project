@@ -19,48 +19,75 @@ router.get('/', function (req, res) {
 // TODO this should be admin restricted
 router.get('/getQuestionUsageData', function (req, res) {
     var db = req.db;
-    var col = db.get('misconceptions');
-    var response = {};
+    var misconceptions = db.get('misconceptions');
 
-    var maxQid = 0;
-    // find max question id
-    col.find({}, {limit: 1, sort: {questionId: -1}}, function (e, result) {
-        maxQid = result[0].questionId;
-        // for every question in database
-        for (var i = 1; i <= maxQid; i++) {
-            var qId = i.toString();
-            response[qId] = {"numCorrectMis": 0, "numIncorrectMis": 0};
-            col.find({questionId: i.toString()}, {}, function (err, result) {
-                //console.log(result);
-                for (var misCon = 0; misCon < result.length; misCon++) {
-                    var isCorrect = JSON.parse(result[misCon].isCorrect);
-                    isCorrect ? response[qId].numCorrectMis++ : response[qId].numIncorrectMis++;
+    misconceptions.col.aggregate(
+        [
+            {
+                $project: {
+                    questionId: 1,
+                    correct: {$cond: [{$eq: ["$isCorrect", "true"]}, 1, 0]},
+                    incorrect: {$cond: [{$eq: ["$isCorrect", "false"]}, 1, 0]}
                 }
-            });
+            },
+            {
+                "$group": {
+                    "_id": "$questionId",
+                    "correct": {"$sum": "$correct"},
+                    "incorrect": {"$sum": "$incorrect"}
+                }
+            }
+        ],
+        function (err, docs) {
+            if (err) console.log(err);
+            res.json(docs);
         }
-        res.json(response);
-    });
+    );
 });
 
-
-function getQuesitonUsageData(callback) {
-    var response = new Object();
-    col.find({}, {}, function (e, docs) {
-        docs.forEach(function (misCon) {
-            if (response[misCon.questionId].numCorrectMis == 'undefined') {
-                response[misCon.questionId].numCorrectMis = 0;
-            }
-            if (response[misCon.questionId].numCorrectMis == 'undefined') {
-                response[misCon.questionId].numCorrectMis = 0;
-            }
-            misCon.isCorrect ? response[misCon.questionId].numCorrectMis++ : response[misCon.questionId].numIncorrectMis += 1;
-        })
-    });
-}
-
-router.get('/getQuestionUsageData/:qId', function (req, res) {
+router.get('/getQuestionUsageData/:isCorrect/:qId', function (req, res) {
+    var db = req.db;
+    var misconceptions = db.get('misconceptions');
     var qId = req.params.qId;
+    var isCorrect = req.params.isCorrect;
 
-});
+    misconceptions.col.aggregate(
+        [
+            {
+                $match: {
+                    isCorrect: isCorrect,
+                    questionId : qId
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    answer : "$answer",
+                    userEmail : "$userEmail",
+                    //isCorrect : 1
+                }
+            },
+            {
+                $group: {
+                    _id: {answer: "$answer", userEmail: "$userEmail"},
+                    diffUsers: {$sum: 1},
+                }
+            },
+            {
+                $group: {
+                    _id: "$_id.answer",
+                    diffUsers: {$sum: 1},
+                    timesSubmitted: {$sum: "$diffUsers"}
+                }
+            },
+
+        ],
+        function (err, docs) {
+            if (err) console.log(err);
+            res.json(docs);
+        }
+    );
+
+})
 
 module.exports = router;

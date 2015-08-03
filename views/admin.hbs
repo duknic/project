@@ -1,27 +1,91 @@
+<!--<div class="row top-space-big">-->
+<!--<div class="col-md-offset-3 col-md-6">-->
+<!--<div class="row bottom-space">-->
+<!--<div class="input-group">-->
+<!--<div class="input-group-addon">Question Id</div>-->
+<!--<input autocomplete="on" type="text" id="questionId" class="form-control"-->
+<!--placeholder="enter question id..."/>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--<div class="row">-->
+
+<!--<button class="btn btn-primary center-block" type="button" id="submitQid">-->
+<!--Submit-->
+<!--</button>-->
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 <div class="row top-space-big">
-    <div class="col-md-offset-3 col-md-6">
-        <div class="row bottom-space">
-            <div class="input-group">
-                <div class="input-group-addon">Question Id</div>
-                <input autocomplete="on" type="text" id="questionId" class="form-control"
-                       placeholder="enter question id..."/>
-            </div>
+    <h1 class="no-top-margin">Admin area
+        <small style="font-size: 0.4em;">&nbsp;&nbsp;&nbsp;&nbsp;view student question submissions data</small>
+    </h1>
+    <div class="col-md-6 overallTable">
+        <h3>Overall&nbsp;<span style="color: #d14900;" tabindex="0" data-toggle="popover" data-trigger="focus"
+                               title="View submissions data"
+                               data-content="<p>Click on a question row in the below table to view submission details.</p>
+                               <p>Use the <strong>toggle switch</strong> to alternate between correct and incorrect submissions (correct
+                               submissions are logged if they do not match the suggested answer but <em>do</em> test true for required string matching and/or omission</p>"
+                               class="glyphicon glyphicon-question-sign"></span></h3>
 
-        </div>
-        <div class="row">
-
-            <button class="btn btn-primary center-block" type="button" id="submitQid">
-                Submit
-            </button>
-
-        </div>
-    </div>
-</div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <table>
+        <table id="overallData" class="table table-hover table-condensed">
+            <thead>
+            <tr>
+                <th>Question Id&nbsp;&nbsp;</th>
+                <th>Logged correct answers&nbsp;&nbsp;</th>
+                <th>Logged incorrect attempts&nbsp;&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
 
         </table>
     </div>
+    <div class="col-md-6 singleTable">
+        <h3 class="singleTable">Question</h3>
+        <input type="checkbox" id="correctToggle" data-size="mini"
+               data-on-text="correct"
+               data-off-text="incorrect" checked>
+        <table id="singleQuestionData" class="table table-hover table-condensed">
+            <thead>
+            <tr>
+                <th>Answer text&nbsp;&nbsp;</th>
+                <th>Number of times submitted&nbsp;&nbsp;</th>
+                <th>Number of different users&nbsp;&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Nothing to show</td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+<script src="/javascripts/bs-tablesort.js"></script>
+<script src="/javascripts/bootstrap-switch.min.js"></script>
+<script src="/javascripts/admin.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // populate the 'overall' table with question usage data
+        displayQuestionUsageData();
+
+        // initialise Bootstrap toggle switch and pass some options
+        $("#correctToggle").bootstrapSwitch({
+            handleWidth: 65,
+            disabled: true,
+            onSwitchChange: function (e, isCorrect) {
+                displaySingleQuestionData(currentQuestionId, isCorrect);
+            }
+        });
+
+        // initialise Bootstrap popovers
+        $('[data-toggle="popover"]').popover({
+            html: true
+        });
+    })
+</script>
