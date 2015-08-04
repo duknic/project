@@ -1,8 +1,8 @@
 /**
  * Created by nic on 22/07/2015.
  *
- * ### Component 1 contains  AND \. AND (whitespace) AND *
- *              EDIT: taking . (dot) out
+ * ### Component 1 contains  AND \. AND (whitespace)
+ *              EDIT: taking . (dot) AND * out
  *
  * ### Component 2 contains (a|b) AND (a|b|c)
  *
@@ -33,25 +33,28 @@ var comp1 = ['\\.', ' '];
 var comp2 = ['(a|b)', '(aa|bb)', '(aaa|bbb)', '(a|b|c)', '(aa|bb|cc)', '(aaa|bbb|ccc)', ' '];
 var comp3 = ['[ab]', '[abc]', '[abcd]', '[a-z]', ' '];
 var comp4 = ['{2}', '{3}', '{4}', ' '];
-var compAlphaLo = 'abcdefghijklmnopqrstuvwxyz ';
-var compAlphaUp = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ ';
-var compNum = '0123456789 ';
+var compAlphaLo = 'abcdefghijklmnopqrstuvwxyz';
+var compAlphaUp = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var compNum = '0123456789';
 var comp5 = ['[^xy]', '[^xyz]', '[^xyzz]', ' '];
-var components = [comp1, comp2, comp3, comp4, compAlphaLo, compAlphaUp, compNum, comp5];
 var chars = 'aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789';
+var components = [comp1, comp2, comp3, comp4, compAlphaLo, compAlphaUp, compNum, comp5];
 
 function generateRegex(numComps) {
     var regex = '';
-
+    // control the first component choice to prevent straightforward string for string matching
+    // OR just take single characters out?
     for (var i = 0; i <= numComps; i++) {
         var x = Math.floor(Math.random() * components.length);
         var xLength = components[x].length;
         var y = Math.floor(Math.random() * xLength);
         regex += components[x][y];
     }
-    regex = replaceCharacters(regex);
-    curRegex = regex;
-    return regex.trim();
+
+    regex = replaceCharacters(regex.trim());
+    curRegex = regex.trim();
+
+    return curRegex;
 }
 
 function replaceCharacters(regex) {
@@ -59,18 +62,23 @@ function replaceCharacters(regex) {
     // we have to be careful of RANGES so check for [a- these keep their alpha or numerical type!
     // DONT worry about simple [abc] brackets these can be a mix
 
-    regex = regex.split('');
+    console.log('regex before replace: ' + regex);
+    // take out consecutive repetition operators e.g. abc{3}{4}
+    regex = regex.replace(/({\d} *){2,}/g, function (match, $1) {
+        return '$1'.substr(0, 3)
+    });
 
-    if (regex[0] == '{') {
-        regex.push(regex.shift(), regex.shift(), regex.shift());
-    }
+    // remove repetition operator from start if exists
+    regex = regex.replace(/^{\d} */g, "");
+
+    // split string into literal char array for easier iteration
+    regex = regex.split('');
 
     var upperReg = new RegExp('[A-Z]');
     var lowerReg = new RegExp('[a-z]');
     var numReg = new RegExp('[0-9]');
     var allReg = new RegExp('[a-zA-Z0-9]');
 
-    //$.each(regex, function (i, c) {
     for (var i = 0, len = regex.length; i < len; i++) {
         // if c is a letter or number
         if (allReg.test(regex[i])) {
@@ -94,9 +102,16 @@ function replaceCharacters(regex) {
             }
         }
     }
-    //);
 
     return regex.join('');
+}
+
+// calculates bonus points based on brevity of answer compared to curRegex
+function calculateBonusPoints(answer, cb) {
+    var bonus = curRegex.length - answer.length;
+    if (typeof cb == 'function') {
+        cb(bonus);
+    }
 }
 
 // returns a char of greater value than the one you pass in i.e. z > a
@@ -112,7 +127,7 @@ function getMatchList(numStr, regex) {
     //console.log(regex);
     var matchArr = [];
     while (numStr--) {
-        matchArr.push(new RandExp(regex).gen());
+        matchArr.push(new RandExp(regex).gen().trim());
     }
     curMatch = matchArr;
     return matchArr;
@@ -120,11 +135,12 @@ function getMatchList(numStr, regex) {
 
 function getNotMatchList(numStr, regex) {
     var notMatch = [];
-    var str = randomStr(numStr);
+    var strLength = curMatch[0].length;
+    var str = randomStr(strLength);
     var tester = new RegExp(regex);
     while (!tester.test(str) && notMatch.length < numStr) {
         notMatch.push(str);
-        str = randomStr(numStr);
+        str = randomStr(strLength);
     }
     curNotMatch = notMatch;
     return notMatch;
@@ -142,7 +158,7 @@ function generateProgen(difficulty) {
     $('#submitBtn').removeClass('disabled').prop('disabled', false);
     $('.modal').remove();
     curDifficulty = difficulty;
-    curProgenScore = 5 * difficulty;
+    curProgenScore = 2 * difficulty;
     $('#questionPts').text(curProgenScore + ' pts');
     var regex = generateRegex(difficulty);
     var match = getMatchList(difficulty, regex);
@@ -157,7 +173,7 @@ function generateProgen(difficulty) {
 }
 
 function checkProgenAnswer() {
-    var answer = $('#answerBox').val().trim();
+    var answer = $('#answerBox').val();
     var regex = new RegExp(answer);
     var passed = true;
     curMatch.forEach(function (str) {
@@ -169,11 +185,13 @@ function checkProgenAnswer() {
     if (passed) {
         $('#submitBtn').addClass('disabled').prop('disabled', true);
         writeFeedback('SMASHED IT', true);
-        recordProgen(curProgenScore);
+        calculateBonusPoints(answer, function (bonus) {
+            recordProgen(curProgenScore + bonus);
+        })
         $('#nextButton').addClass('shake');
     } else {
         writeFeedback('try again bro', false);
-        curProgenScore -= 5;
+        curProgenScore -= 2;
         $('#questionPts').text(curProgenScore + ' pts');
     }
 }

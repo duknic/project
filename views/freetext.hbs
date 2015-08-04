@@ -5,7 +5,7 @@
                 <div class="col-md-2 no-padding-right">
                     <h2 class="no-margin">{{title}}</h2>
                     <h4><span id="questionNum">Question 1</span>&nbsp;&nbsp;<span id="questionPts"
-                                                                                  class="label label-default">10 pts</span>
+                                                                                  class="label label-default" data-toggle="tooltip" data-placement="right" title="Points currently available">10 pts</span>
                     </h4>
                 </div>
                 <div class="col-md-8">
@@ -120,7 +120,7 @@
         //TODO remember to escape numbers in JSON by using box notation!!!
 
         $('#submitBtn').on('click', function () {
-            var answer = $('#answerBox').val().trim();
+            var answer = $('#answerBox').val();
             checkAnswer(answer);
         });
         $('#nextButton').on('click', function () {

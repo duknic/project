@@ -48,11 +48,11 @@
             <ul class="nav navbar-nav homepage">
                 <li class="userId">Hi&nbsp;{{givenName}}!&nbsp;&nbsp;<span
                         class="glyphicon glyphicon-user"></span></li>
-                <li {{#if isHome}}class="active"{{/if}}><a href="/">Home</a></li>
+                <!--<li {{#if isHome}}class="active"{{/if}}><a href="/">Home</a></li>-->
                 <li {{#if isLevels}}class="active"{{/if}}><a href="/levels">Levels</a></li>
                 <li {{#if isProgen}}class="active"{{/if}}><a href="/levels/progen">Arcade</a></li>
                 <li {{#if isStats}}class="active"{{/if}}><a href="/stats">Stats</a></li>
-                <li {{#if isAdmin}}class="active"{{/if}}><a href="/stats">Admin</a></li>
+                {{#if isAdmin}}<li class="active"><a href="/stats">Admin</a></li>{{/if}}
                 <li><a href="/logout">Logout</a></li>
             </ul>
         </div>
@@ -69,7 +69,9 @@
 </footer>
 </body>
 <script type="text/javascript">
-
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
 </html>
 

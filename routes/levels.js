@@ -31,7 +31,7 @@ router.get('/:num', stormpath.loginRequired, function (req, res, next) {
     var num = req.params.num;
     var db = req.db;
     var col = db.get('questions');
-    col.find({level_num: parseInt(num)}, {}, function (e, docs) {
+    col.find({level_num: parseInt(num)}, {sort: {_id : 1}}, function (e, docs) {
 
         res.render('freetext', {
             pageClass: 'freetext',

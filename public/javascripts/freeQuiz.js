@@ -29,7 +29,9 @@ function nextQuestion() {
         $("#msg-box").empty();
         $('#questionNum').html("Question " + (currentQinSet + 1));
         $('#prevButton').show();
-        $('#nextButton').hide();
+        if (!levelData.progress["level" + currentLevel.toString()][currentQid.toString()].completed) {
+            $('#nextButton').hide();
+        }
         $('#answerBox').val('');
         $('#nextButton').button('reset');
 
@@ -46,7 +48,8 @@ function nextQuestion() {
 
 
         displayTotalScore(levelData.total_score);
-        var increment = (($('div.progress').outerWidth() / 100) * 33);
+        var step = Math.floor(100 / questionSet.length);
+        var increment = (($('div.progress').outerWidth() / 100) * step);
         var currentWidth = $('#level-progress-bar').width();
         $('#level-progress-bar').css("width", currentWidth + increment);
 
@@ -121,6 +124,9 @@ function initQuiz(questions, levelNum) {
     if (questionSet != null) {
         $('#storyText').html(questionSet[0].storText);
         $('#questionText').html(questionSet[0].qText);
+        if (levelData.progress[level][question].completed) {
+            $('#nextButton').show()
+        }
     }
 
     // initialise popovers on page
@@ -171,7 +177,7 @@ function checkAnswer(answer) {
                 // print special message to user and mark answer as correct
                 var uncaughtCorrectFb = "<p>You may have found an expression we hadn't considered. " +
                     "You're suggestion has been logged and may go towards improving the game, thanks!</p>" +
-                    "<p>In the meantime, our suggested answer was: " + q.correctRes0.regex + "</p><hr/>" +
+                    "<p>In the meantime, our suggested answer was: \"" + q.correctRes0.regex + "\"</p><hr/>" +
                     q.correctRes0.feedback;
                 handleCorrectAnswer(uncaughtCorrectFb);
             }
@@ -293,7 +299,7 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
 }
 
 function testRegex(question, answer) {
-    var regex = new RegExp(answer);
+    var regex = new RegExp('^' + answer + '$');
     var passed = true;
     question.match.forEach(function (str) {
         passed = passed && regex.test(str);
@@ -303,3 +309,4 @@ function testRegex(question, answer) {
     });
     return passed;
 }
+
