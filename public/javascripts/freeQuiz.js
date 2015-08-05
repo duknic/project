@@ -263,7 +263,7 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
             }
 
             levelData.progress[level][question].score = currentQscore;
-            levelData.progress[level][question].ansbadgeswer = currentAnswer.toString();
+            levelData.progress[level][question].answer = currentAnswer.toString();
 
             if (isEndLevel) {
                 levelData.progress.maxLevel = currentLevel + 1;

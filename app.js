@@ -72,7 +72,7 @@ app.use(lessMiddleware(__dirname + '/public'));
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
- app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(cookieParser());
 
@@ -124,7 +124,7 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
-        error: {}
+        error: {status: err.status, stack: 'you made the robot sad with you error, well done :('}
     });
 });
 
@@ -140,14 +140,6 @@ var writeCustomDataToAccount = function (account, dataToWrite, callback) {
     account.getCustomData(function (err, customData) {
         for (var i in dataToWrite) {
             customData[i] = dataToWrite[i];
-            //for (var j in dataToWrite[i]) {
-            //    console.log('inside loop 2');
-            //    customData[i][j] = dataToWrite[i][j]
-            //    for (var k in dataToWrite[i][j]) {
-            //        console.log('inside loop 3');
-            //        customData[i][j][k] = dataToWrite[i][j][k];
-            //    }
-            //}
         }
         customData.save(function (err) {
             account.getCustomData(function (err, customData) {
@@ -157,31 +149,7 @@ var writeCustomDataToAccount = function (account, dataToWrite, callback) {
             })
         });
     });
-
 };
-
-//var writeCustomDataToAccount = function (account, dataToWrite, callback) {
-//    account.getCustomData(function (err, customData) {
-//        for (var i in dataToWrite) {
-//            customData[i] = dataToWrite[i];
-//            //console.log('writing ' + dataToWrite[i] + ' to ' + customData[i]);
-//            for (var j in dataToWrite[i]) {
-//                customData[i][j] = dataToWrite[i][j]
-//                for (var k in dataToWrite[i][j]) {
-//                    customData[i][j][k] = dataToWrite[i][j][k];
-//                }
-//            }
-//        }
-//
-//        if (typeof callback == 'function') {
-//            console.log('calling writecustom callback');
-//            callback(customData);
-//        } else {
-//            customData.save();
-//        }
-//
-//    });
-//};
 
 // TODO cite usage
 function arrayDifference(a, b) {
@@ -201,19 +169,6 @@ var checkForBadges = function (customData, callback) {
         }
     });
 }
-//var checkForBadges = function (customData, callback) {
-//    var badgesRewarded = [];
-//    badgesForTotalScore(customData, function (newBadges) {
-//        if (typeof callback == 'function') {
-//            //callback(JSON.stringify(badgesRewarded.concat(newBadges)));
-//            callback(JSON.stringify(badgesRewarded.concat(newBadges)));
-//            joinBadgeArrays(customData.badges, newBadges, function () {
-//                customData.save();
-//            });
-//
-//        }
-//    });
-//}
 
 var badgesForTotalScore = function (customData, callback) {
     var badgesRewarded = [];

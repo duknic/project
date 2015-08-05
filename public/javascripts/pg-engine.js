@@ -64,7 +64,7 @@ function replaceCharacters(regex) {
 
     console.log('regex before replace: ' + regex);
     // take out consecutive repetition operators e.g. abc{3}{4}
-    regex = regex.replace(/({\d} *){2,}/g, function (match, $1) {
+    regex = regex.replace(/({\d} * ){2,}/g, function (match, $1) {
         return '$1'.substr(0, 3)
     });
 
