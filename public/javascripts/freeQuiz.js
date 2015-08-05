@@ -241,7 +241,7 @@ function writeFeedback(text, isCorrect) {
             "<button type=\"button\" class=\"close\" data-target=\"#thisPanel\" data-dismiss=\"alert\"><span aria-hidden=\"true\">&times;<\/span><span class=\"sr-only\">Close<\/span><\/button><\/div>" +
             "<div class=\"panel-body\" aria-hidden=\"true\">" + text + "</div><\/div>";
     }
-    $('#msg-box').append(out);
+    $('#msg-box').empty().append(out);
 }
 
 function recordUserProgress(completed, currentQscore, currentAnswer, currentLevel, isEndLevel) {
