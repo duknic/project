@@ -6,7 +6,7 @@ var app = require('../app');
 /* GET home page. */
 router.get('/', function (req, res) {
     var userName = "";
-    if (userName != 'undefined'){userName = req.user.givenName};
+    if (req.user != 'undefined'){userName = req.user.givenName};
     res.render('index', {
         title: 'Home',
         pageClass: 'home',
