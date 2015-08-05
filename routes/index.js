@@ -4,12 +4,14 @@ var stormpath = require('express-stormpath');
 var app = require('../app');
 
 /* GET home page. */
-router.get('/', stormpath.loginRequired, function (req, res) {
+router.get('/', function (req, res) {
+    var userName = "";
+    if (userName != 'undefined'){userName = req.user.givenName};
     res.render('index', {
         title: 'Home',
         pageClass: 'home',
         isHome: true,
-        givenName: req.user.givenName
+        givenName: userName
     });
 });
 
