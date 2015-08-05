@@ -46,7 +46,7 @@ router.post('/recordMisconception/:qId/:isCorrect', stormpath.loginRequired, fun
 
 });
 
-router.post('/submitFeedback', stormpath.loginRequired, function (req, res) {
+router.post('/submitFeedback', function (req, res) {
     var db = req.db;
     var feedback = db.get('feedback');
     feedback.insert(
@@ -56,7 +56,7 @@ router.post('/submitFeedback', stormpath.loginRequired, function (req, res) {
             "gamification": req.body.gamification,
             "moreQuestions": req.body.moreQuestions,
             "freeComment": req.body.freeComment,
-            "agreement": req.body.aggreement,
+            "agreement": req.body.agreement,
             "browser": req.headers['user-agent'],
             "dateTime": new Date().toISOString()
         },

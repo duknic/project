@@ -211,4 +211,8 @@ var badgesForTotalScore = function (customData, callback) {
 exports.checkForBadges = checkForBadges;
 exports.writeCustomDataToAccount = writeCustomDataToAccount;
 
+if (app.get('env') === 'production') {
+    app.listen(80);
+}
+
 module.exports = app;

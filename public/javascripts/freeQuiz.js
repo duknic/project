@@ -176,7 +176,7 @@ function checkAnswer(answer) {
                 });
                 // print special message to user and mark answer as correct
                 var uncaughtCorrectFb = "<p>You may have found an expression we hadn't considered. " +
-                    "You're suggestion has been logged and may go towards improving the game, thanks!</p>" +
+                    "Your suggestion has been logged and may go towards improving the game, thanks!</p>" +
                     "<p>In the meantime, our suggested answer was: \"" + q.correctRes0.regex + "\"</p><hr/>" +
                     q.correctRes0.feedback;
                 handleCorrectAnswer(uncaughtCorrectFb);
