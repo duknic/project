@@ -1,0 +1,172 @@
+<!--inside 'form' tag was built with help from http://bootsnipp.com/forms?version=3-->
+<form id="feedback-form" class="form-horizontal">
+    <fieldset>
+        <!-- Multiple Radios -->
+        <div class="form-group">
+            <label class="col-md-5 control-label" for="didLearn">This game taught me something about regular
+                expressions</label>
+
+            <div class="col-md-7">
+                <div class="radio">
+                    <label for="did-learn-0">
+                        <input type="radio" name="didLearn" id="did-learn-0" value="1" checked="checked">
+                        I actually think it has made me stupider
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="did-learn-1">
+                        <input type="radio" name="didLearn" id="did-learn-1" value="2">
+                        Didn't learn any more than I knew already
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="did-learn-2">
+                        <input type="radio" name="didLearn" id="did-learn-2" value="3">
+                        Learned a little bit
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="did-learn-3">
+                        <input type="radio" name="didLearn" id="did-learn-3" value="4">
+                        Learned a bit more
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multiple Radios -->
+        <div class="form-group">
+            <label class="col-md-5 control-label" for="arcadeMode">I would play Arcade mode again</label>
+
+            <div class="col-md-7">
+                <div class="radio">
+                    <label for="arcade-mode-0">
+                        <input type="radio" name="arcadeMode" id="arcade-mode-0" value="1" checked="checked">
+                        absolutely not
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="arcade-mode-1">
+                        <input type="radio" name="arcadeMode" id="arcade-mode-1" value="2">
+                        meh, maybe
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="arcade-mode-2">
+                        <input type="radio" name="arcadeMode" id="arcade-mode-2" value="3">
+                        might do
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="arcade-mode-3">
+                        <input type="radio" name="arcadeMode" id="arcade-mode-3" value="4">
+                        yh it was fun
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multiple Radios -->
+        <div class="form-group">
+            <label class="col-md-5 control-label" for="gamification">The gamification aspects (leaderboard, badges etc)
+                improved my experience</label>
+
+            <div class="col-md-7">
+                <div class="radio">
+                    <label for="gamification-0">
+                        <input type="radio" name="gamification" id="gamification-0" value="1" checked="checked">
+                        no
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="gamification-1">
+                        <input type="radio" name="gamification" id="gamification-1" value="2">
+                        a little
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="gamification-2">
+                        <input type="radio" name="gamification" id="gamification-2" value="3">
+                        yh it was good
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="gamification-3">
+                        <input type="radio" name="gamification" id="gamification-3" value="4">
+                        yh they were cool
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multiple Radios -->
+        <div class="form-group">
+            <label class="col-md-5 control-label" for="moreQuestions">If more questions were added I would want to
+                check them out</label>
+
+            <div class="col-md-7">
+                <div class="radio">
+                    <label for="more-questions-0">
+                        <input type="radio" name="moreQuestions" id="more-questions-0" value="1" checked="checked">
+                        nah, forget that
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="more-questions-1">
+                        <input type="radio" name="moreQuestions" id="more-questions-1" value="2">
+                        pft, probs not
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="more-questions-2">
+                        <input type="radio" name="moreQuestions" id="more-questions-2" value="3">
+                        yh, maybe
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="more-questions-3">
+                        <input type="radio" name="moreQuestions" id="more-questions-3" value="4">
+                        yh, totally
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Textarea -->
+        <div class="form-group">
+            <label class="col-md-5 control-label" for="freeComment">I found a bug!</label>
+
+            <div class="col-md-7">
+                <textarea class="form-control" id="free-comment" name="freeComment" maxlength="256">...details</textarea>
+            </div>
+        </div>
+
+        <!-- Multiple Checkboxes (inline) -->
+        <div class="form-group">
+            <label class="col-md-5 control-label" for="agreement">I understand</label>
+
+            <div class="col-md-7">
+                <label class="checkbox-inline" for="checkboxes-0">
+                    <input type="checkbox" name="agreement" id="checkboxes-0" value="1" required>
+                    my data is submitted anonymously and will be used solely for the evaluation and improvement of the
+                    Regex Detective game
+                </label>
+            </div>
+        </div>
+        <input class="btn btn-primary pull-right" id="submitFeedback" type="submit">
+    </fieldset>
+</form>
+<script type="text/javascript">
+    $('#feedback-form').on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: '/submitFeedback',
+            data: $(this).serialize(),
+            success: function (res) {
+                console.log('posted feedback form to server and got: ' + res);
+                $('.popover').popover('hide');
+            }
+        });
+    })
+</script>

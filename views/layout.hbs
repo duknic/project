@@ -10,7 +10,8 @@
     <link rel='stylesheet' href='/stylesheets/bootstrap-theme.css.map'/>
     <link rel='stylesheet' href='/stylesheets/bootstrap-theme.min.css'/>
     <link rel='stylesheet' href='/stylesheets/mystyleLESS.css'/>
-    {{#if isAdmin}}<link rel='stylesheet' href='/stylesheets/bootstrap-switch.min.css'/>{{/if}}
+    {{#if isAdmin}}
+        <link rel='stylesheet' href='/stylesheets/bootstrap-switch.min.css'/>{{/if}}
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="/javascripts/global.js"></script>
@@ -21,13 +22,13 @@
 <body class="{{pageClass}}">
 <div id="fixedAlertMsg">
 
-    <!--<div id="inner-fixedAlertMsg" class="alert alert-warning">-->
-        <!--<button type="button" class="close" data-dismiss="alert">&times;</button>-->
-        <!--<span class="glyphicon glyphicon-exclamation-sign" style="font-size: 1.8em; float: left;" aria-hidden="true"></span>-->
-        <!--<p>This version of the Regex Detective app is in constant development and being so, is subject to many bugs and-->
-            <!--extensive downtime. Feel free to use the site and direct any feedback to-->
-            <!--njd455<span>null</span>@<span>null</span>bham<span>null</span>.ac.uk</p>-->
-    <!--</div>-->
+    <div id="inner-fixedAlertMsg" class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <span class="glyphicon glyphicon-exclamation-sign" style="font-size: 1.8em; float: left;" aria-hidden="true"></span>
+    <p>This version of the Regex Detective app is in constant development and being so, is subject to many bugs and
+    extensive downtime. Feel free to use the site and please use the form on the left to submit feedback :)</p>
+    </div>
+    <!--njd455<span>null</span>@<span>null</span>bham<span>null</span>.ac.uk</p>-->
 
 </div>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -52,7 +53,8 @@
                 <li {{#if isLevels}}class="active"{{/if}}><a href="/levels">Levels</a></li>
                 <li {{#if isProgen}}class="active"{{/if}}><a href="/levels/progen">Arcade</a></li>
                 <li {{#if isStats}}class="active"{{/if}}><a href="/stats">Stats</a></li>
-                {{#if isAdmin}}<li class="active"><a href="/stats">Admin</a></li>{{/if}}
+                {{#if isAdmin}}
+                    <li class="active"><a href="/stats">Admin</a></li>{{/if}}
                 <li><a href="/logout">Logout</a></li>
             </ul>
         </div>
@@ -60,18 +62,42 @@
     </div>
 </nav>
 <div id="main-content">
-{{{body}}}
+    {{{body}}}
 </div>
 <footer class="footer">
+    <div class="feedback-btn-container">
+        <div id="give-feedback">
+            <a href="#">Give feedback</a>
+        </div>
+    </div>
     <div class="container">
         <p class="text-muted">Regex Detective 2015 - University of Birmingham MSc Summer project</p>
     </div>
 </footer>
 </body>
 <script type="text/javascript">
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
+    $(document).ready(function () {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        $('#give-feedback').on('click', function () {
+            var btn = $(this);
+            $.get('/feedback-form.html', function (form) {
+                btn.popover({
+                    html: true,
+                    content: form,
+                    placement: 'right',
+//                    container: 'body',
+                    selector: '#give-feedback',
+                    title: 'Feedback' + '<span style=\"float: right; cursor: pointer;\" onclick=\"$(&quot;#give-feedback&quot;).popover(&quot;hide&quot;)\">&times;</span>',
+                    trigger: 'click'
+                }).popover('show');
+            })
+        })
     })
+
+
 </script>
 </html>
 

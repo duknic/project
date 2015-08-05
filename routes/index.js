@@ -44,4 +44,24 @@ router.post('/recordMisconception/:qId/:isCorrect', stormpath.loginRequired, fun
 
 });
 
+router.post('/submitFeedback', stormpath.loginRequired, function (req, res) {
+    var db = req.db;
+    var feedback = db.get('feedback');
+    feedback.insert(
+        {
+            "didLearn": req.body.didLearn,
+            "arcadeMode": req.body.arcadeMode,
+            "gamification": req.body.gamification,
+            "moreQuestions": req.body.moreQuestions,
+            "freeComment": req.body.freeComment,
+            "agreement": req.body.aggreement,
+            "browser": req.headers['user-agent'],
+            "dateTime": new Date().toISOString()
+        },
+        function (err, doc) {
+            if (err) throw err;
+            res.status(200).send('logged feedback');
+        });
+});
+
 module.exports = router;
