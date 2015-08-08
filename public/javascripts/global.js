@@ -5,7 +5,6 @@ function displayUserProgress(levelData) {
     for (var i = 1; i < currentLevel; i++) {
         $('.bs-wizard-step:nth-child(' + i + ')').removeClass('disabled').addClass('complete');
         // grab all completed levels and give them a tick
-        //$('.panel-default\[value=' + i + '\]').children(".panel-heading").html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>' + '<br/>Level ' + i).addClass('level-complete');
         $('.panel-default\[value=' + i + '\]').children(".panel-heading").append('&nbsp;<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>').addClass('level-complete');
 
     }

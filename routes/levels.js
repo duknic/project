@@ -39,7 +39,8 @@ router.get('/:num', stormpath.loginRequired, function (req, res, next) {
             level: num,
             questions: docs,
             givenName: req.user.givenName,
-            levelData: levelData
+            levelData: levelData,
+            isLevels: true
         }, null);
     });
 });

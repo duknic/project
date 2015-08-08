@@ -64,12 +64,14 @@ function replaceCharacters(regex) {
 
     console.log('regex before replace: ' + regex);
     // take out consecutive repetition operators e.g. abc{3}{4}
-    regex = regex.replace(/({\d} * ){2,}/g, function (match, $1) {
+    regex = regex.replace(/({\d} *){2,}/g, function (match, $1) {
         return '$1'.substr(0, 3)
     });
 
     // remove repetition operator from start if exists
     regex = regex.replace(/^{\d} */g, "");
+
+    ///R[E4nY] {2}{2}/: Nothing to repeat
 
     // split string into literal char array for easier iteration
     regex = regex.split('');
@@ -85,26 +87,29 @@ function replaceCharacters(regex) {
             // if c is part of a range
             if (regex[i - 1] == '-') {
                 // replace c with whatever the start of the range had
-                switch (regex[1 - 2]) {
-                    case upperReg.test(regex[1 - 2]):
-                        regex[i] = findGreater(regex[1 - 2], compAlphaUp);
-                    case lowerReg.test(regex[1 - 2]):
-                        regex[i] = findGreater(regex[1 - 2], compAlphaLo);
-                    case numReg.test(regex[1 - 2]):
-                        regex[i] = findGreater(regex[1 - 2], compNum);
+                var char = regex[i - 2];
+                if (upperReg.test(char)) {
+                    regex[i] = findGreater(char, compAlphaUp);
+                }
+                else if (lowerReg.test(char)) {
+                    regex[i] = findGreater(char, compAlphaLo);
+                }
+                else {
+                    regex[i] = findGreater(char, compNum);
                 }
             }
-            // ELSE NOT IN A RANGE
+            // ELSE NOT IN A RANGE COMPONENT
             else {
+                // IF NOT PART OF REPETITION OPERATOR
                 if (!(regex[i - 1] == '{')) {
                     regex[i] = chars[Math.floor(Math.random() * chars.length)];
                 }
             }
         }
     }
-
     return regex.join('');
 }
+
 
 // calculates bonus points based on brevity of answer compared to curRegex
 function calculateBonusPoints(answer, cb) {
@@ -116,11 +121,11 @@ function calculateBonusPoints(answer, cb) {
 
 // returns a char of greater value than the one you pass in i.e. z > a
 function findGreater(char, arr) {
-    var i = 0;
-    while (arr[i] <= char) {
-        i = Math.floor(Math.random() * arr.length);
-    }
-    return arr[i];
+
+    // cut searchable array down to range greater than char
+    arr = arr.substring(arr.indexOf(char) + 1);
+    return arr[Math.floor(Math.random() * arr.length)];
+
 }
 
 function getMatchList(numStr, regex) {
@@ -184,13 +189,14 @@ function checkProgenAnswer() {
     });
     if (passed) {
         $('#submitBtn').addClass('disabled').prop('disabled', true);
-        writeFeedback('SMASHED IT', true);
+        //writeFeedback('Yep, that works!\nOur answer was \"' + curRegex + '\"', true);
         calculateBonusPoints(answer, function (bonus) {
+            writeFeedback('Yep, that works!<br/>Our answer was \"' + curRegex + '\"<br/>You were awarded ' + bonus + 'pts!', true);
             recordProgen(curProgenScore + bonus);
         })
         $('#nextButton').addClass('shake');
     } else {
-        writeFeedback('try again bro', false);
+        writeFeedback('Hmmm, that doesn\'t seem to work, try again!', false);
         curProgenScore -= 2;
         $('#questionPts').text(curProgenScore + ' pts');
     }
@@ -240,6 +246,6 @@ function writeFeedback(text, isCorrect) {
             "<button type=\"button\" class=\"close\" data-target=\"#thisPanel\" data-dismiss=\"alert\"><span aria-hidden=\"true\">&times;<\/span><span class=\"sr-only\">Close<\/span><\/button><\/div>" +
             "<div class=\"panel-body\" aria-hidden=\"true\">" + text + "</div><\/div>";
     }
-    $('#msg-box').append(out);
+    $('#msg-box').empty().append(out);
 }
 

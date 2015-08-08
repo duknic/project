@@ -20,16 +20,6 @@ router.get('/', stormpath.loginRequired, function (req, res) {
     });
 });
 
-//router.get('/getLeaderboardData', stormpath.loginRequired, function (req, res) {
-//    var client = req.client;
-//    var accounts = [];
-//    client.getDirectory('https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo/accounts', {expand: 'customData'}, function (err, accounts) {
-//        getLeaderboardData(accounts, function (leaderboardData) {
-//            //console.log(leaderboardData);
-//            res.json(JSON.parse(leaderboardData.players[0]));
-//        });
-//    });
-//});
 
 // TODO add field to leaderboardData - gameprogress, percentage
 // TAKES ARRAY OF ACCOUNTS AND GENERATES LEADERBOARD DATA

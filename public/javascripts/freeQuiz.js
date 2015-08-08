@@ -15,13 +15,42 @@ $(document).ajaxComplete(function () {
     displayTotalScore(levelData.total_score);
 });
 
+
+// this function handles all the stuff appropriate for a question being either already completed or not yet completed
+function questionCompleted(isComplete) {
+    //$('.popover').popover('hide');
+    if (isComplete) {
+        $('#nextButton').show()
+        if (currentQinSet == questionSet.length - 1) {
+            $('#nextButton').html('<a style="color: white;" href=\"/levels\"><span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish</a>');
+        }
+        $('#questionPts').html('DONE&nbsp<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>');
+        $('#nextButton').popover({
+            title: 'Moving on...',
+            content: 'you\'ve already completed this question, click Next to move on',
+            placement: 'left',
+            //container: 'body',
+        }).popover('show');
+    } else {
+        $('#nextButton').hide();
+        $('#nextButton').popover('hide');
+        // reset score to 10pts for next question
+        currentQscore = 10;
+        // populate pts avaiable for this question, accounting for previous attempts
+        getValidScore(currentQid, currentLevel, currentQscore, function (score) {
+            $('#questionPts').text(score + ' pts');
+        });
+    }
+}
+
+
 function nextQuestion() {
     $('.modal').remove();
     if (currentQinSet < questionSet.length - 1) {
         currentQinSet++;
         currentQid = questionSet[currentQinSet]._id;
         if (currentQinSet == questionSet.length - 1) {
-            $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
+            $('#nextButton').html('<a style="color: white;" href=\"/levels\"><span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish</a>');
             isEndLevel = true;
         }
         $('#storyText').html(questionSet[currentQinSet].storText);
@@ -29,23 +58,15 @@ function nextQuestion() {
         $("#msg-box").empty();
         $('#questionNum').html("Question " + (currentQinSet + 1));
         $('#prevButton').show();
-        if (!levelData.progress["level" + currentLevel.toString()][currentQid.toString()].completed) {
-            $('#nextButton').hide();
-        }
+
+        // handle page layout and stuff depending on whether question has previously been completed
+        questionCompleted(levelData.progress["level" + currentLevel.toString()][currentQid.toString()].completed);
+
         $('#answerBox').val('');
-        $('#nextButton').button('reset');
-
-        // reset score to 10pts for next question
-        currentQscore = 10;
-
-        // populate pts avaiable for this question, accounting for previous attempts
-        getValidScore(currentQid, currentLevel, currentQscore, function (score) {
-            $('#questionPts').text(score + ' pts');
-        });
+        //$('#nextButton').button('reset');
 
         // initialise popovers on page
-        $("[data-toggle=popover]").popover();
-
+        $(".keywordPopover").popover();
 
         displayTotalScore(levelData.total_score);
         var step = Math.floor(100 / questionSet.length);
@@ -54,14 +75,11 @@ function nextQuestion() {
         $('#level-progress-bar').css("width", currentWidth + increment);
 
 
-    } else {
+    }
+    // else last question in set
+    else {
         $(document).ajaxComplete(function () {
             $('#nextButton').button('reset');
-            //$('.modal-footer button').on('click', function () {
-            //    window.location.href = '/levels/' + (currentLevel + 1);
-            //});
-            //$('#badgeModal .modal-footer button').html('Level ' + (currentLevel + 1));
-            //$('#badgeModal').modal('show');
         });
         $('#level-progress-bar').css("width", $('div.progress').outerWidth());
         displayTotalScore(levelData.total_score);
@@ -73,6 +91,7 @@ function prevQuestion() {
     $('.modal').remove();
     if (currentQinSet > 0) {
         $('#nextButton').show();
+        $('#nextButton').html('Next');
         currentQinSet--;
         currentQid = questionSet[currentQinSet]._id;
         $('#storyText').html(questionSet[currentQinSet].storText);
@@ -93,8 +112,10 @@ function prevQuestion() {
         // reset score to 0pts for prev question because it has been completed
         currentQscore = 0;
 
+        questionCompleted(true);
+
         // initialise popovers on page
-        $("[data-toggle=popover]").popover();
+        $(".keywordPopover").popover();
 
         // display total score data
         displayTotalScore(levelData.total_score);
@@ -107,6 +128,9 @@ function prevQuestion() {
         $("#msg-box").empty();
     }
 }
+
+//$(document).on('hide.bs.popover', function(){console.log('heard hide event')});
+
 
 function initQuiz(questions, levelNum) {
 
@@ -124,13 +148,11 @@ function initQuiz(questions, levelNum) {
     if (questionSet != null) {
         $('#storyText').html(questionSet[0].storText);
         $('#questionText').html(questionSet[0].qText);
-        if (levelData.progress[level][question].completed) {
-            $('#nextButton').show()
-        }
+        questionCompleted(levelData.progress[level][question].completed);
     }
 
     // initialise popovers on page
-    $("[data-toggle=popover]").popover();
+    $(".keywordPopover").popover();
 
 
     displayTotalScore(levelData.total_score);
@@ -175,8 +197,8 @@ function checkAnswer(answer) {
                     console.log('logged uncaught correct misconception to database')
                 });
                 // print special message to user and mark answer as correct
-                var uncaughtCorrectFb = "<p>You may have found an expression we hadn't considered. " +
-                    "Your suggestion has been logged and may go towards improving the game, thanks!</p>" +
+                var uncaughtCorrectFb = "<p>That's correct but doesn't match our suggestion. " +
+                    "Your answer has been logged and may go towards improving the game, thanks!</p>" +
                     "<p>In the meantime, our suggested answer was: \"" + q.correctRes0.regex + "\"</p><hr/>" +
                     q.correctRes0.feedback;
                 handleCorrectAnswer(uncaughtCorrectFb);
@@ -206,7 +228,7 @@ function handleCorrectAnswer(feedback) {
     recordUserProgress(true, currentQscore, currentAnswer, currentLevel, isEndLevel);
     writeFeedback(feedback, true);
     if (currentQinSet == questionSet.length - 1) {
-        $('#nextButton').html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish');
+        $('#nextButton').html('<a style="color: white;" href=\"/levels\"><span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish</a>');
     }
     $('#nextButton').show();
 }

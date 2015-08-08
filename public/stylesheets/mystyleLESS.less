@@ -106,6 +106,12 @@ div.paper-note:before, .box:after {
   float: left;
 }
 
+body.stats .leaderboardWrapper {
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+
 body.admin {
   tr.row-link {
     cursor: pointer;
@@ -118,6 +124,13 @@ body.admin {
   .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default {
     background: @rgba-secondary-2-0;
     color: white;
+  }
+}
+
+body.progen .panel {
+  margin-bottom: 0px;
+  .panel-body {
+    padding: 6px;
   }
 }
 
@@ -178,6 +191,12 @@ h1.navbar-brand {
   border-width: 0;
 }
 
+.navbar-header img.logo {
+  float: left;
+  display: inline-block;
+  margin-top: 6px;
+}
+
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover {
   background: @rgba-complement-4;
   border: none;
@@ -185,7 +204,7 @@ h1.navbar-brand {
 
 .btn-primary {
   background: @rgba-complement-4;
-  &:hover {
+  &:hover, &:active {
     background: @rgba-complement-3;
   }
 }
@@ -241,6 +260,10 @@ div.row.bottom-space {
 
 div.question-container {
   margin: 0 auto;
+}
+
+#questionPts span.glyphicon {
+  margin-right: 0px;
 }
 
 div.question-box {
