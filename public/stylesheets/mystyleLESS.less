@@ -1,3 +1,27 @@
+//MOBILE NAV
+// from https://css-tricks.com/snippets/css/media-queries-for-standard-devices/
+@media screen and (max-width: 992px) {
+  h1.navbar-brand small {
+    display: none;
+  }
+}
+
+// END
+
+// ERROR LAYER
+#errorLayer {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+// END
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -107,10 +131,9 @@ div.paper-note:before, .box:after {
 }
 
 body.stats .leaderboardWrapper {
-    max-height: 500px;
-    overflow-y: scroll;
+  max-height: 500px;
+  overflow-y: scroll;
 }
-
 
 body.admin {
   tr.row-link {
@@ -131,6 +154,16 @@ body.progen .panel {
   margin-bottom: 0px;
   .panel-body {
     padding: 6px;
+  }
+}
+
+body.progen #bonusPoints {
+  margin: 6px;
+  &.pos {
+    color: @rgba-complement-4;
+  }
+  &.neg {
+    color: #D80000;
   }
 }
 
@@ -194,7 +227,8 @@ h1.navbar-brand {
 .navbar-header img.logo {
   float: left;
   display: inline-block;
-  margin-top: 6px;
+  margin: 6px auto;
+  max-height: 34px;
 }
 
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover {

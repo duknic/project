@@ -4,7 +4,6 @@
 var express = require('express');
 var router = express.Router();
 var stormpath = require('express-stormpath');
-//var randexp = require('randexp');
 
 router.get('/', stormpath.loginRequired, function (req, res, next) {
     var levelData = req.user.customData;

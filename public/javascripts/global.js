@@ -1,3 +1,17 @@
+// AJAX ERROR HANDLER
+$(function () {
+    $(document).ajaxError(function (e, jqxhr, ajaxsettings, err) {
+        // IF ERROR LAYER NOT CURRENTLY APPLIED TO BODY
+        if (!$('#errorLayer').length) {
+            $('body').append('<div id=\"errorLayer\"></div>');
+            window.alert('Oh dear, there is a problem with sending messages to the server. ' +
+                'No further game progress will be saved and the app may not work properly.\n\n' +
+                'Please try reloading the page...');
+        }
+    })
+})
+
+
 function displayUserProgress(levelData) {
     // populate level progress bar
     var currentLevel = levelData.progress['maxLevel'];
@@ -62,14 +76,14 @@ function rewardBadges(badgeArray, isEndLevel) {
             $modal.attr("id", ("badge" + nextId));
             $modal.find('.modal-body').append("<img src=\"/images/badges/lev" + (currentLevel) + ".png\" alt=\"badge icon\"/>");
             var href = '/levels/' + (currentLevel + 1);
-            $modal.find('a.modal-link').attr({"href": href, "data-toggle": "", "data-dismiss": ""}).text("Go to level "+ (currentLevel + 1));
+            $modal.find('a.modal-link').attr({
+                "href": href,
+                "data-toggle": "",
+                "data-dismiss": ""
+            }).text("Go to level " + (currentLevel + 1));
             if (badgeArray.length === 0) {
                 $modal.modal('show');
             }
-            //$('#nextButton').on('click', function (e) {
-            //    e.preventDefault();
-            //    $modal.modal('show');
-            //})
         })
 
     }

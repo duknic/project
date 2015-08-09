@@ -316,7 +316,9 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
     }
     // else question is already marked as completed
     else {
+        $('body').append('<div id=\"errorLayer\"></div>');
         alert('It looks like you already recorded your score for this question.' + '\nPlay on by clicking Next...');
+        $('#errorLayer').remove();
     }
 }
 

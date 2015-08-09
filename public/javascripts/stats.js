@@ -24,7 +24,7 @@ function displayLeaderboard() {
     leaderboardData.players.forEach(function (player) {
         $tbody.append(
             '<tr><td>' + player.fullname + '</td> <td>' + player.total_score + '</td>' +
-            '<td>' + player.badges.length + '</td> <td>' + player.createdAt + '</td></tr>'
+            '<td>' + (player.badges.length + (player.maxLevel - 1)) + '</td><td>' + player.progenAnswered + '</td><td>' + player.createdAt + '</td></tr>'
         );
     });
 

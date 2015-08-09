@@ -24,15 +24,16 @@ router.get('/', stormpath.loginRequired, function (req, res) {
 // TODO add field to leaderboardData - gameprogress, percentage
 // TAKES ARRAY OF ACCOUNTS AND GENERATES LEADERBOARD DATA
 function getLeaderboardData(accounts, callback) {
-    //var leaderboardData = {"players" : []};
     var leaderboardData = new Array();
     accounts.forEach(function (acc) {
         var player = new Object();
         var createdDate = new Date(acc.createdAt);
-        player.createdAt = createdDate.getFullYear() + ' | ' + createdDate.getMonth() + ' | ' + createdDate.getDate();
+        player.createdAt = createdDate.getFullYear() + ' | ' + (createdDate.getMonth() + 1) + ' | ' + createdDate.getDate();
         player.fullname = acc.givenName + ' ' + acc.surname;
         player.total_score = acc.customData.total_score;
         player.badges = acc.customData.badges;
+        player.progenAnswered = acc.customData.progenAnswered;
+        player.maxLevel = acc.customData.progress.maxLevel;
         leaderboardData.push(player);
     });
 

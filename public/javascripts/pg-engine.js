@@ -35,10 +35,12 @@ var comp3 = ['[ab]', '[abc]', '[abcd]', '[a-z]', ' '];
 var comp4 = ['{2}', '{3}', '{4}', ' '];
 var compAlphaLo = 'abcdefghijklmnopqrstuvwxyz';
 var compAlphaUp = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var compAlphaAll = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var compNum = '0123456789';
 var comp5 = ['[^xy]', '[^xyz]', '[^xyzz]', ' '];
 var chars = 'aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789';
-var components = [comp1, comp2, comp3, comp4, compAlphaLo, compAlphaUp, compNum, comp5];
+//var components = [comp1, comp2, comp3, comp4, compAlphaLo, compAlphaUp, compNum, comp5];
+var components = [comp1, comp2, comp3, comp4, chars, comp5];
 
 function generateRegex(numComps) {
     var regex = '';
@@ -65,11 +67,14 @@ function replaceCharacters(regex) {
     console.log('regex before replace: ' + regex);
     // take out consecutive repetition operators e.g. abc{3}{4}
     regex = regex.replace(/({\d} *){2,}/g, function (match, $1) {
-        return '$1'.substr(0, 3)
+        return $1.substr(0, 3)
     });
 
+    // REMOVE REPEATED SPACE AT END OF EXPRESSION
+    regex = regex.replace(/ +({\d})$/g, '$1');
+
     // remove repetition operator from start if exists
-    regex = regex.replace(/^{\d} */g, "");
+    regex = regex.replace(/^{\d} */g, comp3[Math.floor(Math.random() * comp3.length)]);
 
     ///R[E4nY] {2}{2}/: Nothing to repeat
 
@@ -175,6 +180,8 @@ function generateProgen(difficulty) {
             '<tr><td>' + match[i] + '</td> <td>' + notMatch[i] + '</td></tr>'
         )
     }
+
+    $('#bonusPoints').html('current bonus: ' + (curRegex.length) + ' pts');
 }
 
 function checkProgenAnswer() {
@@ -191,7 +198,7 @@ function checkProgenAnswer() {
         $('#submitBtn').addClass('disabled').prop('disabled', true);
         //writeFeedback('Yep, that works!\nOur answer was \"' + curRegex + '\"', true);
         calculateBonusPoints(answer, function (bonus) {
-            writeFeedback('Yep, that works!<br/>Our answer was \"' + curRegex + '\"<br/>You were awarded ' + bonus + 'pts!', true);
+            writeFeedback('Yep, that works!<br/>Our answer was \"' + curRegex + '\"<br/>You were awarded ' + bonus + ' bonus pts!', true);
             recordProgen(curProgenScore + bonus);
         })
         $('#nextButton').addClass('shake');
@@ -248,4 +255,15 @@ function writeFeedback(text, isCorrect) {
     }
     $('#msg-box').empty().append(out);
 }
+
+$(function () {
+    $('#answerBox').keyup(function () {
+        var bonus = curRegex.length - $(this).val().length;
+        if (bonus >= 0) {
+            $('#bonusPoints').html('current bonus: ' + bonus + ' pts').removeClass('neg').addClass('pos');
+        } else {
+            $('#bonusPoints').html('current bonus: ' + bonus + ' pts').removeClass('pos').addClass('neg');
+        }
+    })
+})
 
