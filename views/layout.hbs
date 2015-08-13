@@ -60,7 +60,7 @@
                 <li {{#if isProgen}}class="active"{{/if}}><a href="/levels/progen">Arcade</a></li>
                 <li {{#if isStats}}class="active"{{/if}}><a href="/stats">Stats</a></li>
                 {{#if isAdmin}}<li class="active"><a href="/stats">Admin</a></li>{{/if}}
-{{#if isLoggedIn}}<li><a href="/logout">Logout</a></li>{{else}}<li><a href="/login">Login</a></li>{{/if}}
+{{#if isLoggedOut}}<li><a href="/logout">Login</a></li>{{else}}<li><a href="/login">Logout</a></li>{{/if}}
             </ul>
         </div>
         <!--/.nav-collapse -->

@@ -6,17 +6,17 @@ var app = require('../app');
 /* GET home page. */
 router.get('/', function (req, res) {
     var userName = "";
-    var isLoggedIn = true;
+    var isLoggedOut = false;
     if (typeof req.user != 'undefined') {
         userName = req.user.givenName;
     } else {
-        isLoggedIn = false;
+        isLoggedOut = true;
     }
     res.render('index', {
         title: 'Home',
         pageClass: 'home',
         isHome: true,
-        isLoggedIn: isLoggedIn,
+        isLoggedOut: isLoggedOut,
         givenName: userName
     });
 });
