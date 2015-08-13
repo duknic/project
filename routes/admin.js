@@ -8,7 +8,7 @@ var app = require('../app');
 
 //router.get('/', stormpath.groupsRequired(['admins']), function (req, res) {
 router.get('/', function (req, res) {
-    //getEmailAddresses(req.client);
+    getEmailAddresses(req.client);
     res.render('admin', {
         title: 'Admin',
         pageClass: 'admin',
@@ -93,14 +93,14 @@ router.get('/getQuestionUsageData/:isCorrect/:qId', function (req, res) {
 
 function getEmailAddresses(client) {
     var fs = require('fs');
-    fs.writeFile('emails.txt', '// EMAILS FILE\n', function (err) {
+    fs.writeFile('emails.html', '// EMAILS FILE\n', function (err) {
     });
     client.getDirectory('https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo/accounts', {expand: 'customData'}, function (err, accounts) {
         accounts.forEach(function (acc) {
-            if(acc.customData.total_score <= 0) {
-                fs.appendFile('emails.txt', acc.email + '\n', function (err) {
+            //if(acc.customData.total_score <= 0) {
+                fs.appendFile('emails.html', acc.email + '\n', function (err) {
                 })
-            }
+            //}
         })
     })
 }

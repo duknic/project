@@ -56,12 +56,8 @@ app.use(stormpath.init(app, {
         writeCustomDataToAccount(account, customDataBlank, null);
         next();
     },
-    //apiKeyId: '5AL8GJ47LK6CH9DMXKZYYSLIY',
-    //apiKeySecret: 'hlizmFCKK1kg+F6aWK9orkV5xlHX7zCHfmwnoiLRhts',
     apiKeyFile: apiKeyFilePath,
     application: 'https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo',
-    //secretKey: 'mysecretkey',
-    //sessionDuration: 1000 * 60 * 30, // 15 minutes of no activity
     enableForgotPassword: true,
 }));
 
