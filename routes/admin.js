@@ -8,7 +8,7 @@ var app = require('../app');
 
 //router.get('/', stormpath.groupsRequired(['admins']), function (req, res) {
 router.get('/', function (req, res) {
-    getEmailAddresses(req.client);
+    updateLevelsFix(req.client);
     res.render('admin', {
         title: 'Admin',
         pageClass: 'admin',
@@ -105,5 +105,25 @@ function getEmailAddresses(client) {
     })
 }
 
+function updateLevelsFix(client) {
+    client.getDirectory('https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo/accounts', {}, function (err, accounts) {
+        accounts.forEach(function (acc) {
+            //console.log('getting custom data for ' + acc.givenName)
+            acc.getCustomData(function(err, customData){
+                if(customData.progress.maxLevel > 1) {
+                    console.log(acc.givenName);
+                }
+                //if (typeof customData.progress.compLevels == 'undefined') {
+                //    customData.progress['compLevels'] = [];
+                //}
+                //var max = customData.progress.maxLevel;
+                //for (var i = 1; i < max;i++) {
+                //    customData.progress.compLevels.push(i);
+                //}
+                customData.save();
+            })
+        })
+    })
+}
 
 module.exports = router;

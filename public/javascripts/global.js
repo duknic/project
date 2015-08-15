@@ -11,20 +11,34 @@ $(function () {
     })
 })
 
-
 function displayUserProgress(levelData) {
     // populate level progress bar
-    var currentLevel = levelData.progress['maxLevel'];
+    var compLevels = levelData.progress['compLevels'];
     var totalScore = levelData.total_score;
-    for (var i = 1; i < currentLevel; i++) {
-        $('.bs-wizard-step:nth-child(' + i + ')').removeClass('disabled').addClass('complete');
+    for (var i = 0; i < compLevels.length; i++) {
+        $('.bs-wizard-step:nth-child(' + compLevels[i] + ')').removeClass('disabled').addClass('complete');
         // grab all completed levels and give them a tick
-        $('.panel-default\[value=' + i + '\]').children(".panel-heading").append('&nbsp;<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>').addClass('level-complete');
+        $('.panel-default\[value=' + compLevels[i] + '\]').children(".panel-heading").append('&nbsp;<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>').addClass('level-complete');
 
     }
-    $('.bs-wizard-step:nth-child(' + currentLevel + ')').removeClass('disabled').addClass('active');
+    //$('.bs-wizard-step:nth-child(' + currentLevel + ')').removeClass('disabled').addClass('active');
     displayTotalScore(totalScore);
 }
+
+
+//function displayUserProgress(levelData) {
+//    // populate level progress bar
+//    var currentLevel = levelData.progress['maxLevel'];
+//    var totalScore = levelData.total_score;
+//    for (var i = 1; i < currentLevel; i++) {
+//        $('.bs-wizard-step:nth-child(' + i + ')').removeClass('disabled').addClass('complete');
+//        // grab all completed levels and give them a tick
+//        $('.panel-default\[value=' + i + '\]').children(".panel-heading").append('&nbsp;<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>').addClass('level-complete');
+//
+//    }
+//    $('.bs-wizard-step:nth-child(' + currentLevel + ')').removeClass('disabled').addClass('active');
+//    displayTotalScore(totalScore);
+//}
 
 function displayTotalScore(totalScore) {
     // populate total score

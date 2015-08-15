@@ -33,7 +33,8 @@ function getLeaderboardData(accounts, callback) {
         player.total_score = acc.customData.total_score;
         player.badges = acc.customData.badges;
         player.progenAnswered = acc.customData.progenAnswered;
-        player.maxLevel = acc.customData.progress.maxLevel;
+        //player.maxLevel = acc.customData.progress.maxLevel;
+        player.compLevels = acc.customData.progress.compLevels;
         leaderboardData.push(player);
     });
 

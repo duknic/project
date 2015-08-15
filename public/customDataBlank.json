@@ -1,6 +1,7 @@
 {
   "progress": {
     "maxLevel": 1,
+    "compLevels": [],
     "level1": {
       "1": {
         "completed": false,

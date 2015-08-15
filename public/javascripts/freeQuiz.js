@@ -288,7 +288,12 @@ function recordUserProgress(completed, currentQscore, currentAnswer, currentLeve
             levelData.progress[level][question].answer = currentAnswer.toString();
 
             if (isEndLevel) {
-                levelData.progress.maxLevel = currentLevel + 1;
+                //levelData.progress.maxLevel = currentLevel + 1;
+
+                // IF THIS LEVEL HAS NOT ALREADY BEEN MARKED AS COMPLETED
+                if (levelData.progress.compLevels.indexOf(currentLevel) == -1) {
+                    levelData.progress.compLevels.push(currentLevel);
+                }
             }
 
             //
