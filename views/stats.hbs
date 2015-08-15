@@ -8,6 +8,7 @@
             <div id="badgeContainer">
 
             </div>
+            <button id="viewBadgeGallery" class="btn btn-primary">View available badges</button>
         </div>
         <div class="col-lg-6">
 
@@ -44,9 +45,22 @@
         $('#btn-refresh').on('click', function (e) {
             e.preventDefault();
             location.reload();
-//            $('.copy_sort_table').remove();
-//            $('table.leaderboard').find('tbody').empty();
-//            displayLeaderboard();
+        })
+
+        $('#viewBadgeGallery').on('click', function(){
+            $(this).popover({
+                html: true,
+                title: 'Badge gallery',
+                content: function(){
+                    var html = "";
+                    for(var i = 1; i <= 8; i++) {
+                        html += "<img style=\"max-width: 80px;\" src=\"/images/badges/" + i + ".png\" alt=\"badge " +  i + "\"/>";
+                        if(i<=3){html += "<img style=\"max-width: 80px;\" src=\"/images/badges/lev" + i + ".png\" alt=\"badge level" +  i + "\"/>";}
+                    }
+                    return html;
+                },
+                trigger: 'focus'
+            }).popover('show');
         })
     });
 

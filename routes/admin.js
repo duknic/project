@@ -8,7 +8,7 @@ var app = require('../app');
 
 //router.get('/', stormpath.groupsRequired(['admins']), function (req, res) {
 router.get('/', function (req, res) {
-    updateLevelsFix(req.client);
+    //updateLevelsFix(req.client);
     res.render('admin', {
         title: 'Admin',
         pageClass: 'admin',

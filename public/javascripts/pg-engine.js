@@ -66,6 +66,7 @@ function replaceCharacters(regex) {
 
     console.log('regex before replace: ' + regex);
     // take out consecutive repetition operators e.g. abc{3}{4}
+    // and replace with only one
     regex = regex.replace(/({\d} *){2,}/g, function (match, $1) {
         return $1.substr(0, 3)
     });
@@ -74,9 +75,8 @@ function replaceCharacters(regex) {
     regex = regex.replace(/ +({\d})$/g, '$1');
 
     // remove repetition operator from start if exists
+    // and replace with [abc] type component
     regex = regex.replace(/^{\d} */g, comp3[Math.floor(Math.random() * comp3.length)]);
-
-    ///R[E4nY] {2}{2}/: Nothing to repeat
 
     // split string into literal char array for easier iteration
     regex = regex.split('');
@@ -134,7 +134,7 @@ function findGreater(char, arr) {
 }
 
 function getMatchList(numStr, regex) {
-    //console.log(regex);
+
     var matchArr = [];
     while (numStr--) {
         matchArr.push(new RandExp(regex).gen().trim());
@@ -176,12 +176,12 @@ function generateProgen(difficulty) {
     $tbody = $('#testCases');
 
     for (var i = 0; i < match.length; i++) {
+        //match[i] = match[i].replace(/ /g, '&nbsp;');
         $tbody.append(
-            '<tr><td>' + match[i] + '</td> <td>' + notMatch[i] + '</td></tr>'
+            '<tr><td>' + match[i].replace(/ /g, '&nbsp;') + '</td> <td>' + notMatch[i] + '</td></tr>'
         )
     }
-
-    $('#bonusPoints').html('current bonus: ' + (curRegex.length) + ' pts');
+    $('#bonusPoints').html('current bonus: ' + (curRegex.length) + ' pts').removeClass('neg').addClass('pos');
 }
 
 function checkProgenAnswer() {
