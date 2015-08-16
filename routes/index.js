@@ -52,6 +52,47 @@ router.post('/recordMisconception/:qId/:isCorrect', stormpath.loginRequired, fun
 
 });
 
+router.get('/usability', function(req, res){
+    var userName = "";
+    var isLoggedOut = false;
+    if (typeof req.user != 'undefined') {
+        userName = req.user.givenName;
+    } else {
+        isLoggedOut = true;
+    }
+    res.render('usability', {
+        title: 'Usability survey',
+        pageClass: 'usability',
+        isLoggedOut: isLoggedOut,
+        givenName: userName
+    });
+})
+
+router.post('/submitUsabilityForm', function(req, res){
+    var db = req.db;
+    var usability = db.get('usability');
+    usability.insert(
+        {
+            "sus1": req.body.sus1,
+            "sus2": req.body.sus2,
+            "sus3": req.body.sus3,
+            "sus4": req.body.sus4,
+            "sus5": req.body.sus5,
+            "sus6": req.body.sus6,
+            "sus7": req.body.sus7,
+            "sus8": req.body.sus8,
+            "sus9": req.body.sus9,
+            "sus10": req.body.sus10,
+            "agreement": req.body.agreement,
+            "browser": req.headers['user-agent'],
+            "dateTime": new Date().toISOString()
+        },
+        function (err, doc) {
+            if (err) throw err;
+            res.status(200).send('logged usability feedback');
+        });
+});
+
 router.post('/submitFeedback', function (req, res) {
     var db = req.db;
     var feedback = db.get('feedback');

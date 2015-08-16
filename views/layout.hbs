@@ -88,14 +88,13 @@
 
         $('#give-feedback').on('click', function () {
             var btn = $(this);
-            $.get('/feedback-form.html', function (form) {
+            $.get('/sus.html', function (form) {
                 btn.popover({
                     html: true,
                     content: form,
                     placement: 'right',
-//                    container: 'body',
                     selector: '#give-feedback',
-                    title: 'Feedback' + '<span style=\"float: right; cursor: pointer;\" onclick=\"$(&quot;#give-feedback&quot;).popover(&quot;hide&quot;)\">&times;</span>',
+                    title: 'Usability survey' + '<span style=\"float: right; cursor: pointer;\" onclick=\"$(&quot;#give-feedback&quot;).popover(&quot;hide&quot;)\">&times;</span>',
                     trigger: 'click'
                 }).popover('show');
             })

@@ -50,9 +50,44 @@
     </div>
 
 </div>
+
+<div id="feedbackPlea" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="feedbackPlea">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title"><strong>Feedback plea!</strong></h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="col-md-8" style="padding-top: 20px;">
+                        <p>This project really benefits from you leaving feedback.</p>
+
+                        <p>Furthermore, if you don't leave feedback, you will make the robot sad!</p>
+
+                        <p>So, thanks!<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x</p>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="img-responsive" src="/images/404-robot-new.png" alt="sad robot"/>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary pull-left" href="/usability">leave feedback</a>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        if (localStorage.getItem("hasLeftFeedback") != "true") {
+            $('#feedbackPlea').modal('show');
+        }
+
         $('#launchGame').on('click', function () {
             window.location.href = "levels";
         });
