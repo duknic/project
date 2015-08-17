@@ -6,14 +6,14 @@ var router = express.Router();
 var stormpath = require('express-stormpath');
 var app = require('../app');
 
-//router.get('/', stormpath.groupsRequired(['admins']), function (req, res) {
-router.get('/', function (req, res) {
+router.get('/', stormpath.groupsRequired(['admins']), function (req, res) {
+//router.get('/', function (req, res) {
     //updateLevelsFix(req.client);
     res.render('admin', {
         title: 'Admin',
         pageClass: 'admin',
         isAdmin: true,
-        //givenName: req.user.givenName
+        givenName: req.user.givenName
     });
 });
 
