@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fa84567f-ae39-4b94-8bc8-61cff104670b" name="Default" comment="">
+    <list default="true" id="fa84567f-ae39-4b94-8bc8-61cff104670b" name="Default" comment="admin.js now includes a function to calculate current">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/admin.hbs" afterPath="$PROJECT_DIR$/views/admin.hbs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/admin.js" afterPath="$PROJECT_DIR$/public/javascripts/admin.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/admin.js" afterPath="$PROJECT_DIR$/routes/admin.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/bootstrap-slider.js" afterPath="$PROJECT_DIR$/public/javascripts/bootstrap-slider.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/freeQuiz.js" afterPath="$PROJECT_DIR$/public/javascripts/freeQuiz.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/mystyleLESS.css" afterPath="$PROJECT_DIR$/public/stylesheets/mystyleLESS.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/mystyleLESS.less" afterPath="$PROJECT_DIR$/public/stylesheets/mystyleLESS.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/pg-engine.js" afterPath="$PROJECT_DIR$/public/javascripts/pg-engine.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/stats.hbs" afterPath="$PROJECT_DIR$/views/stats.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/usability.hbs" afterPath="$PROJECT_DIR$/views/usability.hbs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="b5a7df1a-c4f0-466d-9c69-59ae5f4311c0" name="Failed commit: Default" comment="test commit after problems last thursday" />
@@ -31,49 +30,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="stats.hbs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/stats.hbs">
+      <file leaf-file-name="admin.hbs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/admin.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.875">
-              <caret line="11" column="14" selection-start-line="11" selection-start-column="14" selection-end-line="11" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="freeQuiz.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/freeQuiz.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.407408">
-              <caret line="56" column="17" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.92424244">
+              <caret line="58" column="56" selection-start-line="58" selection-start-column="56" selection-end-line="58" selection-end-column="56" />
               <folding>
-                <marker date="1439815331000" expanded="true" signature="667:680" placeholder="..." />
-                <marker date="1439815331000" expanded="true" signature="1864:1877" placeholder="..." />
-                <marker date="1439815331000" expanded="true" signature="8705:8718" placeholder="..." />
+                <element signature="n#style#0;n#small#0;n#h1#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pg-engine.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/pg-engine.js">
+      <file leaf-file-name="mystyleLESS.less" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/stylesheets/mystyleLESS.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5155483">
-              <caret line="40" column="78" selection-start-line="40" selection-start-column="78" selection-end-line="40" selection-end-column="78" />
+            <state vertical-scroll-proportion="-5.1764708">
+              <caret line="506" column="22" selection-start-line="506" selection-start-column="22" selection-end-line="506" selection-end-column="22" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sus.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/sus.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.5">
-              <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#fieldset#0;n#form#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#fieldset#0;n#form#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -82,7 +57,7 @@
         <entry file="file://$PROJECT_DIR$/routes/admin.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+              <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -129,7 +104,6 @@
         <option value="$PROJECT_DIR$/routes/customData.js" />
         <option value="$PROJECT_DIR$/public/javascripts/bs-tablesort.js" />
         <option value="$PROJECT_DIR$/public/modal.html" />
-        <option value="$PROJECT_DIR$/public/javascripts/admin.js" />
         <option value="$PROJECT_DIR$/node_modules/express/node_modules/vary/HISTORY.md" />
         <option value="$PROJECT_DIR$/node_modules/express-stormpath/lib/views/login.jade" />
         <option value="$PROJECT_DIR$/node_modules/express-stormpath/lib/views/base.jade" />
@@ -139,7 +113,6 @@
         <option value="$PROJECT_DIR$/routes/levels.js" />
         <option value="$PROJECT_DIR$/views/progen.hbs" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/views/admin.hbs" />
         <option value="$PROJECT_DIR$/emails.txt" />
         <option value="$PROJECT_DIR$/emails.html" />
         <option value="$PROJECT_DIR$/public/customDataBlank.json" />
@@ -154,13 +127,15 @@
         <option value="$PROJECT_DIR$/views/error.hbs" />
         <option value="$PROJECT_DIR$/views/index.hbs" />
         <option value="$PROJECT_DIR$/public/robots.txt" />
-        <option value="$PROJECT_DIR$/routes/admin.js" />
         <option value="$PROJECT_DIR$/public/sus.html" />
         <option value="$PROJECT_DIR$/views/stats.hbs" />
-        <option value="$PROJECT_DIR$/public/stylesheets/mystyleLESS.less" />
         <option value="$PROJECT_DIR$/views/usability.hbs" />
         <option value="$PROJECT_DIR$/public/javascripts/freeQuiz.js" />
         <option value="$PROJECT_DIR$/public/javascripts/pg-engine.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/admin.js" />
+        <option value="$PROJECT_DIR$/routes/admin.js" />
+        <option value="$PROJECT_DIR$/public/stylesheets/mystyleLESS.less" />
+        <option value="$PROJECT_DIR$/views/admin.hbs" />
       </list>
     </option>
   </component>
@@ -256,6 +231,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="game-server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="game-server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stylesheets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -647,7 +640,13 @@
       <option name="project" value="LOCAL" />
       <updated>1439805017284</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="few small UI changes">
+      <created>1439821228695</created>
+      <option name="number" value="00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1439821228695</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TodoView">
@@ -663,13 +662,13 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18055555" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18055555" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942554" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942554" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942554" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25087926" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24267292" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24930556" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298611" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -698,7 +697,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="small UI changes to stormpath jade files, colro changes and styling etc" />
     <MESSAGE value="small color change to jade files" />
     <MESSAGE value="pushing badge image files" />
     <MESSAGE value="tuned up procedural generation engine and testing extensively. Changed scoring system so you get less points. Updated badge graphics. Fixed progen bugs so it always produces valid regex now, and sensible match and notmatch strings" />
@@ -723,7 +721,8 @@
     <MESSAGE value="added new feedback form that uses SUS industry standard testing, this is writing to new database collection. People now get a popup urging them to leave feedback, it goes away when they successfully do!" />
     <MESSAGE value="added robots.txt file" />
     <MESSAGE value="admin pages are now protected by admin user group auth. Fixed popover feedback bug to indicate which value was highest" />
-    <option name="LAST_COMMIT_MESSAGE" value="admin pages are now protected by admin user group auth. Fixed popover feedback bug to indicate which value was highest" />
+    <MESSAGE value="few small UI changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="few small UI changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -898,31 +897,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/levels.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09165303">
-          <caret line="5" column="45" selection-start-line="5" selection-start-column="45" selection-end-line="5" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/customData.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/admin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5090909">
-          <caret line="28" column="62" selection-start-line="28" selection-start-column="62" selection-end-line="28" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/admin.hbs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.46067417">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1061,14 +1039,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/admin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/usability.hbs">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33898306">
@@ -1077,14 +1047,6 @@
             <element signature="n#style#0;n#div#0;n#div#0;n#fieldset#0;n#form#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#fieldset#0;n#form#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/mystyleLESS.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35892856">
-          <caret line="150" column="14" selection-start-line="150" selection-start-column="14" selection-end-line="150" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1101,18 +1063,61 @@
         <state vertical-scroll-proportion="-14.407408">
           <caret line="56" column="17" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
           <folding>
-            <marker date="1439815331000" expanded="true" signature="667:680" placeholder="..." />
-            <marker date="1439815331000" expanded="true" signature="1864:1877" placeholder="..." />
-            <marker date="1439815331000" expanded="true" signature="8705:8718" placeholder="..." />
+            <marker date="1439815331000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439815331000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439815331000" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/pg-engine.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5155483">
+        <state vertical-scroll-proportion="0.0">
           <caret line="40" column="78" selection-start-line="40" selection-start-column="78" selection-end-line="40" selection-end-column="78" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/admin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8673139">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/levels.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="45" selection-start-line="5" selection-start-column="45" selection-end-line="5" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/mystyleLESS.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.1764708">
+          <caret line="506" column="22" selection-start-line="506" selection-start-column="22" selection-end-line="506" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/admin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/admin.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.92424244">
+          <caret line="58" column="56" selection-start-line="58" selection-start-column="56" selection-end-line="58" selection-end-column="56" />
+          <folding>
+            <element signature="n#style#0;n#small#0;n#h1#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -1,4 +1,3 @@
-
 <div class="row top-space-big">
     <h1 class="no-top-margin">Admin area
         <small style="font-size: 0.4em;">&nbsp;&nbsp;&nbsp;&nbsp;view student question submissions data</small>
@@ -47,10 +46,25 @@
         </table>
     </div>
 </div>
+<div class="row top-space">
+    <hr/>
+    <div class="col-md-6">
+        <div class="col-md-6">
+            <h3>Current SUS usability score: </h3>
+        </div>
+        <div class="col-md-4">
+    <span id="usabilityScore">
+        {{usabilityScore}}
+    </span>
+            <small>(from {{numSubmissions}} submissions)</small>
+        </div>
+    </div>
+</div>
 <script src="/javascripts/bs-tablesort.js"></script>
 <script src="/javascripts/bootstrap-switch.min.js"></script>
 <script src="/javascripts/admin.js"></script>
 <script type="text/javascript">
+
     $(document).ready(function () {
 
         // populate the 'overall' table with question usage data
