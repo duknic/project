@@ -51,6 +51,9 @@ function nextQuestion() {
         currentQid = questionSet[currentQinSet]._id;
         if (currentQinSet == questionSet.length - 1) {
             $('#nextButton').html('<a style="color: white;" href=\"/levels\"><span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish</a>');
+            //$('#nextButton').replaceWith($('#nextButton').clone().html('<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"><\/span>\&nbsp;\&nbsp;Finish').click(function () {
+            //    window.location.href = "/levels";
+            //}))
             isEndLevel = true;
         }
         $('#storyText').html(questionSet[currentQinSet].storText);

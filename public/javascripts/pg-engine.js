@@ -38,7 +38,7 @@ var compAlphaUp = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var compAlphaAll = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var compNum = '0123456789';
 var comp5 = ['[^xy]', '[^xyz]', '[^xyzz]', ' '];
-var chars = 'aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789';
+var chars = 'aAbBcCdDeEfFgGhHiI jJkKlLmMnNoOpPqQrRsSt TuUvVwWxXyYzZ0123456789 ';
 //var components = [comp1, comp2, comp3, comp4, compAlphaLo, compAlphaUp, compNum, comp5];
 var components = [comp1, comp2, comp3, comp4, chars, comp5];
 
