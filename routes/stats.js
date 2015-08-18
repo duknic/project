@@ -28,7 +28,7 @@ function getLeaderboardData(accounts, callback) {
     accounts.forEach(function (acc) {
         var player = new Object();
         var createdDate = new Date(acc.createdAt);
-        player.createdAt = createdDate.getFullYear() + ' | ' + (createdDate.getMonth() + 1) + ' | ' + createdDate.getDate();
+        player.createdAt = createdDate.getFullYear() + ' | ' + ('0' + (createdDate.getMonth() + 1)).slice(-2) + ' | ' + ('0' + createdDate.getDate()).slice(-2);
         player.fullname = acc.givenName + ' ' + acc.surname;
         player.total_score = acc.customData.total_score;
         player.badges = acc.customData.badges;
