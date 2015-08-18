@@ -7,7 +7,7 @@ var app = require('../app');
 router.get('/', stormpath.loginRequired, function (req, res) {
     var client = req.client;
     var accounts = [];
-    client.getDirectory('https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo/accounts', {expand: 'customData'}, function (err, accounts) {
+    client.getDirectory('https://api.stormpath.com/v1/applications/49OK2eLCja2aZpbQaaOxYo/accounts', {expand: 'customData', limit: 50}, function (err, accounts) {
         getLeaderboardData(accounts, function (leaderboardData) {
             res.render('stats', {
                 title: 'Stats',

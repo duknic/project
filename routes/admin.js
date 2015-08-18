@@ -8,7 +8,6 @@ var app = require('../app');
 
 router.get('/', stormpath.groupsRequired(['admins']), function (req, res) {
 //router.get('/', function (req, res) {
-    //updateLevelsFix(req.client);
     calculateUsabilityScore(req.db, function(score, numSubmissions){
         res.render('admin', {
             title: 'Admin',
